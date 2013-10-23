@@ -1,5 +1,6 @@
-ADB
+Android Development Tools
 ==========
+#ADB
 + ADB是一个通用的命令行工具来供你和Android模拟器或者Android设备交互。ADB是Client/Server架构，包括3个部分。
   + Client，运行在开发机上。可以在shell中运行adb命令来调用它。
   + Server，运行在开发机后台，Server管理Client和运行在模拟器或者Android设备上的adb daemon的通信。
@@ -27,3 +28,8 @@ ADB
 		+ ``adb get-serialno``
 		+ ``adb get-state``
 		+ ``adb wait-for-device``
+
+
+
+#logcat
+
