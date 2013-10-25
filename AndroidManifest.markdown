@@ -1,0 +1,1 @@
++ ``<meta-data>`` A name-value pair for an item of additional, arbitrary data that can be supplied to the parent component. A component element can contain any number of ``<meta-data>`` subelements. The values from all of them are collected in a single ``Bundle`` object and made available to the component as the ``PackageItemInfo.metaData`` field.
