@@ -1,7 +1,7 @@
 Guide_Developer.Android
 ========================
-##UI User Interface
-###Settings
+#UI User Interface
+##Settings
 + You must save the XML file in the ``res/xml/`` directory. Although you can name the file anything you want, it's traditionally named ``preferences.xml``. You usually need only one file, because branches in the hierarchy (that open their own list of settings) are declared using nested instances of ``PreferenceScreen``.If you want to create a multi-pane layout for your settings, then you need separate XML files for each fragment.The root node for the XML file must be a ``<PreferenceScreen>`` element. Within this element is where you add each ``Preference``. Each child you add within the ``<PreferenceScreen>`` element appears as a single item in the list of settings.
 + In rare cases, you might want to design your settings such that the first screen displays only a list of ``subscreens`` (such as in the system Settings app). When you're developing such a design for Android 3.0 and higher, you should use a new "headers" feature in Android 3.0, instead of building subscreens with nested ``PreferenceScreen`` elements.To build your settings with headers, you need to:
 	+ Separate each group of settings into separate instances of ``PreferenceFragment``. That is, each group of settings needs a separate XML file.
