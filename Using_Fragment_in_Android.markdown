@@ -1,6 +1,7 @@
 Using Fragment in Android
 ==========================
 > [reference](https://developer.android.com/reference/android/app/Fragment.html)
+> [guide](https://developer.android.com/guide/components/fragments.html)
 > [tutorial](http://www.vogella.com/articles/AndroidFragments/article.html)
 
 #reference
