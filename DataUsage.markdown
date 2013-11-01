@@ -1,3 +1,10 @@
 Android流量监控模块学习
 ====================
 + ``SparseArrays`` map integers to Objects.  Unlike a normal array of Objects,there can be gaps in the indices.  It is intended to be more efficient than using a ``HashMap`` to map Integers to Objects.
++ ``Parcel`` Container for a message (data and object references) that can be sent through an ``IBinder``. A Parcel can contain both flattened data that will be unflattened on the other side of the IPC (using the various methods here for writing specific types, or the general Parcelable interface), and references to live IBinder objects that will result in the other side receiving a proxy IBinder connected with the original IBinder in the Parcel.Parcel is not a general-purpose serialization mechanism. This class (and the corresponding Parcelable API for placing arbitrary objects into a Parcel) is designed as a high-performance IPC transport. As such, it is not appropriate to place any Parcel data in to persistent storage: changes in the underlying implementation of any of the data in the Parcel can render older data unreadable.Parcel被设计用来做高性能IPC，不适合做序列化。
++ ``ConnectivityManager`` Class that answers queries about the state of network connectivity. It also notifies applications when network connectivity changes. Get an instance of this class by calling ``Context.getSystemService(Context.CONNECTIVITY_SERVICE)``.The primary responsibilities of this class are to:
+	+ Monitor network connections (Wi-Fi, GPRS, UMTS, etc.)
+	+ Send broadcast intents when network connectivity changes
+	+ Attempt to "fail over" to another network when connectivity to a network is lost
+	+ Provide an API that allows applications to query the coarse-grained or fine-grained state of the available networks
++ ``NetworkPolicyManager`` Manager for creating and modifying network policy rules.

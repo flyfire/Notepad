@@ -30,6 +30,8 @@ Android Development Tools
 		+ ``adb get-state``
 		+ ``adb wait-for-device``
 
++ adb examples
+	+ ``adb pull /data/system/packages.xml``
 
 
 #logcat

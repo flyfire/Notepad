@@ -4,7 +4,6 @@ SourceInsight使用方法
 	+ ``shift+f8``标亮文本中光标所在单词
 	+ ``ctrl+g``跳转行 ``ctrl+o``打开文件
 	+ ``alt+,`` go backward  ``alt+.`` go forward 回到上(下)一个浏览的地方
-	+ ``f3`` search backward ``f4`` search forward 回到上(下)一个搜索关键字的位置
 	+ ``shift+f9`` 回到下一个look ref的位置
 	+ ``ctrl+f``当前文件搜索 ``ctrl+shift+f``多个文件中搜索
 	+ ``f5`` go to line
