@@ -182,7 +182,15 @@ In this way, there are no "methods" for the client to call on the service. Inste
 + You should always trap ``DeadObjectException`` exceptions, which are thrown when the connection has broken. This is the only exception thrown by remote methods.Objects are reference counted across processes.You should usually pair the binding and unbinding during matching bring-up and tear-down moments of the client's lifecycle. For example:If you only need to interact with the service while your activity is visible, you should bind during ``onStart()`` and unbind during ``onStop()``.If you want your activity to receive responses even while it is stopped in the background, then you can bind during ``onCreate()`` and unbind during ``onDestroy()``. Beware that this implies that your activity needs to use the service the entire time it's running (even in the background), so if the service is in another process, then you increase the weight of the process and it becomes more likely that the system will kill it.如果在``onCreate``绑定，在``onDestory``解绑服务，这就表明activity需要在整个运行期间使用Service，即使activity位于后台，如果Service在另一个进程中，这就增加了系统杀死Service的概率。
 
 ###AIDL
-to be added here
+// to be added
+
+
+##Permissions
+// to be added
+
+
+##App Widgets
+// to be added
 
 ##Processes and Threads
 + When an application component starts and the application does not have any other components running, the Android system starts a new Linux process for the application with a single thread of execution. By default, all components of the same application run in the same process and thread (called the "main" thread). If an application component starts and there already exists a process for that application (because another component from the application exists), then the component is started within that process and uses the same thread of execution. However, you can arrange for different components in your application to run in separate processes, and you can create additional threads for any process.如果一个应用没有组件在运行，系统会为应用创建一个Linux进程，如果已经有了组件在运行，那么新的组件就会在应用程序原来运行组件的进程中运行。当然也可以为不同的组件安排运行在不同的进程。
