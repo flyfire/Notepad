@@ -1,4 +1,6 @@
 + Activity ``getIntent()`` Return the intent that started this activity.
 + PackageManager ``queryIntentActivities(Intent intent, int flags)`` Retrieve all activities that can be performed for the given intent. 取得所有可以对给定intent响应的activity。
 + ResolveInfo ``loadLabel(PackageManager pm)`` Retrieve the current textual label associated with this resolution.
-+ ``ApplicationInfo`` Information you can retrieve about a particular application. This corresponds to information collected from the ``AndroidManifest.xml's <application>`` tag.
++ ``ApplicationInfo`` Information you can retrieve about a particular application. This corresponds to information collected from the ``AndroidManifest.xml's <application>`` tag.``ApplicationInfo`` 所有可以从特定应用中取得的信息，和从``AndroidManifest.xml``文件``<application>``节点中搜集来的信息一一对应。
++ ``PackageInfo`` Overall information about the contents of a package. This corresponds to all of the information collected from ``AndroidManifest.xml``.关于package的所有信息，和在``AndroidManifest.xml``中搜集来的信息对应。
++ ``android:sharedUserLabel`` A user-readable label for the shared user ID. The label must be set as a reference to a string resource; it cannot be a raw string.This attribute was introduced in API Level 3. It is meaningful only if the sharedUserId attribute is also set. ``AndroidManifest.xml``中``<manifest>`` tag中的``android:sharedUserLabel``是一个对用户可读的表示``sharedUserId``的字符串，必须设置为一个string资源的引用，不能是raw string。只有在``android:sharedUserId``也被设置的时候才有意义。
