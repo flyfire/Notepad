@@ -28,3 +28,4 @@ To use this class, simply create a single instance along with your service, and 
 + ``NetworkTemplate`` Template definition used to generically match ``NetworkIdentity``.
  * usually when collecting statistics.
 + ``Loader`` An abstract class that performs asynchronous loading of data. While Loaders are active they should monitor the source of their data and deliver new results when the contents change.
++ ``ContentResolver`` ``public final void registerContentObserver (Uri uri, boolean notifyForDescendents, ContentObserver observer)`` Register an observer class that gets callbacks when data identified by a given content URI changes.注册一个observer类，当给定的URI所指向的内容发生变化时，用来回调。
