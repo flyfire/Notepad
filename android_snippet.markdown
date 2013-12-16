@@ -148,3 +148,128 @@ public String getCurrentSsid(Context context) {
   return ssid;
 }
 ```
+
++ PassDialog
+```java
+/**
+ * Dialog displayed to request a password.
+ */
+public class PassDialog extends Dialog implements android.view.View.OnClickListener, android.view.View.OnKeyListener, OnCancelListener {
+	private final Callback callback;
+	private final EditText pass;
+	/**
+	 * Creates the dialog
+	 * @param context context
+	 * @param setting if true, indicates that we are setting a new password instead of requesting it.
+	 * @param callback callback to receive the password entered (null if canceled)
+	 */
+	public PassDialog(Context context, boolean setting, Callback callback) {
+		super(context);
+		final View view = getLayoutInflater().inflate(R.layout.pass_dialog, null);
+		((TextView)view.findViewById(R.id.pass_message)).setText(setting ? R.string.enternewpass : R.string.enterpass);
+		((Button)view.findViewById(R.id.pass_ok)).setOnClickListener(this);
+		((Button)view.findViewById(R.id.pass_cancel)).setOnClickListener(this);
+		this.callback = callback;
+		this.pass = (EditText) view.findViewById(R.id.pass_input);
+		this.pass.setOnKeyListener(this);
+		setTitle(setting ? R.string.pass_titleset : R.string.pass_titleget);
+		setOnCancelListener(this);
+		setContentView(view);
+	}
+	@Override
+	public void onClick(View v) {
+		final Message msg = new Message();
+		if (v.getId() == R.id.pass_ok) {
+			msg.obj = this.pass.getText().toString();
+		}
+		dismiss();
+		this.callback.handleMessage(msg);
+	}
+	@Override
+	public boolean onKey(View v, int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_ENTER) {
+			final Message msg = new Message();
+			msg.obj = this.pass.getText().toString();
+			this.callback.handleMessage(msg);
+			dismiss();
+			return true;
+		}
+		return false;
+	}
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		this.callback.handleMessage(new Message());
+	}
+}
+
+
+处理PassDialog时，设置密码
+new PassDialog(this, true, new android.os.Handler.Callback() {
+	public boolean handleMessage(Message msg) {
+		if (msg.obj != null) {
+			setPassword((String)msg.obj);
+		}
+		return false;
+	}
+}).show();
+
+验证密码
+new PassDialog(this, false, new android.os.Handler.Callback() {
+	public boolean handleMessage(Message msg) {
+		//cancel
+		if (msg.obj == null) {
+			MainActivity.this.finish();
+			android.os.Process.killProcess(android.os.Process.myPid());
+			return false;
+		}
+		//ok
+		if (!pwd.equals(msg.obj)) {
+			requestPassword(pwd);
+			return false;
+		}
+		// Password correct
+		showOrLoadApplications();
+		return false;
+	}
+}).show();
+```
+
++ 弹出对话框
+```java
+@Override
+public boolean onKeyDown(final int keyCode, final KeyEvent event) {
+	// Handle the back button when dirty
+	// 用户有输入，未保存，按下返回键
+	if (keyCode == KeyEvent.KEYCODE_BACK) {
+		final SharedPreferences prefs = getSharedPreferences(Api.PREFS_NAME, 0);
+        if (script.getText().toString().equals(prefs.getString(Api.PREF_CUSTOMSCRIPT, ""))
+                && script2.getText().toString().equals(prefs.getString(Api.PREF_CUSTOMSCRIPT2, ""))) {
+            // Nothing has been changed, just return
+            return super.onKeyDown(keyCode, event);
+        }
+        final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    resultOk();
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    // Propagate the event back to perform the desired action
+                    CustomScriptActivity.super.onKeyDown(keyCode, event);
+                    break;
+                }
+            }
+        };
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.unsaved_changes).setMessage(R.string.unsaved_changes_message)
+                .setPositiveButton(R.string.apply, dialogClickListener)
+                .setNegativeButton(R.string.discard, dialogClickListener).show();
+        // Say that we've consumed the event
+        return true;
+    }
+    return super.onKeyDown(keyCode, event);
+}
+```
+
++ 将``Activity``的``android:launchMode``设置为``singleTop``可以避免现有的不可见的Activity仍存在时创建新的Activity。

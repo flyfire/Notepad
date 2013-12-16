@@ -1,0 +1,5 @@
+iptables tutorial
+==================
+[REF](https://www.frozentux.net/documents/iptables-tutorial/)
+
++ It is very important to understand that iptables was and is specifically built to work on the headers of the Internet and the Transport layers. It is possible to do some very basic filtering with iptables in the Application and Network access layers as well, but it was not designed for this, nor is it very suitable for those purposes.Iptables通常被用来在tcp/ip层工作，尽管也可以在application layer/network access layer工作，但不推荐这样做。For example, if we use a string match and match for a specific string inside the packet, lets say ``get /index.html``. Will that work? Normally, yes. However, if the packet size is very small, it will not. The reason is that iptables is built to work on a per packet basis, which means that if the string is split into several separate packets, iptables will not see that whole string. For this reason, you are much, much better off using a proxy of some sort for filtering in the application layer.
