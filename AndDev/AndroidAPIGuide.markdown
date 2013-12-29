@@ -97,40 +97,11 @@ At install time, Android gives each package a distinct Linux user ID. The identi
 
 Any data stored by an application will be assigned that application's user ID, and not normally accessible to other packages. When creating a new file with ``getSharedPreferences(String, int)``, ``openFileOutput(String, int)``, or ``openOrCreateDatabase(String, int, SQLiteDatabase.CursorFactory)``, you can use the ``MODE_WORLD_READABLE`` and/or ``MODE_WORLD_WRITEABLE`` flags to allow any other package to read/write the file. When setting these flags, the file is still owned by your application, but its global read and/or write permissions have been set appropriately so any other application can see it.一个应用存储的任意数据都会被设置为拥有者为应用的UserID，这样其他的应用就没有了访问权限。当应用创建文件时，使用方法``getSharedPreferences(String, int)``，``openFileOutput(String, int)``，或者 ``openOrCreateDatabase(String, int, SQLiteDatabase.CursorFactory)``时可以使用``MODE_WORLD_READABLE`` and/or ``MODE_WORLD_WRITEABLE`` flags来允许其他的应用来读/写这个文件。设置了这样的flag之后，文件的拥有者依旧是创建这个文件的应用的UserId，但是其他应用已经有读/写权限，已经被设置了合适的权限来去获取这个文件。
 
-At application install time, permissions requested by the application are granted to it by the package installer, based on checks against the signatures of the applications declaring those permissions and/or interaction with the user. No checks with the user are done while an application is running; the app is either granted a particular permission when installed, and can use that feature as desired, or the permission is not granted and any attempt to use the feature fails without prompting the user.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+At application install time, permissions requested by the application are granted to it by the package installer, based on checks against the signatures of the applications declaring those permissions and/or interaction with the user. No checks with the user are done while an application is running; the app is either granted a particular permission when installed, and can use that feature as desired, or the permission is not granted and any attempt to use the feature fails without prompting the user.应用请求的权限要么在安装时一次性由用户赋予，要么被用户拒绝而无法安装。
 
 #App Components
 
+##Intent and Intent Filters
 
 
 
