@@ -103,6 +103,12 @@ At application install time, permissions requested by the application are grante
 
 ##Intent and Intent Filters
 
+Intents facilitate communication between components in several ways, there are three fundamental use-cases:
++ To start an activity:You can start a new instance of an Activity by passing an ``Intent`` to ``startActivity()``. The ``Intent`` describes the activity to start and carries any necessary data.If you want to receive a result from the activity when it finishes, call ``startActivityForResult()``. Your activity receives the result as a separate ``Intent`` object in your activity's ``onActivityResult()``callback.使用``startActivity()``或者``startActivityForResult()``启动``Activity``。
++ To start a service:You can start a service to perform a one-time operation (such as download a file) by passing an ``Intent`` to ``startService()``. The ``Intent`` describes the service to start and carries any necessary data.If the service is designed with a client-server interface, you can bind to the service from another component by passing an ``Intent`` to ``bindService()``.使用``startService()``或者``bindService()``来启动``Service``。
++ To deliver a broadcast:A broadcast is a message that any app can receive. The system delivers various broadcasts for system events, such as when the system boots up or the device starts charging. You can deliver a broadcast to other apps by passing an ``Intent`` to ``sendBroadcast()``, ``sendOrderedBroadcast()``, or ``sendStickyBroadcast()``.使用``sendBroadcast()``，``sendOrderedBroadcast()``或者``sendStickyBroadcast()``来发起广播。
+
+
 
 
 #App Resources
