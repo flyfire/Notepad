@@ -108,8 +108,173 @@ Intents facilitate communication between components in several ways, there are t
 + To start a service:You can start a service to perform a one-time operation (such as download a file) by passing an ``Intent`` to ``startService()``. The ``Intent`` describes the service to start and carries any necessary data.If the service is designed with a client-server interface, you can bind to the service from another component by passing an ``Intent`` to ``bindService()``.使用``startService()``或者``bindService()``来启动``Service``。
 + To deliver a broadcast:A broadcast is a message that any app can receive. The system delivers various broadcasts for system events, such as when the system boots up or the device starts charging. You can deliver a broadcast to other apps by passing an ``Intent`` to ``sendBroadcast()``, ``sendOrderedBroadcast()``, or ``sendStickyBroadcast()``.使用``sendBroadcast()``，``sendOrderedBroadcast()``或者``sendStickyBroadcast()``来发起广播。
 
+Explicit intents specify the component to start by name (the fully-qualified class name). You'll typically use an explicit intent to start a component in your own app, because you know the class name of the activity or service you want to start.Implicit intents do not name a specific component, but instead declare a general action to perform, which allows a component from another app to handle it.显式Intent，隐式Intent。When you create an explicit intent to start an activity or service, the system immediately starts the app component specified in the Intent object.使用显式Intent来启动``Activity``或者``Service``时，系统会立即启动``Intent``指定的组件。When you create an implicit intent, the Android system finds the appropriate component to start by comparing the contents of the intent to the intent filters declared in the manifest file of other apps on the device. If the intent matches an intent filter, the system starts that component and delivers it the Intent object. If multiple intent filters are compatible, the system displays a dialog so the user can pick which app to use.使用隐式Intent时，Android系统会把这个Intent和系统中应用在manifest中声明的intent filter的内容相比较。若有一个相匹配，则启动这个组件，并把Intent传送给这个组件。若有多个匹配，系统会弹出对话框让用户选择使用哪个应用。An intent filter is an expression in an app's manifest file that specifies the type of intents that the component would like to receive. For instance, by declaring an intent filter for an activity, you make it possible for other apps to directly start your activity with a certain kind of intent. Likewise, if you do not declare any intent filters for an activity, then it can be started only with an explicit intent.manifest中的intent filter表明了组件想要接受的Intent类型。如果一个组件没有声明intent filter，则只能被显式Intent启动。启动``Service``时永远要使用显式Intent，否则不知道具体什么组件启动了Service。
+
+The primary information contained in an Intent is the following:
++ ``Component name``:This field of the Intent is a ComponentName object, which you can specify using a fully qualified class name of the target component, including the package name of the app. For example, com.example.ExampleActivity. You can set the component name with setComponent(), setClass(), setClassName(), or with the Intent constructor.
++ ``Action``:A string that specifies the generic action to perform (such as view or pick).``ACTION_VIEW``:Use this action in an intent with ``startActivity()`` when you have some information that an activity can show to the user, such as a photo to view in a gallery app, or an address to view in a map app.
++ ``Data``:The URI (a Uri object) that references the data to be acted on and/or the MIME type of that data. The type of data supplied is generally dictated by the intent's action.To set only the data URI, call ``setData()``. To set only the MIME type, call ``setType()``. If necessary, you can set both explicitly with ``setDataAndType()``.
++ ``Category``:A string containing additional information about the kind of component that should handle the intent.``CATEGORY_BROWSABLE``,The target activity allows itself to be started by a web browser to display data referenced by a link—such as an image or an e-mail message.``CATEGORY_LAUNCHER``,The activity is the initial activity of a task and is listed in the system's application launcher.You can specify a category with ``addCategory()``.
+
+These properties listed above (component name, action, data, and category) represent the defining characteristics of an intent. By reading these properties, the Android system is able to resolve which app component it should start.Android系统通过读取Intent的``Componnet name``,``action``,``data``和``category``信息，可以判断出哪个组件应该去启动。一个Intent也可以包含其他的信息，这些信息不影响它究竟是如何被解析的。However, an intent can carry additional information that does not affect how it is resolved to an app component. An intent can also supply:
++ ``Extras``:Key-value pairs that carry additional information required to accomplish the requested action.You can add extra data with various ``putExtra()`` methods, each accepting two parameters: the key name and the value. You can also create a ``Bundle`` object with all the extra data, then insert the ``Bundle`` in the Intent with ``putExtras()``.For example, when creating an intent to send an email with ``ACTION_SEND``, you can specify the "to" recipient with the ``EXTRA_EMAIL`` key, and specify the "subject" with the ``EXTRA_SUBJECT`` key.
++ ``Flags``:Flags defined in the Intent class that function as metadata for the intent. The flags may instruct the Android system how to launch an activity (for example, which task the activity should belong to) and how to treat it after it's launched (for example, whether it belongs in the list of recent activities).可以使用``setFlag()``方法来设置flag。
+
+使用隐式Intent时，可以使用``resolveActivity``来确定Intent发起的Action有组件响应。 It's possible that a user won't have any apps that handle the implicit intent you send to ``startActivity()``. If that happens, the call will fail and your app will crash. To verify that an activity will receive the intent, call ``resolveActivity()`` on your Intent object. If the result is non-null, then there is at least one app that can handle the intent and it's safe to call ``startActivity()``. If the result is null, you should not use the intent and, if possible, you should disable the feature that issues the intent.
+
+```java
+// Create the text message with a string
+Intent sendIntent = new Intent();
+sendIntent.setAction(Intent.ACTION_SEND);
+sendIntent.putExtra(Intent.EXTRA_TEXT, textMessage);
+sendIntent.setType(HTTP.PLAIN_TEXT_TYPE); // "text/plain" MIME type
+
+// Verify that the intent will resolve to an activity
+if (sendIntent.resolveActivity(getPackageManager()) != null) {
+    startActivity(sendIntent);
+}
+```
+
+仅仅列出所有可以响应这个Intent Action的应用列表，不让用户选择默认应用。However, if multiple apps can respond to the intent and the user might want to use a different app each time, you should explicitly show a chooser dialog. The chooser dialog asks the user to select which app to use for the action every time (the user cannot select a default app for the action).To show the chooser, create an ``Intent`` using ``createChooser()`` and pass it to ``startActivity()``.
+
+```java
+Intent intent = new Intent(Intent.ACTION_SEND);
+...
+
+// Always use string resources for UI text.
+// This says something like "Share this photo with"
+String title = getResources().getString(R.string.chooser_title);
+// Create intent to show chooser
+Intent chooser = Intent.createChooser(intent, title);
+
+// Verify the intent will resolve to at least one activity
+if (sendIntent.resolveActivity(getPackageManager()) != null) {
+    startActivity(sendIntent);
+}
+```
+
+To advertise which implicit intents your app can receive, declare one or more intent filters for each of your app components with an ``<intent-filter>`` element in your manifest file. Each intent filter specifies the type of intents it accepts based on the intent's action, data, and category. The system will deliver an implicit intent to your app component only if the intent can pass through one of your intent filters.要让组件接收隐式Intent，需要在应用的manifest文件中组件的``intent-filter``中声明``intent-filter``。若有匹配，系统会把隐式Intent传递给响应组件。
+
+Each intent filter is defined by an ``<intent-filter>`` element in the app's manifest file, nested in the corresponding app component (such as an ``<activity>`` element). Inside the ``<intent-filter>``, you can specify the type of intents to accept using one or more of these three elements:``<intent-filter>``中可以声明的元素：
++ ``<action>``:Declares the intent action accepted, in the name attribute. The value must be the literal string value of an action, not the class constant.
++ ``<data>``:Declares the type of data accepted, using one or more attributes that specify various aspects of the data URI (scheme, host, port, path, etc.) and MIME type.
++ ``<category>``:Declares the intent category accepted, in the name attribute. The value must be the literal string value of an action, not the class constant.**In order to receive implicit intents, you must include the ``CATEGORY_DEFAULT`` category in the intent filter. The methods ``startActivity()`` and ``startActivityForResult()`` treat all intents as if they declared the ``CATEGORY_DEFAULT`` category. If you do not declare this category in your intent filter, no implicit intents will resolve to your activity.**It's okay to create a filter that includes more than one instance of ``<action>, <data>, or <category>``. If you do, you simply need to be certain that the component can handle any and all combinations of those filter elements.一个组件可以包含多个``<action>,<data>,<category>``域，只要声明``<intent-filter>``的组件能处理这些就可以。
+
+```xml
+<activity android:name="ShareActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.SEND"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="text/plain"/>
+    </intent-filter>
+</activity>
+```
+
+To avoid inadvertently running a different app's Service, always use an explicit intent to start your own service and do not declare intent filters for your service.永远使用显式Intent来启动Service。
+
+The ``ACTION_MAIN`` action indicates this is the main entry point and does not expect any intent data.The ``CATEGORY_LAUNCHER`` category indicates that this activity's icon should be placed in the system's app launcher. If the ``<activity>`` element does not specify an icon with icon, then the system uses the icon from the ``<application>`` element.These two must be paired together in order for the activity to appear in the app launcher.``ACTION_MAIN``和``CATEGORY_LAUNCHER``必须同时出现才能保证一个应用出现在桌面上。
 
 
+A ``PendingIntent`` object is a wrapper around an ``Intent`` object. The primary purpose of a ``PendingIntent`` is to grant permission to a foreign application to use the contained Intent as if it were executed from your app's own process.``PendingIntent``常用于给外界应用授权。Major use cases for a pending intent include:
+
++ Declare an intent to be executed when the user performs an action with your Notification (the Android system's NotificationManager executes the Intent).
++ Declare an intent to be executed when the user performs an action with your App Widget (the Home screen app executes the Intent).
++ Declare an intent to be executed at a specified time in the future (the Android system's AlarmManager executes the Intent).
+
+Because each Intent object is designed to be handled by a specific type of app component (either an Activity, a Service, or a BroadcastReceiver), so too must a PendingIntent be created with the same consideration. 每个Intent都被设计用来处理特定类型的组件调用，PendingIntent也不例外，只不过调用方法有些区别。When using a pending intent, your app will not execute the intent with a call such as startActivity(). You must instead declare the intended component type when you create the PendingIntent by calling the respective creator method:
++ ``PendingIntent.getActivity()`` for an ``Intent`` that starts an ``Activity``.
++ ``PendingIntent.getService()`` for an ``Intent`` that starts a ``Service``.
++ ``PendingIntent.getBroadcast()`` for a ``Intent`` that starts an ``BroadcastReceiver``.
+Unless your app is receiving pending intents from other apps, the above methods to create a ``PendingIntent`` are the only ``PendingIntent`` methods you'll probably ever need.
+
+解析Intent时，如果有Intent中有一个匹配就pass，因此如果Intent中没有指定``action,data,category``，``<intent-filter>``中有相应的字段，会pass。For an intent to pass the category test, every category in the Intent must match a category in the filter. The reverse is not necessary—the intent filter may declare more categories than are specified in the Intent and the Intent will still pass. Therefore, an intent with no categories should always pass this test, regardless of what categories are declared in the filter.
+
+Intents are matched against intent filters not only to discover a target component to activate, but also to discover something about the set of components on the device. For example, the Home app populates the app launcher by finding all the activities with intent filters that specify the ``ACTION_MAIN`` action and ``CATEGORY_LAUNCHER category``.可以根据``<intent-filter>``来对应用程序分类。Your application can use intent matching in a similar way. The ``PackageManager`` has a set of ``query...()`` methods that return all components that can accept a particular intent, and a similar series of ``resolve...()`` methods that determine the best component to respond to an intent. For example, ``queryIntentActivities()`` returns a list of all activities that can perform the intent passed as an argument, and ``queryIntentServices()`` returns a similar list of services. Neither method activates the components; they just list the ones that can respond. There's a similar method, ``queryBroadcastReceivers()``, for broadcast receivers.可以使用``PackageManager``相应方法来根据``Intent``来进行查询。
+
+[https://developer.android.com/guide/components/intents-common.html](https://developer.android.com/guide/components/intents-common.html)列出了一些常用的Intent和Intent Filter。
+
+
+## Activities
+
+Each time a new activity starts, the previous activity is stopped, but the system preserves the activity in a stack (the "back stack"). When a new activity starts, it is pushed onto the back stack and takes user focus. The back stack abides to the basic "last in, first out" stack mechanism, so, when the user is done with the current activity and presses the Back button, it is popped from the stack (and destroyed) and the previous activity resumes.task栈。
+
+When an activity is stopped because a new activity starts, it is notified of this change in state through the activity's lifecycle callback methods. There are several callback methods that an activity might receive, due to a change in its state—whether the system is creating it, stopping it, resuming it, or destroying it—and each callback provides you the opportunity to perform specific work that's appropriate to that state change.Activity状态发生变化时，会调用相应的回调函数。
+
+Sometimes, you might want to receive a result from the activity that you start. In that case, start the activity by calling ``startActivityForResult()`` (instead of ``startActivity()``). To then receive the result from the subsequent activity, implement the ``onActivityResult()`` callback method. When the subsequent activity is done, it returns a result in an Intent to your ``onActivityResult()`` method.
+
+```java
+private void pickContact() {
+    // Create an intent to "pick" a contact, as defined by the content provider URI
+    Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+    startActivityForResult(intent, PICK_CONTACT_REQUEST);
+}
+
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    // If the request went well (OK) and the request was PICK_CONTACT_REQUEST
+    if (resultCode == Activity.RESULT_OK && requestCode == PICK_CONTACT_REQUEST) {
+        // Perform a query to the contact's content provider for the contact's name
+        Cursor cursor = getContentResolver().query(data.getData(),
+        new String[] {Contacts.DISPLAY_NAME}, null, null, null);
+        if (cursor.moveToFirst()) { // True if the cursor is not empty
+            int columnIndex = cursor.getColumnIndex(Contacts.DISPLAY_NAME);
+            String name = cursor.getString(columnIndex);
+            // Do something with the selected contact's name...
+        }
+    }
+}
+```
+
+You can shut down an activity by calling its ``finish()`` method. You can also shut down a separate activity that you previously started by calling ``finishActivity()``.
+
+An activity can exist in essentially three states:
++ Resumed:The activity is in the foreground of the screen and has user focus. (This state is also sometimes referred to as "running".)
++ Paused:Another activity is in the foreground and has focus, but this one is still visible. That is, another activity is visible on top of this one and that activity is partially transparent or doesn't cover the entire screen. A paused activity is completely alive (the Activity object is retained in memory, it maintains all state and member information, and remains attached to the window manager), but can be killed by the system in extremely low memory situations.
++ Stopped:The activity is completely obscured by another activity (the activity is now in the "background"). A stopped activity is also still alive (the Activity object is retained in memory, it maintains all state and member information, but is not attached to the window manager). However, it is no longer visible to the user and it can be killed by the system when memory is needed elsewhere.
+
+If an activity is paused or stopped, the system can drop it from memory either by asking it to finish (calling its finish() method), or simply killing its process. When the activity is opened again (after being finished or killed), it must be created all over.当一个Activity处于paused或者stopped状态时，系统可以从内存中清除它通过调用它的finish方法或者直接杀死它的进程。
+
+```java
+public class ExampleActivity extends Activity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // The activity is being created.
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // The activity is about to become visible.
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // The activity has become visible (it is now "resumed").
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Another activity is taking focus (this activity is about to be "paused").
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // The activity is no longer visible (it is now "stopped")
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // The activity is about to be destroyed.
+    }
+}
+```
+
+Taken together, these methods define the entire lifecycle of an activity. By implementing these methods, you can monitor three nested loops in the activity lifecycle:
++ The entire lifetime of an activity happens between the call to ``onCreate()`` and the call to ``onDestroy()``. Your activity should perform setup of "global" state (such as defining layout) in ``onCreate()``, and release all remaining resources in ``onDestroy()``.Activity的整个生命周期在``onCreate``和``onDestory``之间。应该在``onCreate``中做些初始化工作，在``onDestory``中做销毁工作。
++ The **visible** lifetime of an activity happens between the call to ``onStart()`` and the call to ``onStop()``. During this time, the user can see the activity on-screen and interact with it.可以在``onStart``中注册广播，在``onStop``中解除注册。
++ The **foreground** lifetime of an activity happens between the call to ``onResume()`` and the call to ``onPause()``. During this time, the activity is in front of all other activities on screen and has user input focus. An activity can frequently transition in and out of the foreground—for example, ``onPause()`` is called when the device goes to sleep or when a dialog appears. Because this state can transition often, the code in these two methods should be fairly lightweight in order to avoid slow transitions that make the user wait.Activity状态切换会经常在``onPause``和``onResume``中发生，``onResume``和``onPause``中的代码应该尽量轻量级。
+
+The system can kill the process hosting the activity at any time after the method(``onPause()``, ``onStop()``, and ``onDestroy()``) returns, without executing another line of the activity's code.在``onPause,onStop,onDestory``执行完返回后，系统可能会杀死它们。Because ``onPause()`` is the first of the three, once the activity is created, ``onPause()`` is the last method that's guaranteed to be called before the process can be killed—if the system must recover memory in an emergency, then ``onStop()`` and ``onDestroy()`` might not be called. Therefore, you should use ``onPause()`` to write crucial persistent data (such as user edits) to storage.应该在``onPause``中做一些重要的工作，比如存储数据之类的。
 
 #App Resources
 
