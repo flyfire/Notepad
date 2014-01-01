@@ -391,6 +391,9 @@ The most significant difference in lifecycle between an activity and a fragment 
 
 Once the activity reaches the resumed state, you can freely add and remove fragments to the activity. Thus, only while the activity is in the resumed state can the lifecycle of a fragment change independently.However, when the activity leaves the resumed state, the fragment again is pushed through its lifecycle by the activity.只有在activity处于resumed状态下，可以在activity中自由的添加或者删除fragment。因此，也只有在activity处于resumed状态下时，fragment的状态可以自由切换。当activity离开了resumed状态，fragment的状态还是会受到activity状态转换的左右。
 
+
+### Loaders
+
 #App Resources
 
 
