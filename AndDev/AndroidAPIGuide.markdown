@@ -293,6 +293,10 @@ The order of lifecycle callbacks is well defined, particularly when the two acti
 
 ### Fragments
 
+A fragment must always be embedded in an activity and the fragment's lifecycle is directly affected by the host activity's lifecycle. For example, when the activity is paused, so are all fragments in it, and when the activity is destroyed, so are all fragments. However, while an activity is running (it is in the ``resumed`` lifecycle state), you can manipulate each fragment independently, such as add or remove them. When you perform such a fragment transaction, you can also add it to a back stack that's managed by the activity—each back stack entry in the activity is a record of the fragment transaction that occurred. The back stack allows the user to reverse a fragment transaction (navigate backwards), by pressing the Back button.一个Fragment必须嵌入到一个Activity中，这个fragment的生命周期也受这个activity生命周期的影响。Activity在运行的时候，可以对每个fragment单独操作，add或者remove，或者将这个fragment放入到back stack中。
+
+When you add a fragment as a part of your activity layout, it lives in a ``ViewGroup`` inside the activity's view hierarchy and the fragment defines its own view layout. You can insert a fragment into your activity layout by declaring the fragment in the activity's layout file, as a ``<fragment>`` element, or from your application code by adding it to an existing ``ViewGroup``. However, a fragment is not required to be a part of the activity layout; you may also use a fragment without its own UI as an invisible worker for the activity.可以在layout中以``<fragment>``元素的形式声明。也可以在代码中将一个``fragment``add到一个``ViewGroup``中。不是所有的``fragment``都需要UI，有的``fragment``也可以在后台作为worker来为activity服务。
+
 
 #App Resources
 
