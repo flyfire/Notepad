@@ -297,6 +297,99 @@ A fragment must always be embedded in an activity and the fragment's lifecycle i
 
 When you add a fragment as a part of your activity layout, it lives in a ``ViewGroup`` inside the activity's view hierarchy and the fragment defines its own view layout. You can insert a fragment into your activity layout by declaring the fragment in the activity's layout file, as a ``<fragment>`` element, or from your application code by adding it to an existing ``ViewGroup``. However, a fragment is not required to be a part of the activity layout; you may also use a fragment without its own UI as an invisible worker for the activity.可以在layout中以``<fragment>``元素的形式声明。也可以在代码中将一个``fragment``add到一个``ViewGroup``中。不是所有的``fragment``都需要UI，有的``fragment``也可以在后台作为worker来为activity服务。
 
+The Fragment class has code that looks a lot like an Activity. It contains callback methods similar to an activity, such as ``onCreate()``, ``onStart()``, ``onPause()``, and ``onStop()``.Fragment的回调方法和Activity的回调方法类似。
+
+``DialogFragment``，``ListFragment``，``PreferenceFragment``是``Fragment``的几个子类。 
+
+To provide a layout for a fragment, you must implement the ``onCreateView()`` callback method, which the Android system calls when it's time for the fragment to draw its layout. Your implementation of this method must return a ``View`` that is the root of your fragment's layout.如果fragment需要布局，必须重载``onCreateView``方法，并且返回一个``View``作为fragment的root view。If your fragment is a subclass of ``ListFragment``, the default implementation returns a ``ListView`` from ``onCreateView()``, so you don't need to implement it.To return a layout from ``onCreateView()``, you can inflate it from a layout resource defined in XML. To help you do so, ``onCreateView()`` provides a ``LayoutInflater`` object.
+
+```java
+public static class ExampleFragment extends Fragment {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.example_fragment, container, false);
+    }
+}
+```
+The ``container`` parameter passed to ``onCreateView()`` is the parent ``ViewGroup`` (from the activity's layout) in which your fragment layout will be inserted. The ``savedInstanceState`` parameter is a ``Bundle`` that provides data about the previous instance of the fragment, if the fragment is being resumed.
+
+```xml
+<fragment 
+	android:name="com.example.news.ArticleListFragment"
+	android:id="@+id/list"
+	android:layout_weight="1"
+	android:layout_width="0dp"
+	android:layout_height="match_parent" />
+```
+
+The ``android:name`` attribute in the ``<fragment>`` specifies the ``Fragment`` class to instantiate in the layout.When the system creates this activity layout, it instantiates each fragment specified in the layout and calls the ``onCreateView()`` method for each one, to retrieve each fragment's layout. The system inserts the ``View`` returned by the fragment directly in place of the ``<fragment>`` element.系统创建activity时会把fragment的``onCreateView``返回的``View``放到activity布局文件中fragment的相对应位置。
+
+Each fragment requires a unique identifier that the system can use to restore the fragment if the activity is restarted (and which you can use to capture the fragment to perform transactions, such as remove it).为fragment提供一个id可以方便系统对fragment在activity上做操作。 There are three ways to provide an ID for a fragment:
++ Supply the ``android:id`` attribute with a unique ID.
++ Supply the ``android:tag`` attribute with a unique string.
++ If you provide neither of the previous two, the system uses the ID of the container view.
+
+At any time while your activity is running, you can add fragments to your activity layout. You simply need to specify a ``ViewGroup`` in which to place the fragment.``Activity``运行时，可以将``fragment``添加到activty的布局中。
+
+To make fragment transactions in your activity (such as add, remove, or replace a fragment), you must use APIs from ``FragmentTransaction``. 使用``FragmentTransaction``提供的API来操作```Fragment``，比如添加移除替换等。You can get an instance of ``FragmentTransaction`` from your ``Activity`` like this:
+
+```java
+FragmentManager fragmentManager = getFragmentManager()
+FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+```
+
+You can then add a fragment using the ``add()`` method, specifying the fragment to add and the view in which to insert it. For example:
+
+```java
+ExampleFragment fragment = new ExampleFragment();
+fragmentTransaction.add(R.id.fragment_container, fragment);
+fragmentTransaction.commit();
+```
+
+The first argument passed to ``add()`` is the ``ViewGroup`` in which the fragment should be placed, specified by resource ID, and the second parameter is the fragment to add.Once you've made your changes with ``FragmentTransaction``, you must call ``commit()`` for the changes to take effect.
+
+You can also use a fragment to provide a background behavior for the activity without presenting additional UI.To add a fragment without a UI, add the fragment from the activity using ``add(Fragment, String)`` (supplying a unique string "tag" for the fragment, rather than a view ID). This adds the fragment, but, because it's not associated with a view in the activity layout, it does not receive a call to ``onCreateView()``. So you don't need to implement that method.也可以使用fragment来为activity提供后台操作而不提供UI。Supplying a string tag for the fragment isn't strictly for non-UI fragments—you can also supply string tags to fragments that do have a UI—but if the fragment does not have a UI, then the string tag is the only way to identify it. If you want to get the fragment from the activity later, you need to use ``findFragmentByTag()``.为fragment指定一个tag可以方便以后使用``FragmentManager``操作。[https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/FragmentRetainInstance.java](https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/FragmentRetainInstance.java)
+
+To manage the fragments in your activity, you need to use ``FragmentManager``. To get it, call ``getFragmentManager()`` from your activity.使用Activity的``getFragmentManager``可以得到``FragmentManager``。Some things that you can do with ``FragmentManager`` include:
++ Get fragments that exist in the activity, with ``findFragmentById()`` (for fragments that provide a UI in the activity layout) or ``findFragmentByTag()`` (for fragments that do or don't provide a UI).
++ Pop fragments off the back stack, with ``popBackStack()`` (simulating a Back command by the user).
++ Register a listener for changes to the back stack, with ``addOnBackStackChangedListener()``.
++ You can also use ``FragmentManager`` to open a ``FragmentTransaction``, which allows you to perform transactions, such as add and remove fragments.
+
+Before you call ``commit()``, however, you might want to call ``addToBackStack()``, in order to add the transaction to a back stack of fragment transactions. This back stack is managed by the activity and allows the user to return to the previous fragment state, by pressing the Back button.调用``FragmentTransaction``的``commit``方法之前，可以调用``addToBackStack``方法来将操作压栈。
+
+The order in which you add changes to a ``FragmentTransaction`` doesn't matter, except:
++ You must call ``commit()`` last
++ If you're adding multiple fragments to the same container, then the order in which you add them determines the order they appear in the view hierarchy
+
+If you do not call ``addToBackStack()`` when you perform a transaction that removes a fragment, then that fragment is destroyed when the transaction is committed and the user cannot navigate back to it. Whereas, if you do call ``addToBackStack()`` when removing a fragment, then the fragment is stopped and will be resumed if the user navigates back.如果不执行压栈操作，当执行``FragmentTransaction``的``commit``操作时，返回到原来的fragment时，原来的fragment就会被销毁，用户就返回不到原来的fragment了。相反，当移除一个fragment时，执行``addToBackStack``，这个fragment就会stop，用户返回时fragment就会恢复成resume状态。For each fragment transaction, you can apply a transition animation, by calling ``setTransition()`` before you commit.在``FragmentTransaction``每次提交事物之前，可以使用``setTransition``来为fragment transaction设置动画。
+
+Calling ``commit()`` does not perform the transaction immediately. Rather, it schedules it to run on the activity's UI thread (the "main" thread) as soon as the thread is able to do so. If necessary, however, you may call ``executePendingTransactions()`` from your UI thread to immediately execute transactions submitted by ``commit()``. Doing so is usually not necessary unless the transaction is a dependency for jobs in other threads.调用``FragmentTransaction``的``commit``方法并不会立即执行transaction。相反，他会将其调度到UI主线程。可以从UI线程来调用``executePendingTransactions``来立即执行由``commit``提交的事务。
+
+You can commit a transaction using ``commit()`` only prior to the activity saving its state (when the user leaves the activity). If you attempt to commit after that point, an exception will be thrown. This is because the state after the commit can be lost if the activity needs to be restored. For situations in which its okay that you lose the commit, use ``commitAllowingStateLoss()``.只能在activity保存自身状态之前使用``FragmentTransaction``来``commit``，如果在保存状态之后再次调用``FragmentTransaction``的``commit``，会触发异常。这是因为在activity保存状态之后``FragmentTransaction``进行的提交可能会在activity恢复状态之后丢失。如果不关注``FragmentTransaction``进行提交后可能导致的状态丢失，可以使用``FragmentTransaction``的``commitAllowingStateLoss``方法。
+
+Specifically, the fragment can access the ``Activity`` instance with ``getActivity()`` and easily perform tasks such as find a view in the activity layout:``View listView = getActivity().findViewById(R.id.list);``.在``Fragment``中可以使用``getActivity``得到``Activity``的引用，进而调用``Activity``的相应方法来获取布局中的相应``View``。Likewise, your activity can call methods in the fragment by acquiring a reference to the ``Fragment`` from ``FragmentManager``, using ``findFragmentById()`` or ``findFragmentByTag()``. For example:``ExampleFragment fragment = (ExampleFragment) getFragmentManager().findFragmentById(R.id.example_fragment);``.相对应的，在Activity中也可以调用``getFragmentManager``来获取``FragmentManager``来进行相应的操作取得fragment的引用。
+
+In some cases, you might need a fragment to share events with the activity. A good way to do that is to define a callback interface inside the fragment and require that the host activity implement it. When the activity receives a callback through the interface, it can share the information with other fragments in the layout as necessary.当一个Fragment需要和Activity共享一些事件的处理时，一个好的方式是在``Fragment``中定义一个接口，让``Fragment``绑定到的那个``Activity``来实现这个接口，当``Activity``接收到事件处理的回调时，就实现了``Fragment``和``Activity``之间的信息共享。
+
+Fragment中也可以添加Menu Item到Menu或者Action Bar，具体可以看官方文档。
+
+Also like an activity, you can retain the state of a fragment using a ``Bundle``, in case the activity's process is killed and you need to restore the fragment state when the activity is recreated. You can save the state during the fragment's ``onSaveInstanceState()`` callback and restore it during either ``onCreate()``, ``onCreateView()``, or ``onActivityCreated()``. 和``Activity``类似，可以使用``Bundle``来恢复一个``Fragment``的状态。可以在``Fragment``的``onSaveInstanceState``回调方法中保存状态，在``onCreate``和``onCreateView``或者``onActivityCreated``中恢复状态。
+
+The most significant difference in lifecycle between an activity and a fragment is how one is stored in its respective back stack. An activity is placed into a back stack of activities that's managed by the system when it's stopped, by default (so that the user can navigate back to it with the Back button). However, a fragment is placed into a back stack managed by the host activity only when you explicitly request that the instance be saved by calling ``addToBackStack()`` during a transaction that removes the fragment.``Activity``和``Fragment``的一个显著区别是，``Activity``的回退栈是由系统维护的，``Fragment``的回退栈只有在调用``addToBackStack``时才会由host activity来放入并维护。
+
+ If you need a ``Context`` object within your ``Fragment``, you can call ``getActivity()``. However, be careful to call ``getActivity()`` only when the fragment is attached to an activity. When the fragment is not yet attached, or was detached during the end of its lifecycle, ``getActivity()`` will return null.在``Fragment``中调用``getActivity``方法获取``Activity``引用时必须确认``Fragment``是和``Activity`` attached的，否则在``Fragment``中调用``getActivity``会返回null。
+
+ ``Fragment``的生命周期和``Activity``的生命周期紧密绑定在一起，比如，``Activity``接收到``onPause``时，每个attach到这个``Activity``的``Fragment``也会收到``onPause``。除此之外，``Fragment``还有几个额外的方法：
+ + ``onAttach()``,Called when the fragment has been associated with the activity (the Activity is passed in here).
++ ``onCreateView()``,Called to create the view hierarchy associated with the fragment.
++ ``onActivityCreated()``,Called when the activity's ``onCreate()`` method has returned.
++ ``onDestroyView()``,Called when the view hierarchy associated with the fragment is being removed.
++ ``onDetach()``,Called when the fragment is being disassociated from the activity.
+
+Once the activity reaches the resumed state, you can freely add and remove fragments to the activity. Thus, only while the activity is in the resumed state can the lifecycle of a fragment change independently.However, when the activity leaves the resumed state, the fragment again is pushed through its lifecycle by the activity.只有在activity处于resumed状态下，可以在activity中自由的添加或者删除fragment。因此，也只有在activity处于resumed状态下时，fragment的状态可以自由切换。当activity离开了resumed状态，fragment的状态还是会受到activity状态转换的左右。
 
 #App Resources
 
