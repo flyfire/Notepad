@@ -394,6 +394,25 @@ Once the activity reaches the resumed state, you can freely add and remove fragm
 
 ### Loaders
 
+There are multiple classes and interfaces that may be involved in using loaders in an application. 
+
++ ``LoaderManager``: An abstract class associated with an ``Activity`` or ``Fragment`` for managing one or more Loader instances. This helps an application manage longer-running operations in conjunction with the ``Activity`` or ``Fragment`` lifecycle; the most common use of this is with a ``CursorLoader``, however applications are free to write their own loaders for loading other types of data. ``LoaderManager``是和``Activity``或``Fragment``关联的一个抽象类，它会帮助一个应用在``Activity``或``Fragment``生命周期内处理长时间运行的操作。There is only one ``LoaderManager`` per activity or fragment. But a ``LoaderManager`` can have multiple loaders.一个``Activity``或者``Fragment``只有一个``LoaderManager``，但是一个``LoaderManager``可以有多个loader。
++ ``LoaderManager.LoaderCallbacks``:A callback interface for a client to interact with the ``LoaderManager``. For example, you use the ``onCreateLoader()`` callback method to create a new loader.客户端和``LoaderManager``进行交互的回调接口。
++ ``Loader``:An abstract class that performs asynchronous loading of data. This is the base class for a loader. You would typically use ``CursorLoader``, but you can implement your own subclass. While loaders are active they should monitor the source of their data and deliver new results when the contents change.一个执行异步加载数据的抽象类。
++ ``AsyncTaskLoader``:Abstract loader that provides an ``AsyncTask`` to do the work.一个提供``AsyncTask``来做工作的抽象loader。
++ ``CursorLoader``:A subclass of ``AsyncTaskLoader`` that queries the ``ContentResolver`` and returns a ``Cursor``. This class implements the ``Loader`` protocol in a standard way for querying cursors, building on ``AsyncTaskLoader`` to perform the cursor query on a background thread so that it does not block the application's UI. Using this loader is the best way to asynchronously load data from a ``ContentProvider``, instead of performing a managed query through the fragment or activity's APIs.``CursorLoader``是``AsyncTaskLoader``的子类，它会去查询``ContentResolver``然后返回一个``Cursor``。
+
+An application that uses loaders typically includes the following:
+
++ An ``Activity`` or ``Fragment``.
++ An instance of the ``LoaderManager``.
++ A ``CursorLoader`` to load data backed by a ``ContentProvider``. Alternatively, you can implement your own subclass of ``Loader`` or ``AsyncTaskLoader`` to load data from some other source.
++ An implementation for ``LoaderManager.LoaderCallbacks``. This is where you create new loaders and manage your references to existing loaders.
++ A way of displaying the loader's data, such as a ``SimpleCursorAdapter``.
++ A data source, such as a ``ContentProvider``, when using a ``CursorLoader``.
+
+
+
 #App Resources
 
 
