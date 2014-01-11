@@ -272,4 +272,10 @@ public boolean onKeyDown(final int keyCode, final KeyEvent event) {
 }
 ```
 
++ 联系人排序时根据地域
+```java
+new CursorLoader(getActivity(), baseUri,
+        CONTACTS_SUMMARY_PROJECTION, select, null,
+        Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC");
+```
 + 将``Activity``的``android:launchMode``设置为``singleTop``可以避免现有的不可见的Activity仍存在时创建新的Activity。

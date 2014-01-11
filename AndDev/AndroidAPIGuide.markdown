@@ -299,7 +299,7 @@ When you add a fragment as a part of your activity layout, it lives in a ``ViewG
 
 The Fragment class has code that looks a lot like an Activity. It contains callback methods similar to an activity, such as ``onCreate()``, ``onStart()``, ``onPause()``, and ``onStop()``.Fragment的回调方法和Activity的回调方法类似。
 
-``DialogFragment``，``ListFragment``，``PreferenceFragment``是``Fragment``的几个子类。 
+``DialogFragment``，``ListFragment``，``PreferenceFragment``是``Fragment``的几个子类。
 
 To provide a layout for a fragment, you must implement the ``onCreateView()`` callback method, which the Android system calls when it's time for the fragment to draw its layout. Your implementation of this method must return a ``View`` that is the root of your fragment's layout.如果fragment需要布局，必须重载``onCreateView``方法，并且返回一个``View``作为fragment的root view。If your fragment is a subclass of ``ListFragment``, the default implementation returns a ``ListView`` from ``onCreateView()``, so you don't need to implement it.To return a layout from ``onCreateView()``, you can inflate it from a layout resource defined in XML. To help you do so, ``onCreateView()`` provides a ``LayoutInflater`` object.
 
@@ -316,7 +316,7 @@ public static class ExampleFragment extends Fragment {
 The ``container`` parameter passed to ``onCreateView()`` is the parent ``ViewGroup`` (from the activity's layout) in which your fragment layout will be inserted. The ``savedInstanceState`` parameter is a ``Bundle`` that provides data about the previous instance of the fragment, if the fragment is being resumed.
 
 ```xml
-<fragment 
+<fragment
 	android:name="com.example.news.ArticleListFragment"
 	android:id="@+id/list"
 	android:layout_weight="1"
@@ -394,13 +394,13 @@ Once the activity reaches the resumed state, you can freely add and remove fragm
 
 ### Loaders
 
-There are multiple classes and interfaces that may be involved in using loaders in an application. 
+There are multiple classes and interfaces that may be involved in using loaders in an application.
 
 + ``LoaderManager``: An abstract class associated with an ``Activity`` or ``Fragment`` for managing one or more Loader instances. This helps an application manage longer-running operations in conjunction with the ``Activity`` or ``Fragment`` lifecycle; the most common use of this is with a ``CursorLoader``, however applications are free to write their own loaders for loading other types of data. ``LoaderManager``是和``Activity``或``Fragment``关联的一个抽象类，它会帮助一个应用在``Activity``或``Fragment``生命周期内处理长时间运行的操作。There is only one ``LoaderManager`` per activity or fragment. But a ``LoaderManager`` can have multiple loaders.一个``Activity``或者``Fragment``只有一个``LoaderManager``，但是一个``LoaderManager``可以有多个loader。
 + ``LoaderManager.LoaderCallbacks``:A callback interface for a client to interact with the ``LoaderManager``. For example, you use the ``onCreateLoader()`` callback method to create a new loader.客户端和``LoaderManager``进行交互的回调接口。
 + ``Loader``:An abstract class that performs asynchronous loading of data. This is the base class for a loader. You would typically use ``CursorLoader``, but you can implement your own subclass. While loaders are active they should monitor the source of their data and deliver new results when the contents change.一个执行异步加载数据的抽象类。
 + ``AsyncTaskLoader``:Abstract loader that provides an ``AsyncTask`` to do the work.一个提供``AsyncTask``来做工作的抽象loader。
-+ ``CursorLoader``:A subclass of ``AsyncTaskLoader`` that queries the ``ContentResolver`` and returns a ``Cursor``. This class implements the ``Loader`` protocol in a standard way for querying cursors, building on ``AsyncTaskLoader`` to perform the cursor query on a background thread so that it does not block the application's UI. Using this loader is the best way to asynchronously load data from a ``ContentProvider``, instead of performing a managed query through the fragment or activity's APIs.``CursorLoader``是``AsyncTaskLoader``的子类，它会去查询``ContentResolver``然后返回一个``Cursor``。
++ ``CursorLoader``:A subclass of ``AsyncTaskLoader`` that queries the ``ContentResolver`` and returns a ``Cursor``. This class implements the ``Loader`` protocol in a standard way for querying cursors, building on ``AsyncTaskLoader`` to perform the cursor query on a background thread so that it does not block the application's UI. Using this loader is the best way to asynchronously load data from a ``ContentProvider``, instead of performing a managed query through the fragment or activity's APIs.``CursorLoader``是``AsyncTaskLoader``的子类，它会去查询``ContentResolver``然后返回一个``Cursor``。``CursorLoader``是从``ContentProvider``中异步加载数据的最好方式。
 
 An application that uses loaders typically includes the following:
 
@@ -411,7 +411,36 @@ An application that uses loaders typically includes the following:
 + A way of displaying the loader's data, such as a ``SimpleCursorAdapter``.
 + A data source, such as a ``ContentProvider``, when using a ``CursorLoader``.
 
+#### Starting & Restarting a Loader
+You typically initialize a ``Loader`` within the activity's ``onCreate()`` method, or within the fragment's ``onActivityCreated()`` method.
 
+```java
+// Prepare the loader.  Either re-connect with an existing one,
+// or start a new one.
+getLoaderManager().initLoader(0, null, this);
+```
+``initLoader``有3个参数
++ A unique ID that identifies the loader.``Loader``的ID
++ Optional arguments to supply to the loader at construction.可选的在loader构建时使用的参数。
++ A ``LoaderManager.LoaderCallbacks`` implementation, which the ``LoaderManager`` calls to report loader events.一个实现了``LoaderManager.LoaderCallbacks``接口的类，``LoaderManager``会在事件触发时使用其中的方法。
+
+The ``initLoader()`` call ensures that a loader is initialized and active.
++ If the loader specified by the ID already exists, the last created loader is reused.如果``initLoader``使用的loader ID已经存在，之前创建的loader会被重用。
++ If the loader specified by the ID does not exist, ``initLoader()`` triggers the ``LoaderManager.LoaderCallbacks`` method ``onCreateLoader()``. This is where you implement the code to instantiate and return a new loader.如果``initLoader``使用的loader ID不存在，``initLoader``会触发``LoaderManager.LoaderCallbacks``中的``onCreateLoader``方法，在这个自己实现的方法中可以去做一些初始化工作。
+
+In either case, the given ``LoaderManager.LoaderCallbacks`` implementation is associated with the loader, and will be called when the loader state changes. If at the point of this call the caller is in its started state, and the requested loader already exists and has generated its data, then the system calls ``onLoadFinished()`` immediately (during ``initLoader()``).在调用``initLoader``时，如果``loader``已经存在，系统会立即调用``onLoadFinished``。Note that the ``initLoader()`` method returns the ``Loader`` that is created, but you don't need to capture a reference to it. The ``LoaderManager`` manages the life of the loader automatically. The ``LoaderManager`` starts and stops loading when necessary, and maintains the state of the loader and its associated content.``initLoader``方法会返回创建的``Loader``，但不用保持对它的引用，``LoaderManager``会自动管理``Loader``的生命周期，会管理loader的状态和与loader关联的数据。
+
+When you use ``initLoader()``,it uses an existing loader with the specified ID if there is one. If there isn't, it creates one. But sometimes you want to discard your old data and start over.To discard your old data, you use ``restartLoader()``.在使用``initLoader``时，他会重用已存在的loader或者创建一个新的loader。有时需要丢弃旧的数据重新绑定数据源，这时，需要使用``restartLoader``。
+
+
+#### Using the LoaderManager Callbacks
+
+``LoaderManager.LoaderCallbacks``  is a callback interface that lets a client interact with the ``LoaderManager``.``LoaderManager.LoaderCallbacks``是客户端和``LoaderManager``进行交互的回调接口。 ``Loaders``, in particular ``CursorLoader``, are expected to retain their data after being stopped. This allows applications to keep their data across the activity or fragment's ``onStop()`` and ``onStart()`` methods, so that when users return to an application, they don't have to wait for the data to reload. You use the ``LoaderManager.LoaderCallbacks`` methods to know when to create a new loader, and to tell the application when it is time to stop using a loader's data.使用``LoaderManager.LoaderCallbacks``方法来分辨什么时候创建一个新的``loader``，告诉应用什么时候去停止使用一个``Loader``的数据源。
+
+``LoaderManager.LoaderCallbacks`` includes these methods:
++ ``onCreateLoader()`` — Instantiate and return a new Loader for the given ID.When you attempt to access a loader (for example, through ``initLoader()``), it checks to see whether the loader specified by the ID exists. If it doesn't, it triggers the ``LoaderManager.LoaderCallbacks`` method ``onCreateLoader()``. This is where you create a new loader. Typically this will be a ``CursorLoader``, but you can implement your own ``Loader`` subclass.
++ ``onLoadFinished()`` — Called when a previously created loader has finished its load.This method is called when a previously created loader has finished its load. This method is guaranteed to be called prior to the release of the last data that was supplied for this loader.``onLoadFinished``方法会在loader完成数据load时调用，这个方法保证会在数据源release之前调用。 At this point you should remove all use of the old data (since it will be released soon), but should not do your own release of the data since its loader owns it and will take care of that.这时应该释放旧的数据，但不应该自己释放而是应该由loader来释放。The loader will release the data once it knows the application is no longer using it. For example, if the data is a cursor from a ``CursorLoader``, you **should not** call ``close()`` on it yourself. If the cursor is being placed in a ``CursorAdapter``, you should use the ``swapCursor()`` method so that the old Cursor is not closed.不应该直接调用``CursorLoader``的``close``方法，而应该调用``CursorAdapter``的``swapCursor``方法。
++ ``onLoaderReset()`` — Called when a previously created loader is being reset, thus making its data unavailable.之前创建的loader被reset时，会调用``onLoaderReset``，这会使``Loader``的数据不可用。
 
 #App Resources
 
@@ -426,6 +455,14 @@ An application that uses loaders typically includes the following:
 
 #User Interface
 
+## Overview
+
+## Layouts
+
++ ``android:id="@+id/my_button"`` The at-symbol (@) at the beginning of the string indicates that the XML parser should parse and expand the rest of the ID string and identify it as an ID resource. The plus-symbol (+) means that this is a new resource name that must be created and added to our resources (in the ``R.java`` file). There are a number of other ID resources that are offered by the Android framework. When referencing an Android resource ID, you do not need the plus-symbol, but must add the android package namespace, like so:``android:id="@android:id/empty"``,With the android package namespace in place, we're now referencing an ID from the ``android.R`` resources class, rather than the local resources class.
++ XML layout attributes named ``layout_something`` define layout parameters for the ``View`` that are appropriate for the ``ViewGroup`` in which it resides.
++ Every ViewGroup class implements a nested class that extends ``ViewGroup.LayoutParams``. This subclass contains property types that define the size and position for each child view, as appropriate for the view group.每个``ViewGroup``都会实现一个继承自``ViewGroup.LayoutParams``的嵌套类。
++ In general, specifying a layout width and height using absolute units such as pixels is not recommended. Instead, using relative measurements such as density-independent pixel units (dp), wrap_content, or fill_parent, is a better approach, because it helps ensure that your application will display properly across a variety of device screen sizes.
 
 
 
