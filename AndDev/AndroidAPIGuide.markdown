@@ -394,6 +394,14 @@ Once the activity reaches the resumed state, you can freely add and remove fragm
 
 ### Loaders
 
+为什么要用Loader？用AsyncTask来进行后台处理不是挺好的吗？
+
+[android-loaders-the-way-to-go](https://stackoverflow.com/questions/10422697/android-loaders-the-way-to-go),[can-honeycomb-loaders-solve-problems-with-asynctask-ui-update](https://stackoverflow.com/questions/5097565/can-honeycomb-loaders-solve-problems-with-asynctask-ui-update),[an-introduction-to-loaders-in-android](http://amsanjeev.wordpress.com/2011/09/23/an-introduction-to-loaders-in-android/)
+
+One problem your code has which loaders aim to fix is what happens if your activity is restarted (say due to device rotation or config change) while your async task is still in progress? in your case your restarted activity will start a 2nd instance of the task and throw away the results from the first one. When the first one completes you can end up with crashes due to the fact your async task has a reference is what is now a finished activity.And yes using loaders often makes for more/more complex code, particularly if you can't use one of the provided loaders.使用AsyncTask时，如果遇到AsyncTask引用的那个Activity被销毁(比如后台数据在处理，而屏幕旋转了，或用户按下了back等等)，会导致AsyncTask持有一个已经finish的Acitivy的引用，也就更新不了Acitivy的UI了。
+
+Loader also persist the data fetched to avoid repetitive fetch operations for simple activity refresh event like orientation change, keyboard open etc. Internally loaders also use async tasks to perform the data load. So there is no performance gain that one would notice when compared to async tasks, provide that the async tasks are designed and developed properly.Loader在内部使用AsyncTask来执行数据加载，和单独使用AsyncTask没有什么性能上的差别，而且还可以应对configuration change等问题。
+
 There are multiple classes and interfaces that may be involved in using loaders in an application.
 
 + ``LoaderManager``: An abstract class associated with an ``Activity`` or ``Fragment`` for managing one or more Loader instances. This helps an application manage longer-running operations in conjunction with the ``Activity`` or ``Fragment`` lifecycle; the most common use of this is with a ``CursorLoader``, however applications are free to write their own loaders for loading other types of data. ``LoaderManager``是和``Activity``或``Fragment``关联的一个抽象类，它会帮助一个应用在``Activity``或``Fragment``生命周期内处理长时间运行的操作。There is only one ``LoaderManager`` per activity or fragment. But a ``LoaderManager`` can have multiple loaders.一个``Activity``或者``Fragment``只有一个``LoaderManager``，但是一个``LoaderManager``可以有多个loader。
@@ -465,6 +473,19 @@ public void onLoaderReset(Loader<Cursor> loader) {
 }
 ```
 
+
+### Tasks and Back Stack
+一个应用可以发隐式Intent来激活另一个应用中的组件，其他应用中的声明了可以接收这个Intent的相对应的组件会被激活，就像是在同一个应用中一样。Even though the activities may be from different applications, Android maintains this seamless user experience by keeping both activities in the same task.尽管被激活的组件可能来自其他应用，Android通过将activities放在同一个task中来保证用户体验的流畅。
+
+A task is a collection of activities that users interact with when performing a certain job. The activities are arranged in a stack (the "back stack"), in the order in which each activity is opened.
+
+The device Home screen is the starting place for most tasks. When the user touches an icon in the application launcher (or a shortcut on the Home screen), that application's task comes to the foreground. If no task exists for the application (the application has not been used recently), then a new task is created and the "main" activity for that application opens as the root activity in the stack.Home桌面是大部分应用开始的地方，当一个应用之前被打开过，再次在launcher上点击应用时，那个应用的task会回到前台，如果点击的应用之前没有被打开过，一个新的task会被创建，应用的main activity作为stack的root activity入栈。
+
+When the current activity starts another, the new activity is pushed on the top of the stack and takes focus. 当前Acitivy启动另一个Activity时，被启动的Acitivy会被push到task stack的顶部并获得focus。The previous activity remains in the stack, but is stopped. 之前的Acitivy还在task stack中，但是出于stopped状态。When an activity stops, the system retains the current state of its user interface. When the user presses the Back button, the current activity is popped from the top of the stack (the activity is destroyed) and the previous activity resumes (the previous state of its UI is restored).一个Activity出于stopped状态时，系统会保留Activity的当前状态，当用户按下back时，当前的Activity会从task stack中弹出被销毁，之前出于stopped状态的Activity会resume到之前的状态。 Activities in the stack are never rearranged, only pushed and popped from the stack—pushed onto the stack when started by the current activity and popped off when the user leaves it using the Back button. As such, the back stack operates as a "last in, first out" object structure.If the user continues to press Back, then each activity in the stack is popped off to reveal the previous one, until the user returns to the Home screen (or to whichever activity was running when the task began). When all activities are removed from the stack, the task no longer exists.当用户不停地按back时，back stack中的Activity不断pop出去，显示出stack top的Activity，直到用户返回到Home Screen或者这个task开始的时候启动的那个Activity，当所有的Activity都从stack中被移出时，task就不会存在了。
+
+A task is a cohesive unit that can move to the "background" when users begin a new task or go to the Home screen, via the Home button. While in the background, all the activities in the task are stopped, but the back stack for the task remains intact—the task has simply lost focus while another task takes place.一个task是一个紧密的整体，可以被放入后台当用户启动一个新的task或者按下home时。一个task处于后台时，所有在该task中的Activity都会被stop，但是task中Activity组成的back stack会保持完整，只不过是失去了focus，其他的task取代了它获得了user focus。
+
+Multiple tasks can be held in the background at once. However, if the user is running many background tasks at the same time, the system might begin destroying background activities in order to recover memory, causing the activity states to be lost.如果后台同时运行了太多task，系统可能会销毁background activity来恢复内存，导致Activity的状态丢失。
 
 
 #App Resources
