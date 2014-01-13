@@ -488,6 +488,8 @@ A task is a cohesive unit that can move to the "background" when users begin a n
 Multiple tasks can be held in the background at once. However, if the user is running many background tasks at the same time, the system might begin destroying background activities in order to recover memory, causing the activity states to be lost.如果后台同时运行了太多task，系统可能会销毁background activity来恢复内存，导致Activity的状态丢失。
 
 
+
+
 #App Resources
 
 
