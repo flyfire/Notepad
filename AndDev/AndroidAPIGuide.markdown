@@ -440,7 +440,32 @@ When you use ``initLoader()``,it uses an existing loader with the specified ID i
 ``LoaderManager.LoaderCallbacks`` includes these methods:
 + ``onCreateLoader()`` — Instantiate and return a new Loader for the given ID.When you attempt to access a loader (for example, through ``initLoader()``), it checks to see whether the loader specified by the ID exists. If it doesn't, it triggers the ``LoaderManager.LoaderCallbacks`` method ``onCreateLoader()``. This is where you create a new loader. Typically this will be a ``CursorLoader``, but you can implement your own ``Loader`` subclass.
 + ``onLoadFinished()`` — Called when a previously created loader has finished its load.This method is called when a previously created loader has finished its load. This method is guaranteed to be called prior to the release of the last data that was supplied for this loader.``onLoadFinished``方法会在loader完成数据load时调用，这个方法保证会在数据源release之前调用。 At this point you should remove all use of the old data (since it will be released soon), but should not do your own release of the data since its loader owns it and will take care of that.这时应该释放旧的数据，但不应该自己释放而是应该由loader来释放。The loader will release the data once it knows the application is no longer using it. For example, if the data is a cursor from a ``CursorLoader``, you **should not** call ``close()`` on it yourself. If the cursor is being placed in a ``CursorAdapter``, you should use the ``swapCursor()`` method so that the old Cursor is not closed.不应该直接调用``CursorLoader``的``close``方法，而应该调用``CursorAdapter``的``swapCursor``方法。
-+ ``onLoaderReset()`` — Called when a previously created loader is being reset, thus making its data unavailable.之前创建的loader被reset时，会调用``onLoaderReset``，这会使``Loader``的数据不可用。
+```java
+// This is the Adapter being used to display the list's data.
+SimpleCursorAdapter mAdapter;
+...
+
+public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    // Swap the new cursor in.  (The framework will take care of closing the
+    // old cursor once we return.)
+    mAdapter.swapCursor(data);
+}
+```
++ ``onLoaderReset()`` — Called when a previously created loader is being reset, thus making its data unavailable.之前创建的loader被reset时，会调用``onLoaderReset``，这会使``Loader``的数据不可用。This callback lets you find out when the data is about to be released so you can remove your reference to it. 这个回调方法
+```java
+// This is the Adapter being used to display the list's data.
+SimpleCursorAdapter mAdapter;
+...
+
+public void onLoaderReset(Loader<Cursor> loader) {
+    // This is called when the last Cursor provided to onLoadFinished()
+    // above is about to be closed.  We need to make sure we are no
+    // longer using it.
+    mAdapter.swapCursor(null);
+}
+```
+
+
 
 #App Resources
 
