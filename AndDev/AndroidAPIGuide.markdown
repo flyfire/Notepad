@@ -487,7 +487,7 @@ A task is a cohesive unit that can move to the "background" when users begin a n
 
 Multiple tasks can be held in the background at once. However, if the user is running many background tasks at the same time, the system might begin destroying background activities in order to recover memory, causing the activity states to be lost.如果后台同时运行了太多task，系统可能会销毁background activity来恢复内存，导致Activity的状态丢失。
 
-
+Because the activities in the back stack are never rearranged, if your application allows users to start a particular activity from more than one activity, a new instance of that activity is created and pushed onto the stack (rather than bringing any previous instance of the activity to the top). As such, one activity in your application might be instantiated multiple times (even from different tasks).因为在task stack中的Activity位置不会被重新组织，所以如果你的应用允许用户从不止一个Activity中启动你的组件Activity，你的被启动的那个组件Activity会被重新创建并且push到新的task stack中，而不是把之前Activity的实例带到前台，因此，你的应用中的一个Activity可能会被从不同的task中实例化多次。
 
 
 #App Resources
