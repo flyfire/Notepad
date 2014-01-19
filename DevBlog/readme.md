@@ -1,5 +1,6 @@
 Android Developer Blog reading notes
 =====================================
-+ GoogleDeveloper
++ android-developer.blogspot.com
 + Vogella
++ GoogleDeveloper
 + and more...
