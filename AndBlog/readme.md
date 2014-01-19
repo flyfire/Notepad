@@ -1,1 +1,5 @@
-#notes on reading android developer blog
+Android Developer Blog reading notes
+=====================================
++ GoogleDeveloper
++ Vogella
++ and more...
