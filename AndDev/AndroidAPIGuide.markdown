@@ -489,6 +489,18 @@ Multiple tasks can be held in the background at once. However, if the user is ru
 
 Because the activities in the back stack are never rearranged, if your application allows users to start a particular activity from more than one activity, a new instance of that activity is created and pushed onto the stack (rather than bringing any previous instance of the activity to the top). As such, one activity in your application might be instantiated multiple times (even from different tasks).因为在task stack中的Activity位置不会被重新组织，所以如果你的应用允许用户从不止一个Activity中启动你的组件Activity，你的被启动的那个组件Activity会被重新创建并且push到新的task stack中，而不是把之前Activity的实例带到前台，因此，你的应用中的一个Activity可能会被从不同的task中实例化多次。
 
+To summarize the default behavior for activities and tasks:
+
++ When Activity A starts Activity B, Activity A is stopped, but the system retains its state (such as scroll position and text entered into forms). If the user presses the Back button while in Activity B, Activity A resumes with its state restored.Activity A启动Activity B时，A stop，但是系统会保留A的状态，如果在B中按下back，A的状态会被恢复。
++ When the user leaves a task by pressing the Home button, the current activity is stopped and its task goes into the background. The system retains the state of every activity in the task. If the user later resumes the task by selecting the launcher icon that began the task, the task comes to the foreground and resumes the activity at the top of the stack.用户按下Home时，当前的Activity会stop，所在的task会进入后台，系统会保留task中每个Activity的状态，如果以后用户重启task，task回到前台来，会resume back stack中栈top的Activity。
++ If the user presses the Back button, the current activity is popped from the stack and destroyed. The previous activity in the stack is resumed. When an activity is destroyed, the system does not retain the activity's state.用户按下back时，在back stack 栈顶的Activity会被弹出栈销毁掉，back stack栈中的Activity会被resume。Activity被销毁的时候，系统不会保存Activity的状态。
++ Activities can be instantiated multiple times, even from other tasks.一个Activity可以被实例化多次，即使是从其他的task中。
+
+ In order to avoid losing the user's work, you should proactively retain it by implementing the ``onSaveInstanceState()`` callback methods in your activity.为了不丢失用户的信息，应该主动在``onSaveInstanceState``中保留用户的信息。
+
+However, you might decide that you want to interrupt the normal behavior. Perhaps you want an activity in your application to begin a new task when it is started (instead of being placed within the current task); or, when you start an activity, you want to bring forward an existing instance of it (instead of creating a new instance on top of the back stack); or, you want your back stack to be cleared of all activities except for the root activity when the user leaves the task.You can do these things and more, with attributes in the ``<activity>`` manifest element and with flags in the intent that you pass to ``startActivity()``.如果需要更改Activity和Back Stack的默认交互方式，可以在manifest文件中的``activity``属性中设置，或者在传递给``startActivity``的Intent中设置flag。在manifest中，可以给``activity``设置的属性有``taskAffinity``，``launchMode``，``allowTaskReparenting``，``clearTaskOnLaunch``，``alwaysRetainTaskState``，``finishOnTaskLaunch``。在Intent中传递给``startActivity``的flag中可以设置的有``FLAG_ACTIVITY_NEW_TASK``，``FLAG_ACTIVITY_CLEAR_TOP``，``FLAG_ACTIVITY_SINGLE_TOP``。
+
+When declaring an activity in your manifest file, you can specify how the activity should associate with a task using the ``<activity>`` element's ``launchMode`` attribute.``launchMode``定义了Activity如何launch进入task，可以设置的属性有``standard``，``singleTop``，``singleTask``，``singleInstance``。
 
 #App Resources
 
