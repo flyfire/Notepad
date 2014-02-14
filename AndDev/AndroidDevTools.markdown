@@ -5,6 +5,21 @@ AndroidDevTools
 # Developer Tools
 
 # Workflow
+[Android Development Workflow](https://developer.android.com/images/developing/developing_overview.png)
+
++ ``android list targets``
++ ``android create avd -n <name> -t <targetID> [-<option> <value>] ... ``
++ ``android create avd -n <name> -t <targetID> --skin WVGA800`` ``emulator -avd WVGA800 -scale 96dpi -dpi-device 160`` ``android create avd -n my_android1.5 -t 2 -p path/to/my/avd``
++ ``android move avd -n <name> [-<option> <value>] ...`` moving an AVD
++ If, for any reason, the platform/add-on root folder has its name changed (maybe because the user has installed an update of the platform/add-on) then the AVD will not be able to load the system image that it is mapped to. In this case, the android list targets command will produce this output:
+
+>The following Android Virtual Devices could not be loaded:<br>
+>Name: foo<br>
+>Path: <path>/.android/avd/foo.avd<br>
+>Error: Invalid value in image.sysdir. Run 'android update avd -n foo'<br>
+
+To fix this error, use the ``android update avd`` command to recompute the path to the system images.
++ ``android delete avd -n <name> ``
 
 + By default, the emulator loads the SD card image that is stored with the active AVD (see the ``-avd`` startup option).Alternatively, you can start the emulator with the ``-sdcard`` flag and specify the name and path of your image (relative to the current working directory):``emulator -sdcard <filepath>``.emulator默认使用AVD中的SD卡，可以通过``-sdcard``选项来为emulator指定sd卡。
 + The emulator uses mountable disk images stored on your development machine to simulate flash (or similar) partitions on an actual device. For example, it uses a disk image containing an emulator-specific kernel, the Android system, a ramdisk image, and writeable images for user data and simulated SD card.To run properly, the emulator requires access to a specific set of disk image files. By default, the Emulator always looks for the disk images in the private storage area of the AVD in use. If no images exist there when the Emulator is launched, it creates the images in the AVD directory based on default versions stored in the SDK.emulator使用mountable disk images来模拟真实设备上的分区，为了能正常运行，emulator在启动时会查找那些disk images，如果在``~/.android/avd``中没有找到，就会在AVD所在文件夹依据SDK默认版本创建images。
