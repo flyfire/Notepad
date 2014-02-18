@@ -30,7 +30,18 @@ To fix this error, use the ``android update avd`` command to recompute the path 
     + If it does not find one, it creates an image by copying the system user-data image (``userdata.img``), described above. At device power-off, the system persists the user data to the image, so that it will be available in the next session. Note that the emulator stores the new disk image at the location/name that you specify in ``-data`` startup option.如果emulator在启动的时候没有找到user data image，就会使用默认的``userdata.img``来创建一个user data image，设备关机时，系统会保留用户信息到这个image。
   + Temporary Images,The emulator creates two writeable images at startup that it deletes at device power-off. The images are:A writable copy of the Android system image,The ``/cache`` partition image.The emulator does not permit renaming the temporary system image or persisting it at device power-off.The ``/cache`` partition image is initially empty, and is used by the browser to cache downloaded web pages and images. The emulator provides an ``-cache <file>``, which specifies the name of the file in which to persist the ``/cache`` image at device power-off. If ``<file>`` does not exist, the emulator creates it as an empty file.模拟器在启动时会创建2个可写的image，它会在设备关闭的时候把这2个设备删除掉：一个可写的Android系统镜像的拷贝，一个``/cache``分区用来保存浏览器缓存下来的网页和图像。模拟器提供了一个``-cache <file>``选项来保留``/cache``镜像。You can also disable the use of the cache partition by specifying the ``-nocache`` option at startup.也可以通过模拟器启动时的``-nocache``选项来禁止cache。
 + Emulator Networking
+Each instance of the emulator runs behind a virtual router/firewall service that isolates it from your development machine's network interfaces and settings and from the internet. An emulated device can not see your development machine or other emulator instances on the network. Instead, it sees only that it is connected through Ethernet to a router/firewall.每个模拟器都运行在一个虚拟的网络接口后面，彼此隔离，模拟器看不到开发宿主机，也看不到其他的模拟器。The virtual router for each instance manages the 10.0.2/24 network address space — all addresses managed by the router are in the form of 10.0.2.<xx>, where <xx> is a number. 每个虚拟忘了接口都会给每个虚拟机实例分配一个地址，``10.0.2/24``格式，Addresses within this space are pre-allocated by the emulator/router as follows:
 
+<table border="1">
+<tr><td>Network Address</td><td>Description</td></tr>
+<tr><td>10.0.2.1</td><td>Router/gateway address</td></tr>
+<tr><td>10.0.2.2</td><td>Special alias to your host loopback interface (i.e., 127.0.0.1 on your development machine)</td></tr>
+<tr><td>10.0.2.3</td><td>First DNS server</td></tr>
+<tr><td>10.0.2.4 / 10.0.2.5 / 10.0.2.6</td><td>Optional second, third and fourth DNS server (if any)</td></tr>
+<tr><td>10.0.2.15</td><td>The emulated device's own network/ethernet interface</td></tr>
+<tr><td>127.0.0.1</td><td>The emulated device's own loopback interface</td></tr>
+
+Note that the same address assignments are used by all running emulator instances. That means that if you have two instances running concurrently on your machine, each will have its own router and, behind that, each will have an IP address of 10.0.2.15. The instances are isolated by a router and can not see each other on the same network.Also note that the address 127.0.0.1 on your development machine corresponds to the emulator's own loopback interface. If you want to access services running on your development machine's loopback interface (a.k.a. 127.0.0.1 on your machine), you should use the special address ``10.0.2.2`` instead.
 
 
 # Support Library
