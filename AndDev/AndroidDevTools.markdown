@@ -41,7 +41,9 @@ Each instance of the emulator runs behind a virtual router/firewall service that
 <tr><td>10.0.2.15</td><td>The emulated device's own network/ethernet interface</td></tr>
 <tr><td>127.0.0.1</td><td>The emulated device's own loopback interface</td></tr>
 
-Note that the same address assignments are used by all running emulator instances. That means that if you have two instances running concurrently on your machine, each will have its own router and, behind that, each will have an IP address of 10.0.2.15. The instances are isolated by a router and can not see each other on the same network.Also note that the address 127.0.0.1 on your development machine corresponds to the emulator's own loopback interface. If you want to access services running on your development machine's loopback interface (a.k.a. 127.0.0.1 on your machine), you should use the special address ``10.0.2.2`` instead.
+Note that the same address assignments are used by all running emulator instances. That means that if you have two instances running concurrently on your machine, each will have its own router and, behind that, each will have an IP address of 10.0.2.15. The instances are isolated by a router and can not see each other on the same network.Also note that the address 127.0.0.1 on your development machine corresponds to the emulator's own loopback interface. If you want to access services running on your development machine's loopback interface (a.k.a. 127.0.0.1 on your machine), you should use the special address ``10.0.2.2`` instead.每个虚拟机实例都被隔离开来，虚拟机上的地址``10.0.2.2``指向宿主机上的``127.0.0.1``。
+
+To communicate with an emulator instance behind its virtual router, you need to set up network redirection on the virtual router. Clients can then connect to a specified guest port on the router, while the router directs traffic to/from that port to the emulated device's host port.如果要和emulator通信，需要通过virtual router建立连接来设置network redirection。
 
 
 # Support Library
