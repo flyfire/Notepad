@@ -279,3 +279,14 @@ new CursorLoader(getActivity(), baseUri,
         Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC");
 ```
 + 将``Activity``的``android:launchMode``设置为``singleTop``可以避免现有的不可见的Activity仍存在时创建新的Activity。
++ 判断某个应用是否响应某个Intent
+```java
+public static boolean isIntentAvailable(Context context, String action) {
+    final PackageManager packageManager = context.getPackageManager();
+    final Intent intent = new Intent(action);
+    List<ResolveInfo> list =
+            packageManager.queryIntentActivities(intent,
+                    PackageManager.MATCH_DEFAULT_ONLY);
+    return list.size() > 0;
+}
+```
