@@ -35,3 +35,5 @@ To use this class, simply create a single instance along with your service, and 
 + ``NetworkStatsHistory``:Collection of historical network statistics, recorded into equally-sized "buckets" in time. Internally it stores data in ``long`` series for more efficient persistence.Each bucket is defined by a ``bucketStart`` timestamp, and lasts for ``bucketDuration``. Internally assumes that ``bucketStart`` is sorted at all times.
 + ``NetworkPolicyEditor``:Utility class to modify list of ``NetworkPolicy``. Specifically knows about which policies can coexist. This editor offers thread safety when talking with ``NetworkPolicyManager``.
 + ``NetworkPolicy``:Policy for networks matching a ``NetworkTemplate``, including usage cycle and limits to be enforced.
++ ``NetworkStatsService``:Collect and persist detailed network statistics, and provide this data to other system services.
++ ``android.net.TrafficStats.UID_REMOVED``,``android.net.TrafficStats.UID_TETHERING``.
