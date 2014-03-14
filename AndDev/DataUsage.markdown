@@ -37,3 +37,4 @@ To use this class, simply create a single instance along with your service, and 
 + ``NetworkPolicy``:Policy for networks matching a ``NetworkTemplate``, including usage cycle and limits to be enforced.
 + ``NetworkStatsService``:Collect and persist detailed network statistics, and provide this data to other system services.
 + ``android.net.TrafficStats.UID_REMOVED``,``android.net.TrafficStats.UID_TETHERING``.
++ ``NetworkStats``:Collection of active network statistics. Can contain summary details across all interfaces, or details with per-UID granularity. Internally stores data as a large table, closely matching ``/proc/`` data format. This structure optimizes for rapid in-memory comparison, but consider using ``NetworkStatsHistory`` when persisting.所有活动网络分析的收集，包括了所有网络接口的总结细节，也可以从单个UID的粒度上来分析。在内部将这些分析数据作为一个大表存储，格式和``/proc``中的数据格式很接近，这种格式特地为内存内的比较进行了优化，持久化存储的时候可以考虑使用``NetworkStatsHistory``。
