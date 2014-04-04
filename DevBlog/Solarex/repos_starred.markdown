@@ -1,5 +1,6 @@
 repos_starred
 ==================
+# Java
 + https://github.com/elasticsearch/elasticsearch
 + https://github.com/zxing/zxing
 + https://github.com/WhisperSystems/TextSecure
@@ -19,3 +20,24 @@ repos_starred
 + https://github.com/JakeWharton/u2020
 + https://github.com/AndroidBootstrap/android-bootstrap
 + https://github.com/siacs/Conversations
++ https://github.com/Glamdring/EasyCamera
++ https://github.com/ribot/easy-adapter
++ https://github.com/wrapp/floatlabelededittext
++ https://github.com/Startappz/DobSliding
++ https://github.com/giltene/PauselessHashMap
++ https://github.com/google/jimfs
++ https://github.com/rampo/UpdateChecker
++ https://github.com/umano/AndroidSlidingUpPanel
++ https://github.com/beplaya/Wagon
++ https://github.com/ivan-vasilev/neuralnetworks
++ https://github.com/googlemaps/android-maps-utils
++ https://github.com/brettwooldridge/HikariCP
++ https://github.com/eclipse/vert.x
++ https://github.com/ManuelPeinado/FadingActionBar
+
+# Python
++ https://github.com/kennethreitz/requests
++ https://github.com/jcrocholl/pep8
++ https://github.com/miguelgrinberg/Flask-SocketIO
++ https://github.com/nicolargo/glances
++ https://github.com/facebook/tornado
