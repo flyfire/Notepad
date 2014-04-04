@@ -34,6 +34,7 @@ repos_starred
 + https://github.com/brettwooldridge/HikariCP
 + https://github.com/eclipse/vert.x
 + https://github.com/ManuelPeinado/FadingActionBar
++ https://code.google.com/p/iosched/
 
 # Python
 + https://github.com/kennethreitz/requests
