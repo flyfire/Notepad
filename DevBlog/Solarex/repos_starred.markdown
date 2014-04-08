@@ -37,6 +37,7 @@ repos_starred
 + https://code.google.com/p/iosched/
 + https://github.com/keesj/gomo/wiki/AndroidGdbDebugging
 + https://github.com/bradfitz/zippy-android-talk
++ https://code.google.com/p/lifesaver
 
 
 # Python
