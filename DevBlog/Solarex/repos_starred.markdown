@@ -35,6 +35,9 @@ repos_starred
 + https://github.com/eclipse/vert.x
 + https://github.com/ManuelPeinado/FadingActionBar
 + https://code.google.com/p/iosched/
++ https://github.com/keesj/gomo/wiki/AndroidGdbDebugging
++ https://github.com/bradfitz/zippy-android-talk
+
 
 # Python
 + https://github.com/kennethreitz/requests
@@ -43,3 +46,7 @@ repos_starred
 + https://github.com/nicolargo/glances
 + https://github.com/facebook/tornado
 + https://github.com/Introduction-to-Tornado/Introduction-to-Tornado
+
+
+# SVN stuff
++ ``svn checkout http://zippy-android.googlecode.com/svn/trunk/ zippy-android``
