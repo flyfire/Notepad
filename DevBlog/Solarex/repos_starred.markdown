@@ -38,6 +38,7 @@ repos_starred
 + https://github.com/keesj/gomo/wiki/AndroidGdbDebugging
 + https://github.com/bradfitz/zippy-android-talk
 + https://code.google.com/p/lifesaver
++ https://code.google.com/p/apps-for-android
 
 
 # Python
@@ -51,3 +52,6 @@ repos_starred
 
 # SVN stuff
 + ``svn checkout http://zippy-android.googlecode.com/svn/trunk/ zippy-android``
++ http://shelves.googlecode.com/svn/trunk
++ http://android-imagedownloader.googlecode.com/svn/trunk
++ http://wifi-config.googlecode.com/svn
