@@ -279,7 +279,7 @@ new CursorLoader(getActivity(), baseUri,
         Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC");
 ```
 + 将``Activity``的``android:launchMode``设置为``singleTop``可以避免现有的不可见的Activity仍存在时创建新的Activity。
-+ 判断某个应用是否响应某个Intent
++ 判断是否有应用响应某个Intent
 ```java
 public static boolean isIntentAvailable(Context context, String action) {
     final PackageManager packageManager = context.getPackageManager();
@@ -288,5 +288,110 @@ public static boolean isIntentAvailable(Context context, String action) {
             packageManager.queryIntentActivities(intent,
                     PackageManager.MATCH_DEFAULT_ONLY);
     return list.size() > 0;
+}
+```
++ BinarySerach
+```java
+public int findIndexHinted(String iface, int uid, int set, int tag, int hintIndex)
+{
+    for (int offset = 0; offset < size; offset++) {
+        final int halfOffset = offset / 2;
+
+        // search outwards from hint index, alternating forward and backward
+        final int i;
+        if (offset % 2 == 0) {
+            i = (hintIndex + halfOffset) % size;
+        } else {
+            i = (size + hintIndex - halfOffset - 1) % size;
+        }
+
+        if (uid == this.uid[i] && set == this.set[i] && tag == this.tag[i]
+            && Objects.equal(iface, this.iface[i])) {
+                return i;
+            }
+    }
+    return -1;
+}
+```
+```java
+public int getIndexBefore(long time) {
+    int index = Arrays.binarySearch(bucketStart, 0, bucketCount, time);
+    if (index < 0) {
+        index = (~index) - 1;
+    } else {
+        index -= 1;
+    }
+    return MathUtils.constrain(index, 0, bucketCount - 1);
+}
+```
+```java
+public int getIndexAfter(long time) {
+    int index = Arrays.binarySearch(bucketStart, 0, bucketCount, time);
+    if (index < 0) {
+        index = ~index;
+    } else {
+        index += 1;
+    }
+    return MathUtils.constrain(index, 0, bucketCount - 1);
+}
+```
+
++ 自动扩容
+```java
+/**
+ * Ensure that buckets exist for given time range, creating as needed.
+ */
+ private void ensureBuckets(long start, long end) {
+    // normalize incoming range to bucket boundaries
+    start -= start % bucketDuration;
+    end += (bucketDuration - (end % bucketDuration)) % bucketDuration;
+
+    for (long now = start; now < end; now += bucketDuration) {
+        // try finding existing bucket
+        final int index = Arrays.binarySearch(bucketStart, 0, bucketCount, now);
+        if (index < 0) {
+            // bucket missing, create and insert
+            insertBucket(~index, now);
+        }
+    }
+}
+/**
+ * Insert new bucket at requested index and starting time.
+ */
+ private void insertBucket(int index, long start) {
+    // create more buckets when needed
+    if (bucketCount >= bucketStart.length) {
+        final int newLength = Math.max(bucketStart.length, 10) * 3 / 2;
+        bucketStart = Arrays.copyOf(bucketStart, newLength);
+        if (activeTime != null) activeTime = Arrays.copyOf(activeTime, newLength);
+        if (rxBytes != null) rxBytes = Arrays.copyOf(rxBytes, newLength);
+        if (rxPackets != null) rxPackets = Arrays.copyOf(rxPackets, newLength);
+        if (txBytes != null) txBytes = Arrays.copyOf(txBytes, newLength);
+        if (txPackets != null) txPackets = Arrays.copyOf(txPackets, newLength);
+        if (operations != null) operations = Arrays.copyOf(operations, newLength);
+    }
+
+    // create gap when inserting bucket in middle
+    if (index < bucketCount) {
+        final int dstPos = index + 1;
+        final int length = bucketCount - index;
+
+        System.arraycopy(bucketStart, index, bucketStart, dstPos, length);
+        if (activeTime != null) System.arraycopy(activeTime, index, activeTime, dstPos, length);
+        if (rxBytes != null) System.arraycopy(rxBytes, index, rxBytes, dstPos, length);
+        if (rxPackets != null) System.arraycopy(rxPackets, index, rxPackets, dstPos, length);
+        if (txBytes != null) System.arraycopy(txBytes, index, txBytes, dstPos, length);
+        if (txPackets != null) System.arraycopy(txPackets, index, txPackets, dstPos, length);
+        if (operations != null) System.arraycopy(operations, index, operations, dstPos, length);
+    }
+
+    bucketStart[index] = start;
+    setLong(activeTime, index, 0L);
+    setLong(rxBytes, index, 0L);
+    setLong(rxPackets, index, 0L);
+    setLong(txBytes, index, 0L);
+    setLong(txPackets, index, 0L);
+    setLong(operations, index, 0L);
+    bucketCount++;
 }
 ```

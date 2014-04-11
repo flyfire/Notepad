@@ -40,9 +40,10 @@ To use this class, simply create a single instance along with your service, and 
 + ``NetworkStats``:Collection of active network statistics. Can contain summary details across all interfaces, or details with per-UID granularity. Internally stores data as a large table, closely matching ``/proc/`` data format. This structure optimizes for rapid in-memory comparison, but consider using ``NetworkStatsHistory`` when persisting.所有活动网络分析的收集，包括了所有网络接口的总结细节，也可以从单个UID的粒度上来分析。在内部将这些分析数据作为一个大表存储，格式和``/proc``中的数据格式很接近，这种格式特地为内存内的比较进行了优化，持久化存储的时候可以考虑使用``NetworkStatsHistory``。前台数据，后台数据
 
 =================================
-[NetworkStats](https://github.com/android/platform_frameworks_base/blob/master/core/java/android/net/NetworkStats.java)
-[NetworkStatsCollection](https://github.com/android/platform_frameworks_base/blob/master/services/java/com/android/server/net/NetworkStatsCollection.java)
-[NetworkTemplate](https://android.googlesource.com/platform/frameworks/base.git/+/android-4.3_r3/core/java/android/net/NetworkTemplate.java)
++ [NetworkStats](https://github.com/android/platform_frameworks_base/blob/master/core/java/android/net/NetworkStats.java)
++ [NetworkStatsCollection](https://github.com/android/platform_frameworks_base/blob/master/services/java/com/android/server/net/NetworkStatsCollection.java)
++ [NetworkTemplate](https://android.googlesource.com/platform/frameworks/base.git/+/android-4.3_r3/core/java/android/net/NetworkTemplate.java)
 public static NetworkTemplate buildTemplateMobile4g(String subscriberId) {
     return new NetworkTemplate(MATCH_MOBILE_4G, subscriberId, null);
 }
++ NetworkStatsFactory:Creates ``NetworkStats`` instances by parsing various ``/proc/`` files as needed.
