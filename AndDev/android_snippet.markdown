@@ -395,3 +395,23 @@ public int getIndexAfter(long time) {
     bucketCount++;
 }
 ```
++ 显示/隐藏密码输入
+```java
+EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance())
+EditText.setTransformationMethod(PasswordTransformationMethod.getInstance())
+```
++ 动态更改语系
+```java
+Resources res = getResources();
+Configuration conf = res.getConfiguration();
+conf.locale = Locale.JAPAN;
+DisplayMetrics dm = res.getDisplayMetrics();
+res.updateConfiguration(conf,dm);
+```
++ 判断程序targetSdkVersion
+```java
+if(getApplicationInfo.targetSdkVersion <= Build.VERSION_CODES.GINGERBREAD)
+{
+    //do sth
+}
+```
