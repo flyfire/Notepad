@@ -29,6 +29,8 @@ Android Development Tools
 		+ ``adb get-serialno``
 		+ ``adb get-state``
 		+ ``adb wait-for-device``
++ adb shell,Adb provides a Unix shell that you can use to run a variety of commands on an emulator or connected device. The command binaries are stored in the file system of the emulator or device, at ``/system/bin/``.
+
 
 + adb examples
 	+ ``adb pull /data/system/packages.xml``
