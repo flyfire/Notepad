@@ -29,7 +29,10 @@ Android Development Tools
 		+ ``adb get-serialno``
 		+ ``adb get-state``
 		+ ``adb wait-for-device``
++ Dump the stack trace,To obtain a stack dump from emulator, you can log in with ``adb shell``, use ``ps`` to find the process you want, and then ``kill -3``. The stack trace appears in the log file.
 + adb shell,Adb provides a Unix shell that you can use to run a variety of commands on an emulator or connected device. The command binaries are stored in the file system of the emulator or device, at ``/system/bin/``.
+  + am,Within an adb shell, you can issue commands with the activity manager (am) tool to perform various system actions, such as start an activity, force-stop a process, broadcast an intent, modify the device screen properties, and more. 
+    + 
 
 
 + adb examples
