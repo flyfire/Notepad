@@ -27,4 +27,58 @@ traffic. Values monotonically increase since device boot, and may include detail
 ![NetworkStatsHistory_]
 + ``public void recordData(long start, long end, NetworkStats.Entry entry)``,Record that data traffic occurred in the given time range. Will distribute across internal buckets, creating new buckets as needed.
 + ``public void recordHistory(NetworkStatsHistory input, long start, long end)``,Record given NetworkStatsHistory into this history, copying only buckets that atomically occur in the inclusive time range. Doesn't interpolate across partial buckets.
++ ``public void removeBucketsBefore(long cutoff)``,Remove buckets older than requested cutoff.
++ ``public void dump(IndentingPrintWriter pw, boolean fullHistory)``
 
+## NetworkPolicy
++ ``NetworkPolicy``,Policy for networks matching a ``NetworkTemplate``, including usage cycle and limits to be enforced.
+
+![NetworkPolicy](NetworkPolicy.png)
+
++ ``public boolean isOverLimit(long totalBytes)``,Test if given measurement is near enough to ``limitBytes`` to be considered over-limit.Over-estimate, since kernel will trigger limit once first packet trips over limit.
++ ``public void clearSnooze()``,Clear any existing snooze values, setting to ``SNOOZE_NEVER``.
+
+## NetworkTemplate
++ ``NetworkTemplate``,Template definition used to generically match ```NetworkIdentity``,usually when collecting statistics.
+
+![NetworkTemplate](NetworkTemplate_uml.png)
+![NetworkTemplate_config_data_usage_network_types](NetworkTemplate_config_data_usage_network_types.png)
+![NetworkTemplate_match_pattern](NetworkTemplate_match_pattern.png)
+
+[internal_config](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/res/res/values/config.xml)
+
++ ``com.android.internal.R``和``android.R``有什么区别,``com.``开头的包都是隐藏的，运行环境会有，但是开发环境你找不到的，就是系统会用它，但是不能显示的告诉你去用.``android.R`` 这个就是你对应开发环境中的，让你用的。``android.R``位置：SDK开发包对应的平台下/data/res/，``com.``位置：源码framework/core/java/com/android/internal/下面。com开头的要调用，你在项目中建立一个com.android.internal的包，把那个文件拷进去，android开头的直接调用。这样理解2者的不同吧，前者com开头的，就是系统故意隐藏的一些包，这些包，设计到安全的问题，没有开放api给我们，但是其实是可以用的，当然你编译通不过，所以你让编译通过，所以你把那个文件拷进去，它调用的时候自然会用的
+
++ ``public static NetworkTemplate buildTemplateMobileAll(String subscriberId)``,Template to match ``ConnectivityManager#TYPE_MOBILE`` networks with the given IMSI.
++ ``public boolean matches(NetworkIdentity ident)``,Test if given ``NetworkIdentity`` matches this template.
+
+![NetworkTemplate_match_NetworkIdentity](NetworkTemplate_match_NetworkIdentity.png)
+
++ ``private boolean matchesMobile(NetworkIdentity ident)``,Check if mobile network with matching IMSI.
++ ``private boolean matchesMobile3gLower(NetworkIdentity ident)``,Check if mobile network classified 3G or lower with matching IMSI.
++ ``private boolean matchesMobile4g(NetworkIdentity ident)``,Check if mobile network classified 4G with matching IMSI.
++ ``private boolean matchesWifi(NetworkIdentity ident)``,Check if matches Wi-Fi network template.
++ ``private boolean matchesEthernet(NetworkIdentity ident)``,Check if matches Ethernet network template.
++ ``private boolean matchesMobileWildcard(NetworkIdentity ident)``
++ ``private boolean matchesWifiWildcard(NetworkIdentity ident)``
++ ``private static String getMatchRuleName(int matchRule)``
+
+
+## NetworkIdentity
++ ``NetworkIdentity``,Network definition that includes strong identity. Analogous to combining ``NetworkInfo`` and an IMSI.
+
+![NetworkIdentity](NetworkIdentity_uml.png)
+
++ ``public static NetworkIdentity buildNetworkIdentity(Context context, NetworkState state)``,Build a ``NetworkIdentity`` from the given ``NetworkState``,assuming that any mobile networks are using the current IMSI.
+
+## ConnectivityManager
++ ``ConnectivityManager``,Class that answers queries about the state of network connectivity. It also notifies applications when network connectivity changes. Get an instance of this class by calling ``android.content.Context#getSystemService(String) Context.getSystemService(Context.CONNECTIVITY_SERVICE)``.The primary responsibilities of this class are to:Monitor network connections (Wi-Fi, GPRS, UMTS, etc.),Send broadcast intents when network connectivity changes,Attempt to "fail over" to another network when connectivity to a network is lost,Provide an API that allows applications to query the coarse-grained or fine-grained state of the available networks.
+
+![ConnectivityManager](ConnectivityManager_uml.png)
+![networktype](ConnectivityManager_intent_extra_and_network_type.png)
+![getNetworkType](ConnectivityManager_getNetworkTypeName.png)
+
+## NetworkInfo
++ ``NetworkInfo``,Describes the status of a network interface.Use ``ConnectivityManager#getActiveNetworkInfo()`` to get an instance that represents the current network connection.
+
+![detailedstate](NetworkInfo_DetailedState.png)
