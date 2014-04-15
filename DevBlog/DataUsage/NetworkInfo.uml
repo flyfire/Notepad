@@ -46,8 +46,8 @@
 <XPD:ATTR name="FontSize" type="integer">12</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">280</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">104</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">454</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">330</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">502</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">380</XPD:ATTR>
 <XPD:REF name="Model">yj5/K01s80yReCSYEPz0IgAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="9qtvD2K0vkCBv7YTwt/2sgAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="5xi2EnA0Vkq/Lk2BGYdyTQAA">
@@ -83,6 +83,15 @@
 <XPD:REF name="Views[1]">toqMfsSvHEWiy98z11iQwQAA</XPD:REF>
 <XPD:REF name="Views[2]">Ork8fYnJ4EKWdIjEH1r3wgAA</XPD:REF>
 <XPD:REF name="Views[3]">HGfMVpx6d0qvdt3oYvu4LgAA</XPD:REF>
+<XPD:ATTR name="#Operations" type="integer">2</XPD:ATTR>
+<XPD:OBJ name="Operations[0]" type="UMLOperation" guid="lzgPG/9y/0Cfg6nxPZF4AAAA">
+<XPD:ATTR name="Name" type="string">public boolean isConnectedOrConnecting</XPD:ATTR>
+<XPD:REF name="Owner">yj5/K01s80yReCSYEPz0IgAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[1]" type="UMLOperation" guid="X2UQcnPFukW/PyyjXeZtUAAA">
+<XPD:ATTR name="Name" type="string">public boolean isConnected</XPD:ATTR>
+<XPD:REF name="Owner">yj5/K01s80yReCSYEPz0IgAA</XPD:REF>
+</XPD:OBJ>
 <XPD:ATTR name="#Attributes" type="integer">11</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="CDamx2J+P0WxtX36wW98LwAA">
 <XPD:ATTR name="Name" type="string">private int mNetworkType</XPD:ATTR>

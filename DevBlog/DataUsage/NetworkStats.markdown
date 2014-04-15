@@ -82,3 +82,4 @@ traffic. Values monotonically increase since device boot, and may include detail
 + ``NetworkInfo``,Describes the status of a network interface.Use ``ConnectivityManager#getActiveNetworkInfo()`` to get an instance that represents the current network connection.
 
 ![detailedstate](NetworkInfo_DetailedState.png)
+![state](NetworkInfo_state.png)
