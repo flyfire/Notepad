@@ -46,8 +46,8 @@
 <XPD:ATTR name="FontSize" type="integer">12</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">280</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">104</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">502</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">380</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">622</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">455</XPD:ATTR>
 <XPD:REF name="Model">yj5/K01s80yReCSYEPz0IgAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="9qtvD2K0vkCBv7YTwt/2sgAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="5xi2EnA0Vkq/Lk2BGYdyTQAA">
@@ -83,13 +83,25 @@
 <XPD:REF name="Views[1]">toqMfsSvHEWiy98z11iQwQAA</XPD:REF>
 <XPD:REF name="Views[2]">Ork8fYnJ4EKWdIjEH1r3wgAA</XPD:REF>
 <XPD:REF name="Views[3]">HGfMVpx6d0qvdt3oYvu4LgAA</XPD:REF>
-<XPD:ATTR name="#Operations" type="integer">2</XPD:ATTR>
+<XPD:ATTR name="#Operations" type="integer">5</XPD:ATTR>
 <XPD:OBJ name="Operations[0]" type="UMLOperation" guid="lzgPG/9y/0Cfg6nxPZF4AAAA">
 <XPD:ATTR name="Name" type="string">public boolean isConnectedOrConnecting</XPD:ATTR>
 <XPD:REF name="Owner">yj5/K01s80yReCSYEPz0IgAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Operations[1]" type="UMLOperation" guid="X2UQcnPFukW/PyyjXeZtUAAA">
 <XPD:ATTR name="Name" type="string">public boolean isConnected</XPD:ATTR>
+<XPD:REF name="Owner">yj5/K01s80yReCSYEPz0IgAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[2]" type="UMLOperation" guid="kA3VHnNt/k2CKhaPzsHLFgAA">
+<XPD:ATTR name="Name" type="string">public State getState</XPD:ATTR>
+<XPD:REF name="Owner">yj5/K01s80yReCSYEPz0IgAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[3]" type="UMLOperation" guid="fydILvt1JUa75g8Z5UuY6wAA">
+<XPD:ATTR name="Name" type="string">public DetailedState getDetailedState</XPD:ATTR>
+<XPD:REF name="Owner">yj5/K01s80yReCSYEPz0IgAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[4]" type="UMLOperation" guid="ajOpNKmnY0GbSOKlt8jm1wAA">
+<XPD:ATTR name="Name" type="string">public static final Creator&lt;NetworkInfo&gt; CREATOR</XPD:ATTR>
 <XPD:REF name="Owner">yj5/K01s80yReCSYEPz0IgAA</XPD:REF>
 </XPD:OBJ>
 <XPD:ATTR name="#Attributes" type="integer">11</XPD:ATTR>

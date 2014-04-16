@@ -81,5 +81,18 @@ traffic. Values monotonically increase since device boot, and may include detail
 ## NetworkInfo
 + ``NetworkInfo``,Describes the status of a network interface.Use ``ConnectivityManager#getActiveNetworkInfo()`` to get an instance that represents the current network connection.
 
+![NetworkInfo](NetworkInfo_uml.png)
 ![detailedstate](NetworkInfo_DetailedState.png)
 ![state](NetworkInfo_state.png)
+
+##NetworkState
++ ``NetworkState``,Snapshot of network state.
+
+![NetworkState](NetworkState_uml.png)
+
+##TelephonyManager
++ ``TelephonyManager``,Provides access to information about the telephony services on the device. Applications can use the methods in this class to
+ determine telephony services and states, as well as to access some types of subscriber information. Applications can also register a listener to receive notification of telephony state changes.You do not instantiate this class directly; instead, you retrieve a reference to an instance through ``android.content.Context#getSystemService``,``Context.getSystemService(Context.TELEPHONY_SERVICE)``.
+
+![getNeworkClass](NetworkTelephonyManager_getNetworkClass.png)
+![TelephonyManager](TelephonyManager_uml.png)
