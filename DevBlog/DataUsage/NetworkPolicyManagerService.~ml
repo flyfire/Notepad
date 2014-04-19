@@ -46,8 +46,8 @@
 <XPD:ATTR name="FontSize" type="integer">14</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">228</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">60</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">696</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">365</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">1004</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">494</XPD:ATTR>
 <XPD:REF name="Model">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="TVpw6xV//EyoLxJDe0cL1QAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="wvNComzJN0uR/RFdLLDrRAAA">
@@ -83,6 +83,74 @@
 <XPD:REF name="Views[1]">ZGaqB4X7nUSBSFes0TBkOgAA</XPD:REF>
 <XPD:REF name="Views[2]">jxbmSD68WEu2la6WrMZbWgAA</XPD:REF>
 <XPD:REF name="Views[3]">0oGQcWv9zEKDZPNRbPEeMQAA</XPD:REF>
+<XPD:ATTR name="#Operations" type="integer">12</XPD:ATTR>
+<XPD:OBJ name="Operations[0]" type="UMLOperation" guid="PfHGpMaEd0eCsMhdGzIQMAAA">
+<XPD:ATTR name="Name" type="string">public void bindConnectivityManager</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+<XPD:ATTR name="#Parameters" type="integer">1</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="Qwk33HvQbU+EKld44/YePwAA">
+<XPD:ATTR name="Name" type="string">IConnectivityManager connManager</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">PfHGpMaEd0eCsMhdGzIQMAAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[1]" type="UMLOperation" guid="W8z1Lt8bn0yXdDHYHzBImwAA">
+<XPD:ATTR name="Name" type="string">public void bindNotificationManager</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+<XPD:ATTR name="#Parameters" type="integer">1</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="pHHol2EpwUmbRf8M2ULN/QAA">
+<XPD:ATTR name="Name" type="string">INotificationManager notifManager</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">W8z1Lt8bn0yXdDHYHzBImwAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[2]" type="UMLOperation" guid="9P7u9RUosUqhiv5y6AwILAAA">
+<XPD:ATTR name="Name" type="string">public void systemReady</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[3]" type="UMLOperation" guid="3HQk4BN/wEimmK3zc8JA5AAA">
+<XPD:ATTR name="Name" type="string">private IProcessObserver mProcessObserver</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[4]" type="UMLOperation" guid="0JWXZTLg8UicuLEYQ7Bu/gAA">
+<XPD:ATTR name="Name" type="string">private BroadcastReceiver mScreenReceiver</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[5]" type="UMLOperation" guid="U3AbfgaovECBRMDLsF9AVAAA">
+<XPD:ATTR name="Name" type="string">private BroadcastReceiver mPackageReceiver</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[6]" type="UMLOperation" guid="9886xm70C0awPsr0ySI++AAA">
+<XPD:ATTR name="Name" type="string">private BroadcastReceiver mUidRemovedReceiver</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[7]" type="UMLOperation" guid="FQ0EhiRXhUuRoqtzaVUdowAA">
+<XPD:ATTR name="Name" type="string">private BroadcastReceiver mUserReceiver</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[8]" type="UMLOperation" guid="Qpab0t8jh0W5uOp3AlkQLQAA">
+<XPD:ATTR name="Name" type="string">private BroadcastReceiver mStatsReceiver</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[9]" type="UMLOperation" guid="V3tzTYGWEEmqwp7rpL7wBwAA">
+<XPD:ATTR name="Name" type="string">private BroadcastReceiver mAllowReceiver</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[10]" type="UMLOperation" guid="UenCEg2PCkSDNpBJSiizbwAA">
+<XPD:ATTR name="Name" type="string">private boolean isBandwidthControlEnabled</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[11]" type="UMLOperation" guid="AIKsNv9y4EuyDrXj8/6kVgAA">
+<XPD:ATTR name="Name" type="string">private void readPolicyLocked</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">MsdPGHRBpUyJaRy8BprcZQAA</XPD:REF>
+</XPD:OBJ>
 <XPD:ATTR name="#Attributes" type="integer">3</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="ZciXyLDC+0ybrRFxoHpCGQAA">
 <XPD:ATTR name="Name" type="string">public static final int TYPE_WARNING</XPD:ATTR>

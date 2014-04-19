@@ -101,9 +101,15 @@ traffic. Values monotonically increase since device boot, and may include detail
 ## NetworkPolicyManagerService
 + ``NetworkPolicyManagerService``,Service that maintains low-level network policy rules, using ``NetworkStatsService`` statistics to drive those rules. Derives active rules by combining a given policy with other system status,and delivers to listeners, such as ``ConnectivityManager``, for enforcement.
 
-
 ![NetworkPolicyManagerService_tag](NetworkPolicyManagerService_tag.png)
 ![NetworkPolicyManagerService_attr](NetworkPolicyManagerService_attr.png)
 ![NetworkPolicyManagerService_action](NetworkPolicyManagerService_action.png)
 ![NetworkPolicyManagerService_msg](NetworkPolicyManagerService_msg.png)
 ![NetworkPolicyManagerService_sets](NetworkPolicyManagerService_sets.png)
+![NetworkPolicyManagerSerive_uml](NetworkPolicyManagerSerive_uml.png)
+
++ ``private void enqueueNotification(NetworkPolicy policy, int type, long totalBytes)``,Show notification for combined ``NetworkPolicy`` and specific type,TYPE_LIMIT. Okay to call multiple times.
++ ``private void enqueueRestrictedNotification(String tag)``,Show ongoing notification to reflect that mRestrictBackground has been enabled.
+
+## NetworkStatsService
++ ``NetworkStatsService``,Collect and persist detailed network statistics, and provide this data to other system services.
