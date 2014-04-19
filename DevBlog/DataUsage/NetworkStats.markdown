@@ -96,3 +96,14 @@ traffic. Values monotonically increase since device boot, and may include detail
 
 ![getNeworkClass](NetworkTelephonyManager_getNetworkClass.png)
 ![TelephonyManager](TelephonyManager_uml.png)
+
+
+## NetworkPolicyManagerService
++ ``NetworkPolicyManagerService``,Service that maintains low-level network policy rules, using ``NetworkStatsService`` statistics to drive those rules. Derives active rules by combining a given policy with other system status,and delivers to listeners, such as ``ConnectivityManager``, for enforcement.
+
+
+![NetworkPolicyManagerService_tag](NetworkPolicyManagerService_tag.png)
+![NetworkPolicyManagerService_attr](NetworkPolicyManagerService_attr.png)
+![NetworkPolicyManagerService_action](NetworkPolicyManagerService_action.png)
+![NetworkPolicyManagerService_msg](NetworkPolicyManagerService_msg.png)
+![NetworkPolicyManagerService_sets](NetworkPolicyManagerService_sets.png)
