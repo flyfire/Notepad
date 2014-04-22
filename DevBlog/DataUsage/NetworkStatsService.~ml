@@ -61,8 +61,8 @@
 <XPD:ATTR name="FontSize" type="integer">12</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">304</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">128</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">1018</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">330</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">592</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">188</XPD:ATTR>
 <XPD:REF name="Model">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="9p2Jl8ePf0OQVyQ0btM+4AAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="P6rRQK4OoE2clLHTimQ2AwAA">
@@ -98,73 +98,6 @@
 <XPD:REF name="Views[1]">DQcNvejxWUGO5lNESF0v3QAA</XPD:REF>
 <XPD:REF name="Views[2]">64D3p/OFAUK3igz9DD9UvwAA</XPD:REF>
 <XPD:REF name="Views[3]">qTCi9ELb1U+e1AldSTJgQAAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">11</XPD:ATTR>
-<XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="E+qixs32wUyzg3LNWTp4IQAA">
-<XPD:ATTR name="Name" type="string">private static final int MSG_PERFORM_POLL</XPD:ATTR>
-<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
-<XPD:ATTR name="InitialValue" type="string">1</XPD:ATTR>
-<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[1]" type="UMLAttribute" guid="X8ahJpltp0qSXc1mZaTbbgAA">
-<XPD:ATTR name="Name" type="string">private static final int MSG_UPDATE_IFACES</XPD:ATTR>
-<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
-<XPD:ATTR name="InitialValue" type="string">2</XPD:ATTR>
-<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[2]" type="UMLAttribute" guid="9QWDDagVQkWDyn17q2/EpQAA">
-<XPD:ATTR name="Name" type="string">private static final int MSG_REGISTER_GLOBAL_ALERT</XPD:ATTR>
-<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
-<XPD:ATTR name="InitialValue" type="string">3</XPD:ATTR>
-<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[3]" type="UMLAttribute" guid="TSqYUJ56hU2Qk50+yYe+lgAA">
-<XPD:ATTR name="Name" type="string">private static final int FLAG_PERSIST_NETWORK</XPD:ATTR>
-<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
-<XPD:ATTR name="InitialValue" type="string">0x1</XPD:ATTR>
-<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[4]" type="UMLAttribute" guid="sBRVmRbnCEe5xVxfBoNKIQAA">
-<XPD:ATTR name="Name" type="string">private static final int FLAG_PERSIST_UID</XPD:ATTR>
-<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
-<XPD:ATTR name="InitialValue" type="string">0x2</XPD:ATTR>
-<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[5]" type="UMLAttribute" guid="nwJwrXTR70qY4hYBCV1kgwAA">
-<XPD:ATTR name="Name" type="string">private static final int FLAG_PERSIST_ALL</XPD:ATTR>
-<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
-<XPD:ATTR name="InitialValue" type="string">FLAG_PERSIST_NETWORK | FLAG_PERSIST_UID</XPD:ATTR>
-<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[6]" type="UMLAttribute" guid="bM88a3Wd10KWr03NenIEFQAA">
-<XPD:ATTR name="Name" type="string">private static final int FLAG_PERSIST_FORCE</XPD:ATTR>
-<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
-<XPD:ATTR name="InitialValue" type="string">0x100</XPD:ATTR>
-<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[7]" type="UMLAttribute" guid="6Qmuj3e1IUuXEdGumtckzwAA">
-<XPD:ATTR name="Name" type="string">private static final String PREFIX_DEV</XPD:ATTR>
-<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
-<XPD:ATTR name="InitialValue" type="string">&quot;dev&quot;</XPD:ATTR>
-<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[8]" type="UMLAttribute" guid="odcHQ/WDuU6j6N1zMXqC0gAA">
-<XPD:ATTR name="Name" type="string">private static final String PREFIX_XT</XPD:ATTR>
-<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
-<XPD:ATTR name="InitialValue" type="string">&quot;xt&quot;</XPD:ATTR>
-<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[9]" type="UMLAttribute" guid="jCogVIvtYEaHJyhXb4t/UgAA">
-<XPD:ATTR name="Name" type="string">private static final String PREFIX_UID</XPD:ATTR>
-<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
-<XPD:ATTR name="InitialValue" type="string">&quot;uid&quot;</XPD:ATTR>
-<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[10]" type="UMLAttribute" guid="qXf17P4EJEmT1zq64Wmx3AAA">
-<XPD:ATTR name="Name" type="string">private static final String PREFIX_UID_TAG</XPD:ATTR>
-<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
-<XPD:ATTR name="InitialValue" type="string">&quot;uid_tag&quot;</XPD:ATTR>
-<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
-</XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[3]" type="UMLModel" guid="bC62dnGrcUO7GgkOlB+2IQAA">
