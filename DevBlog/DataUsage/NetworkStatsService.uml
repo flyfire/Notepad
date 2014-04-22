@@ -62,7 +62,7 @@
 <XPD:ATTR name="Left" type="integer">304</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">128</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">1018</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">330</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">355</XPD:ATTR>
 <XPD:REF name="Model">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="9p2Jl8ePf0OQVyQ0btM+4AAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="P6rRQK4OoE2clLHTimQ2AwAA">
@@ -98,7 +98,7 @@
 <XPD:REF name="Views[1]">DQcNvejxWUGO5lNESF0v3QAA</XPD:REF>
 <XPD:REF name="Views[2]">64D3p/OFAUK3igz9DD9UvwAA</XPD:REF>
 <XPD:REF name="Views[3]">qTCi9ELb1U+e1AldSTJgQAAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">11</XPD:ATTR>
+<XPD:ATTR name="#Attributes" type="integer">12</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="E+qixs32wUyzg3LNWTp4IQAA">
 <XPD:ATTR name="Name" type="string">private static final int MSG_PERFORM_POLL</XPD:ATTR>
 <XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
@@ -163,6 +163,12 @@
 <XPD:ATTR name="Name" type="string">private static final String PREFIX_UID_TAG</XPD:ATTR>
 <XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
 <XPD:ATTR name="InitialValue" type="string">&quot;uid_tag&quot;</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[11]" type="UMLAttribute" guid="x7AKYUMTa02l0LNTW4Tw/QAA">
+<XPD:ATTR name="Name" type="string">private HashMap&lt;String, NetworkIdentitySet&gt; mActiveIfaces</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:ATTR name="InitialValue" type="string">Maps.newHashMap()</XPD:ATTR>
 <XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
