@@ -396,6 +396,12 @@ Once the activity reaches the resumed state, you can freely add and remove fragm
 
 为什么要用Loader？用AsyncTask来进行后台处理不是挺好的吗？
 
+```
+The AsyncTask does not handle configuration changes automatically, i.e. if the activity is recreated, the programmer has to handle that in his coding.
+
+A common solution to this is to declare the AsyncTask in a retained headless fragment.
+```
+
 [android-loaders-the-way-to-go](https://stackoverflow.com/questions/10422697/android-loaders-the-way-to-go),[can-honeycomb-loaders-solve-problems-with-asynctask-ui-update](https://stackoverflow.com/questions/5097565/can-honeycomb-loaders-solve-problems-with-asynctask-ui-update),[an-introduction-to-loaders-in-android](http://amsanjeev.wordpress.com/2011/09/23/an-introduction-to-loaders-in-android/)
 
 One problem your code has which loaders aim to fix is what happens if your activity is restarted (say due to device rotation or config change) while your async task is still in progress? in your case your restarted activity will start a 2nd instance of the task and throw away the results from the first one. When the first one completes you can end up with crashes due to the fact your async task has a reference is what is now a finished activity.And yes using loaders often makes for more/more complex code, particularly if you can't use one of the provided loaders.使用AsyncTask时，如果遇到AsyncTask引用的那个Activity被销毁(比如后台数据在处理，而屏幕旋转了，或用户按下了back等等)，会导致AsyncTask持有一个已经finish的Acitivy的引用，也就更新不了Acitivy的UI了。
