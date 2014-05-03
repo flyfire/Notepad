@@ -39,6 +39,8 @@ repos_starred
 + https://github.com/bradfitz/zippy-android-talk
 + https://code.google.com/p/lifesaver
 + https://code.google.com/p/apps-for-android
++ https://github.com/roman10/roman10-android-tutorial.git
+
 
 
 # Python
@@ -55,3 +57,6 @@ repos_starred
 + http://shelves.googlecode.com/svn/trunk
 + http://android-imagedownloader.googlecode.com/svn/trunk
 + http://wifi-config.googlecode.com/svn
++ http://collimator.googlecode.com/svn/trunk
++ http://androidbmi.googlecode.com/svn
++ http://sundyandroid.googlecode.com/svn/trunk/sundyandroid

@@ -1,0 +1,118 @@
+2014-05-03 17:52:08
+Full thread dump Java HotSpot(TM) 64-Bit Server VM (20.1-b02 mixed mode):
+
+"Attach Listener" daemon prio=10 tid=0x000000004180d000 nid=0x1777 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"DestroyJavaVM" prio=10 tid=0x00007fbd7c025800 nid=0x1470 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"t3" prio=10 tid=0x00007fbd7c023800 nid=0x1485 waiting for monitor entry [0x00007fbd7b8f7000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at org.solarex.threadtest.SyncThread.run(DeadLock0.java:41)
+	- waiting to lock <0x00000007583950c0> (a java.lang.Object)
+	- locked <0x00000007583950e0> (a java.lang.Object)
+	at java.lang.Thread.run(Thread.java:662)
+
+"t2" prio=10 tid=0x00007fbd7c021800 nid=0x1484 waiting for monitor entry [0x00007fbd7b9f8000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at org.solarex.threadtest.SyncThread.run(DeadLock0.java:41)
+	- waiting to lock <0x00000007583950e0> (a java.lang.Object)
+	- locked <0x00000007583950d0> (a java.lang.Object)
+	at java.lang.Thread.run(Thread.java:662)
+
+"t1" prio=10 tid=0x00007fbd7c020000 nid=0x1483 waiting for monitor entry [0x00007fbd7baf9000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at org.solarex.threadtest.SyncThread.run(DeadLock0.java:41)
+	- waiting to lock <0x00000007583950d0> (a java.lang.Object)
+	- locked <0x00000007583950c0> (a java.lang.Object)
+	at java.lang.Thread.run(Thread.java:662)
+
+"Low Memory Detector" daemon prio=10 tid=0x00007fbd7c006800 nid=0x1481 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread1" daemon prio=10 tid=0x00007fbd7c004000 nid=0x1480 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" daemon prio=10 tid=0x00007fbd7c001000 nid=0x147f waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Signal Dispatcher" daemon prio=10 tid=0x00000000418a2000 nid=0x147e runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Finalizer" daemon prio=10 tid=0x000000004187f800 nid=0x147d in Object.wait() [0x00007fbd801ec000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x0000000758361300> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:118)
+	- locked <0x0000000758361300> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:134)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:159)
+
+"Reference Handler" daemon prio=10 tid=0x000000004187d800 nid=0x147c in Object.wait() [0x00007fbd802ed000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x00000007583611d8> (a java.lang.ref.Reference$Lock)
+	at java.lang.Object.wait(Object.java:485)
+	at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:116)
+	- locked <0x00000007583611d8> (a java.lang.ref.Reference$Lock)
+
+"VM Thread" prio=10 tid=0x0000000041877000 nid=0x147b runnable 
+
+"GC task thread#0 (ParallelGC)" prio=10 tid=0x0000000041820800 nid=0x1471 runnable 
+
+"GC task thread#1 (ParallelGC)" prio=10 tid=0x0000000041822000 nid=0x1472 runnable 
+
+"GC task thread#2 (ParallelGC)" prio=10 tid=0x0000000041824000 nid=0x1473 runnable 
+
+"GC task thread#3 (ParallelGC)" prio=10 tid=0x0000000041826000 nid=0x1474 runnable 
+
+"GC task thread#4 (ParallelGC)" prio=10 tid=0x0000000041827800 nid=0x1475 runnable 
+
+"GC task thread#5 (ParallelGC)" prio=10 tid=0x0000000041829800 nid=0x1476 runnable 
+
+"GC task thread#6 (ParallelGC)" prio=10 tid=0x000000004182b800 nid=0x1477 runnable 
+
+"GC task thread#7 (ParallelGC)" prio=10 tid=0x000000004182d000 nid=0x1478 runnable 
+
+"GC task thread#8 (ParallelGC)" prio=10 tid=0x000000004182f000 nid=0x1479 runnable 
+
+"GC task thread#9 (ParallelGC)" prio=10 tid=0x0000000041831000 nid=0x147a runnable 
+
+"VM Periodic Task Thread" prio=10 tid=0x00007fbd7c011800 nid=0x1482 waiting on condition 
+
+JNI global references: 882
+
+
+Found one Java-level deadlock:
+=============================
+"t3":
+  waiting to lock monitor 0x00000000418a8398 (object 0x00000007583950c0, a java.lang.Object),
+  which is held by "t1"
+"t1":
+  waiting to lock monitor 0x00000000418855d0 (object 0x00000007583950d0, a java.lang.Object),
+  which is held by "t2"
+"t2":
+  waiting to lock monitor 0x0000000041886980 (object 0x00000007583950e0, a java.lang.Object),
+  which is held by "t3"
+
+Java stack information for the threads listed above:
+===================================================
+"t3":
+	at org.solarex.threadtest.SyncThread.run(DeadLock0.java:41)
+	- waiting to lock <0x00000007583950c0> (a java.lang.Object)
+	- locked <0x00000007583950e0> (a java.lang.Object)
+	at java.lang.Thread.run(Thread.java:662)
+"t1":
+	at org.solarex.threadtest.SyncThread.run(DeadLock0.java:41)
+	- waiting to lock <0x00000007583950d0> (a java.lang.Object)
+	- locked <0x00000007583950c0> (a java.lang.Object)
+	at java.lang.Thread.run(Thread.java:662)
+"t2":
+	at org.solarex.threadtest.SyncThread.run(DeadLock0.java:41)
+	- waiting to lock <0x00000007583950e0> (a java.lang.Object)
+	- locked <0x00000007583950d0> (a java.lang.Object)
+	at java.lang.Thread.run(Thread.java:662)
+
+Found 1 deadlock.
+
