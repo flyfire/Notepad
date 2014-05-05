@@ -1,4 +1,4 @@
-00_Introduction.md
+00_Introduction
 ============================
 #App Fundamentals
 
