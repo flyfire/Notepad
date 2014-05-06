@@ -61,8 +61,8 @@
 <XPD:ATTR name="FontSize" type="integer">12</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">304</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">128</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">1018</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">355</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">1318</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">930</XPD:ATTR>
 <XPD:REF name="Model">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="9p2Jl8ePf0OQVyQ0btM+4AAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="P6rRQK4OoE2clLHTimQ2AwAA">
@@ -98,7 +98,38 @@
 <XPD:REF name="Views[1]">DQcNvejxWUGO5lNESF0v3QAA</XPD:REF>
 <XPD:REF name="Views[2]">64D3p/OFAUK3igz9DD9UvwAA</XPD:REF>
 <XPD:REF name="Views[3]">qTCi9ELb1U+e1AldSTJgQAAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">12</XPD:ATTR>
+<XPD:ATTR name="#Operations" type="integer">6</XPD:ATTR>
+<XPD:OBJ name="Operations[0]" type="UMLOperation" guid="PQZJgRSHDUSupCoNZa48DgAA">
+<XPD:ATTR name="Name" type="string">private boolean isBandwidthControlEnabled</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[1]" type="UMLOperation" guid="IGmgElCMi0azBkEz0eVmGAAA">
+<XPD:ATTR name="Name" type="string">private NetworkStatsRecorder buildRecorder</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[2]" type="UMLOperation" guid="MK4LP+ijLEeBAsjWIS5j0QAA">
+<XPD:ATTR name="Name" type="string">private void updatePersistThresholds</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[3]" type="UMLOperation" guid="frnngHJW5UClGLwm0qh2zgAA">
+<XPD:ATTR name="Name" type="string">private void maybeUpgradeLegacyStatsLocked</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[4]" type="UMLOperation" guid="HzPhpiOcxEm/kRftmtrzJAAA">
+<XPD:ATTR name="Name" type="string">private void bootstrapStatsLocked</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[5]" type="UMLOperation" guid="r5XqkW22wkW1bWMaHx8+wgAA">
+<XPD:ATTR name="Name" type="string">private void registerPollAlarmLocked</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:ATTR name="#Attributes" type="integer">29</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="E+qixs32wUyzg3LNWTp4IQAA">
 <XPD:ATTR name="Name" type="string">private static final int MSG_PERFORM_POLL</XPD:ATTR>
 <XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
@@ -169,6 +200,96 @@
 <XPD:ATTR name="Name" type="string">private HashMap&lt;String, NetworkIdentitySet&gt; mActiveIfaces</XPD:ATTR>
 <XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
 <XPD:ATTR name="InitialValue" type="string">Maps.newHashMap()</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[12]" type="UMLAttribute" guid="wcgkC7hQ7EaGGMMi+BaQdgAA">
+<XPD:ATTR name="Name" type="string">public static final String ACTION_NETWORK_STATS_POLL</XPD:ATTR>
+<XPD:ATTR name="InitialValue" type="string">&quot;com.android.server.action.NETWORK_STATS_POLL&quot;;</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[13]" type="UMLAttribute" guid="3SDD8lltZkCsMlO/tCLVxQAA">
+<XPD:ATTR name="Name" type="string">public static final String ACTION_NETWORK_STATS_UPDATED</XPD:ATTR>
+<XPD:ATTR name="InitialValue" type="string">&quot;com.android.server.action.NETWORK_STATS_UPDATED&quot;;</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[14]" type="UMLAttribute" guid="htYw32RCGEy3q+kGINsqEQAA">
+<XPD:ATTR name="Name" type="string">private String mActiveIface;</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[15]" type="UMLAttribute" guid="nbpRIwukzEih+VY09J0/rgAA">
+<XPD:ATTR name="Name" type="string">private String mMobileIfaces</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:ATTR name="Multiplicity" type="string">0</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[16]" type="UMLAttribute" guid="wOamNdYD/UmjMSwjyrOsKAAA">
+<XPD:ATTR name="Name" type="string">private NetworkStatsRecorder mDevRecorder;</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[17]" type="UMLAttribute" guid="u2zHSfEB3UqCQR99EMrRJQAA">
+<XPD:ATTR name="Name" type="string">private NetworkStatsRecorder mXtRecorder;</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[18]" type="UMLAttribute" guid="ssyxLSojM02aQsqBYBsAaAAA">
+<XPD:ATTR name="Name" type="string">private NetworkStatsRecorder mUidRecorder;</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[19]" type="UMLAttribute" guid="RO4phSojR0OlUMpLO0Km/QAA">
+<XPD:ATTR name="Name" type="string">private NetworkStatsRecorder mUidTagRecorder;</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[20]" type="UMLAttribute" guid="NFiE5lNNAUqz5JeXmW4OlQAA">
+<XPD:ATTR name="Name" type="string">private NetworkStatsCollection mDevStatsCached;</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[21]" type="UMLAttribute" guid="z/ym7PEaG0GIuFywn9HHeQAA">
+<XPD:ATTR name="Name" type="string">private NetworkStatsCollection mXtStatsCached;</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[22]" type="UMLAttribute" guid="8NFOC/KfpUCNOsEZO1kCQAAA">
+<XPD:ATTR name="Name" type="string">private SparseIntArray mActiveUidCounterSet</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[23]" type="UMLAttribute" guid="buCoTSep50qZGOJqmVXCKgAA">
+<XPD:ATTR name="Name" type="string">private NetworkStats mUidOperations</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[24]" type="UMLAttribute" guid="Ax+6sGgrvkqnd4ttNtz2NwAA">
+<XPD:ATTR name="Name" type="string">private long mPersistThreshold</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:ATTR name="InitialValue" type="string">2 * MB_IN_BYTES;</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[25]" type="UMLAttribute" guid="jcnqNL7HD0+Clrzm0Sl3+AAA">
+<XPD:ATTR name="Name" type="string">private long mGlobalAlertBytes;</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[26]" type="UMLAttribute" guid="1H/KfrEdOkuL4GDV+DTAHgAA">
+<XPD:ATTR name="Name" type="string">private static File getDefaultSystemDir()</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:ATTR name="InitialValue" type="string">&quot;/data/system&quot;;</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[27]" type="UMLAttribute" guid="od2Bz6VVEkqvcuPFpwcUSQAA">
+<XPD:ATTR name="Name" type="string">private final File mSystemDir</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:ATTR name="InitialValue" type="string">&quot;/data/system&quot;;</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[28]" type="UMLAttribute" guid="Zq5WPBl5M0ONX5umxyEKuwAA">
+<XPD:ATTR name="Name" type="string">private final File mBaseDir</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:ATTR name="InitialValue" type="string">&quot;/data/system/netstats&quot;;</XPD:ATTR>
 <XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
