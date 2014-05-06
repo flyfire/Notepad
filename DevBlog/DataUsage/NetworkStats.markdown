@@ -113,3 +113,5 @@ traffic. Values monotonically increase since device boot, and may include detail
 
 ## NetworkStatsService
 + ``NetworkStatsService``,Collect and persist detailed network statistics, and provide this data to other system services.
++ ``NetworkStatsSettings``:
++ ``NetworkStatsRecorder``:

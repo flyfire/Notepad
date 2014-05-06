@@ -1,6 +1,6 @@
 Questions
 ===================
-http://blog.segmentfault.com/fantix/1190000000471602 
+http://blog.segmentfault.com/fantix/1190000000471602
 Remote Address:127.0.0.1:8908
 Request URL:http://127.0.0.1:8908/182.118.4.90/youku/656AC18D6B318173D519263B0/03002001005346154CFD540303BC6DBAC29BBF-5EAC-8E0D-29A1-44435034C71F.mp4
 Request Method:GET
@@ -23,3 +23,5 @@ Content-Range:bytes 0-48009594/48009595
 Content-Type:video/x-mp4
 Expires:-1
 Server:IKU
+
+找同学下载 http://cdmd.cnki.com.cn/Article/CDMD-10013-1013244223.htm
