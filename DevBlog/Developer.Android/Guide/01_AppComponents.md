@@ -84,8 +84,51 @@ Retrieve a specific type of file:To request that the user select a file such as 
 
 Instead of retrieving a copy of a file that you must import to your app (by using the ``ACTION_GET_CONTENT`` action), when running on Android 4.4 or higher, you can instead request to open a file that's managed by another app by using the ``ACTION_OPEN_DOCUMENT`` action and specifying a MIME type. To also allow the user to instead create a new document that your app can write to, use the ``ACTION_CREATE_DOCUMENT`` action instead. For example, instead of selecting from existing PDF documents, the ``ACTION_CREATE_DOCUMENT`` intent allows users to select where they'd like to create a new document (within another app that manages the document's storage)—your app then receives the URI location of where it can write the new document.Whereas the intent delivered to your ``onActivityResult()`` method from the ``ACTION_GET_CONTENT`` action may return a URI of any type, the result intent from ``ACTION_OPEN_DOCUMENT`` and ``ACTION_CREATE_DOCUMENT`` always specify the chosen file as a content: URI that's backed by a DocumentsProvider. You can open the file with ``openFileDescriptor()`` and query its details using columns from ``DocumentsContract.Document``.The returned URI grants your app long-term read access to the file (also possibly with write access). So the ``ACTION_OPEN_DOCUMENT`` action is particularly useful (instead of using ``ACTION_GET_CONTENT``) when you want to read an existing file without making a copy into your app, or when you want to open and edit a file in place.You can also allow the user to select multiple files by adding ``EXTRA_ALLOW_MULTIPLE`` to the intent, set to true. If the user selects just one item, then you can retrieve the item from ``getData()``. If the user selects more than one item, then ``getData()`` returns null and you must instead retrieve each item from a ``ClipData`` object that is returned by ``getClipData()``.Your intent must specify a MIME type and must declare the ``CATEGORY_OPENABLE`` category. If appropriate, you can specify more than one MIME type by adding an array of MIME types with the ``EXTRA_MIME_TYPES`` extra—if you do so, you must set the primary MIME type in setType() to ``*/*``.
 
-
 #Activities
+Sometimes, you might want to receive a result from the activity that you start. In that case, start the activity by calling ``startActivityForResult()`` (instead of ``startActivity()``). To then receive the result from the subsequent activity, implement the ``onActivityResult()`` callback method. When the subsequent activity is done, it returns a result in an Intent to your ``onActivityResult()`` method.
+
+```java
+private void pickContact() {
+    // Create an intent to "pick" a contact, as defined by the content provider URI
+    Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+    startActivityForResult(intent, PICK_CONTACT_REQUEST);
+}
+
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    // If the request went well (OK) and the request was PICK_CONTACT_REQUEST
+    if (resultCode == Activity.RESULT_OK && requestCode == PICK_CONTACT_REQUEST) {
+        // Perform a query to the contact's content provider for the contact's name
+        Cursor cursor = getContentResolver().query(data.getData(),
+        new String[] {Contacts.DISPLAY_NAME}, null, null, null);
+        if (cursor.moveToFirst()) { // True if the cursor is not empty
+            int columnIndex = cursor.getColumnIndex(Contacts.DISPLAY_NAME);
+            String name = cursor.getString(columnIndex);
+            // Do something with the selected contact's name...
+        }
+    }
+}
+```
+
+You can shut down an activity by calling its ``finish()`` method. You can also shut down a separate activity that you previously started by calling ``finishActivity()``.
+
+The foreground lifetime of an activity happens between the call to ``onResume()`` and the call to ``onPause()``. During this time, the activity is in front of all other activities on screen and has user input focus. An activity can frequently transition in and out of the foreground—for example, ``onPause()`` is called when the device goes to sleep or when a dialog appears. Because this state can transition often, the code in these two methods should be fairly lightweight in order to avoid slow transitions that make the user wait.
+
+The system calls ``onSaveInstanceState()`` before making the activity vulnerable to destruction. The system passes this method a Bundle in which you can save state information about the activity as name-value pairs, using methods such as ``putString()`` and ``putInt()``. Then, if the system kills your application process and the user navigates back to your activity, the system recreates the activity and passes the ``Bundle`` to both ``onCreate()`` and ``onRestoreInstanceState()``. Using either of these methods, you can extract your saved state from the ``Bundle`` and restore the activity state. If there is no state information to restore, then the ``Bundle`` passed to you is null (which is the case when the activity is created for the first time).There's no guarantee that ``onSaveInstanceState()`` will be called before your activity is destroyed, because there are cases in which it won't be necessary to save the state (such as when the user leaves your activity using the Back button, because the user is explicitly closing the activity). If the system calls ``onSaveInstanceState()``, it does so before ``onStop()`` and possibly before ``onPause()``.
+
+However, even if you do nothing and do not implement ``onSaveInstanceState()``, some of the activity state is restored by the Activity class's default implementation of ``onSaveInstanceState()``. Specifically, the default implementation calls the corresponding ``onSaveInstanceState()`` method for every ``View`` in the layout, which allows each view to provide information about itself that should be saved. Almost every widget in the Android framework implements this method as appropriate, such that any visible changes to the UI are automatically saved and restored when your activity is recreated. For example, the EditText widget saves any text entered by the user and the CheckBox widget saves whether it's checked or not. The only work required by you is to provide a unique ID (with the ``android:id`` attribute) for each widget you want to save its state. If a widget does not have an ID, then the system cannot save its state.通过在layout xml文件中给View设置id，可以让view保存自己的状态，而不需要在activity的``onSaveInstanceState``中做保存状态的操作。You can also explicitly stop a view in your layout from saving its state by setting the ``android:saveEnabled`` attribute to "false" or by calling the ``setSaveEnabled()`` method. Usually, you should not disable this, but you might if you want to restore the state of the activity UI differently.
+
+When one activity starts another, they both experience lifecycle transitions. The first activity pauses and stops (though, it won't stop if it's still visible in the background), while the other activity is created. In case these activities share data saved to disc or elsewhere, it's important to understand that the first activity is not completely stopped before the second one is created. Rather, the process of starting the second one overlaps with the process of stopping the first one.Activity A 启动 Activity B时，两者的生命周期有重叠部分，overlap。
+
+## Fragment
+A Fragment represents a behavior or a portion of user interface in an Activity. You can combine multiple fragments in a single activity to build a multi-pane UI and reuse a fragment in multiple activities.A fragment must always be embedded in an activity and the fragment's lifecycle is directly affected by the host activity's lifecycle.
+
+## Loader
+
+
+## Tasks and Back Stack
+
+
 
 #Services
 

@@ -62,7 +62,7 @@
 <XPD:ATTR name="Left" type="integer">304</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">128</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">1318</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">930</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">980</XPD:ATTR>
 <XPD:REF name="Model">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="9p2Jl8ePf0OQVyQ0btM+4AAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="P6rRQK4OoE2clLHTimQ2AwAA">
@@ -98,7 +98,7 @@
 <XPD:REF name="Views[1]">DQcNvejxWUGO5lNESF0v3QAA</XPD:REF>
 <XPD:REF name="Views[2]">64D3p/OFAUK3igz9DD9UvwAA</XPD:REF>
 <XPD:REF name="Views[3]">qTCi9ELb1U+e1AldSTJgQAAA</XPD:REF>
-<XPD:ATTR name="#Operations" type="integer">6</XPD:ATTR>
+<XPD:ATTR name="#Operations" type="integer">8</XPD:ATTR>
 <XPD:OBJ name="Operations[0]" type="UMLOperation" guid="PQZJgRSHDUSupCoNZa48DgAA">
 <XPD:ATTR name="Name" type="string">private boolean isBandwidthControlEnabled</XPD:ATTR>
 <XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
@@ -127,6 +127,15 @@
 <XPD:OBJ name="Operations[5]" type="UMLOperation" guid="r5XqkW22wkW1bWMaHx8+wgAA">
 <XPD:ATTR name="Name" type="string">private void registerPollAlarmLocked</XPD:ATTR>
 <XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[6]" type="UMLOperation" guid="VI8dpdkeHEipT6fL3iTNiwAA">
+<XPD:ATTR name="Name" type="string">private void registerGlobalAlert</XPD:ATTR>
+<XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
+<XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[7]" type="UMLOperation" guid="1XEKWLZh3ECz6u/xL3SPKAAA">
+<XPD:ATTR name="Name" type="string">public INetworkStatsSession openSession</XPD:ATTR>
 <XPD:REF name="Owner">snKg16z6aUmd67NYWSZ+igAA</XPD:REF>
 </XPD:OBJ>
 <XPD:ATTR name="#Attributes" type="integer">29</XPD:ATTR>
