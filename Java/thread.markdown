@@ -5,7 +5,7 @@ Java Thread
   + It always pause the current thread execution.
   + The actual time thread sleeps before waking up and start execution depends on system timers and schedulers. For a quiet system, the actual time for sleep is near to the specified sleep time but for a busy system it will be little bit more.
   + Thread sleep doesn’t lose any monitors or locks current thread has acquired.
-  + Any other thread can interrupt the current thread in sleep, in that case InterruptedException is thrown.
+  + Any other thread can interrupt the current thread in sleep, in that case ``InterruptedException`` is thrown.
 + ``Thread.join()``
   + ``public final void join()``,This method puts the current thread on wait until the thread on which it’s called is dead. If the thread is interrupted, it throws InterruptedException.
   + ``public final synchronized void join(long millis)``,This method is used to wait for the thread on which it’s called to be dead or wait for specified milliseconds. Since thread execution depends on OS implementation, it doesn’t guarantee that the current thread will wait only for given time.
@@ -19,7 +19,7 @@ Java Thread
   + ``Dead``:Once the thread finished executing, it’s state is changed to Dead and it’s considered to be not alive.
 + ``wait,notify,notifyAll``
   + The Object class in java contains three final methods that allows threads to communicate about the lock status of a resource. These methods are ``wait()``, ``notify()`` and ``notifyAll()``.The current thread which invokes these methods on any object should have the object monitor else it throws ``java.lang.IllegalMonitorStateException`` exception.
-  + ``wait``:Object wait methods has three variance, one which waits indefinitely for any other thread to call notify or notifyAll method on the object to wake up the current thread. Other two variances puts the current thread in wait for specific amount of time before they wake up.
+  + ``wait``:Object wait methods has three variance, one which waits indefinitely for any other thread to call notify or notifyAll method on the object to wake up the current thread. Other two variances puts the current thread in wait for specific amount of time before they wake up.``wait``方法有3个变体，``wati()``一直等待下去直到其他thread调用``notify``或``notifyAll``方法来唤醒。``wait(long)``和``wait(long,int)``表示等待特定的时间。
   + ``notify``:notify method wakes up only one thread waiting on the object and that thread starts execution. So if there are multiple threads waiting for an object, this method will wake up only one of them. The choice of the thread to wake depends on the OS implementation of thread management.
   + ``notifyAll``:notifyAll method wakes up all the threads waiting on the object, although which one will process first depends on the OS implementation.
 + ``Thread Safety``

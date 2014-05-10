@@ -173,7 +173,50 @@ you can do final tweaks to the user interface before the user sees it. This coul
 
 ``setRetainInstance``:One of the cool features of a fragment is that you can specify that you don’t want the fragment completely destroyed if the activity is being re-created and therefore your fragments will be coming back also. Therefore, fragment comes with a method called ``setRetainInstance()``, which takes a boolean parameter to tell it “Yes; I want you to hang around when my activity restarts” or “No; go away, and I’ll create a new fragment from scratch.” The best place to call ``setRetainInstance()`` is in the ``onCreate()`` callback of a fragment.If the parameter is true, that means you want to keep your fragment object in memory and not start over from scratch. However, if your activity is going away and being re-created, you’ll have to detach your fragment from this activity and attach it to the new one. The bottom line is that if the retain instance value is true, you won’t actually destroy your fragment instance, and therefore you won’t need to create a new one on the other side. 如果在``setRetainInstance``中设置为true，表明将``fragment``保留在内存中，这样在``onDestoryView``后就不会走``onDestory``而直接走``onDetach``，同样在``activity``重新创建时，``fragment``走完``onAttach``后会跳过``onCreate``而直接走``onCreateView``了。
 
+```bash
+D/Solarex (  975): TitlesFragment : onInflate enter without activity parameter
+D/Solarex (  975): TitlesFragment : onInflate exit without activity parameter
+D/Solarex (  975): TitlesFragment : onInflate enter with activity parameter
+D/Solarex (  975): TitlesFragment : onInflate exit with activity parameter
+D/Solarex (  975): TitlesFragment : onAttach enter
+D/Solarex (  975): TitlesFragment : onAttach exit
+D/Solarex (  975): TitlesFragment : onCreate enter
+D/Solarex (  975): TitlesFragment : onCreate exit
+D/Solarex (  975): TitlesFragment : onActivityCreated enter
+D/Solarex (  975): TitlesFragment : savedInstanceState is null
+D/Solarex (  975): MainActivity : showDetails : index = 0
+D/Solarex (  975): MainActivity :  isMulti = false
+D/Solarex (  975): MainActivity : showDetails exiting
+D/Solarex (  975): TitlesFragment : onActivityCreated exit
+D/Solarex (  975): TitlesFragment : onStart enter
+D/Solarex (  975): TitlesFragment : onStart exit
+D/Solarex (  975): TitlesFragment : onResume enter
+D/Solarex (  975): TitlesFragment : onResume exit
+D/Solarex (  975): TitlesFragment : onPause enter
+D/Solarex (  975): TitlesFragment : onPause exit
+D/Solarex (  975): DetailsActivity : onCreate entering
+D/Solarex (  975): DetailsFragment : newInstance bundle.index = 0
+D/Solarex (  975): DetailsFragment : newInstance index = 0
+D/Solarex (  975): DetailsActivity : onCreate exiting
+D/Solarex (  975): DetailsFragment : onCreate enter
+D/Solarex (  975): DetailsFragment :  savedInstanceState is null
+D/Solarex (  975): DetailsFragment : onCreate exiting
+D/Solarex (  975): DetailsFragment : onCreateView cont.ainer = android.widget.FrameLayout@417c4b68
+D/Solarex (  975): TitlesFragment : onSaveInstanceState enter mCurCheckPosition = 0
+D/Solarex (  975): TitlesFragment : onSaveInstanceState exit
+D/Solarex (  975): TitlesFragment : onStop enter
+D/Solarex (  975): TitlesFragment : onStop exit
+```
+
 Besides the view hierarchy, a fragment has a bundle that serves as its initialization arguments. Similar to an activity, a fragment can be saved and later restored automatically by the system. **When the system restores a fragment, it calls the default constructor (with no arguments) and then restores this bundle of arguments to the newly created fragment.** Subsequent callbacks on the fragment have access to these arguments and can use them to get the fragment back to its previous state. For this reason, it is imperative that you 1.Ensure that there’s a default constructor for your fragment class.2.Add a bundle of arguments as soon as you create a new fragment so these subsequent methods can properly set up your fragment, and so the system can restore your fragment properly when necessary.
+
+Declare the fragment inside the activity's layout file：When the system creates this activity layout, it instantiates each ``fragment`` specified in the layout and calls the ``onCreateView()`` method for each one, to retrieve each fragment's layout. The system inserts the ``View`` returned by the ``fragment`` directly in place of the ``<fragment>`` element.Each fragment requires a unique identifier that the system can use to restore the ``fragment`` if the activity is restarted (and which you can use to capture the fragment to perform transactions, such as remove it). There are three ways to provide an ID for a ``fragment``:
+  + Supply the ``android:id`` attribute with a unique ID.
+  + Supply the ``android:tag`` attribute with a unique string.
+  + If you provide neither of the previous two, the system uses the ID of the container view.
+
+To add a ``fragment`` without a UI, add the ``fragment`` from the activity using ``add(Fragment, String)`` (supplying a unique string "tag" for the fragment, rather than a view ID). This adds the fragment, but, because it's not associated with a view in the activity layout, it does not receive a call to ``onCreateView()``. So you don't need to implement that method.Supplying a string tag for the fragment isn't strictly for non-UI fragments—you can also supply string tags to fragments that do have a UI—but if the fragment does not have a UI, then the string tag is the only way to identify it. If you want to get the ``fragment`` from the activity later, you need to use ``findFragmentByTag()``.
+
 
 ## Loader
 
