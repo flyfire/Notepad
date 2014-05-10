@@ -127,6 +127,54 @@ When you perform a fragment transaction, you can also add it to a back stack tha
 
 A fragment is usually used as part of an activity's user interface and contributes its own layout to the activity.To provide a layout for a fragment, you must implement the ``onCreateView()`` callback method, which the Android system calls when it's time for the fragment to draw its layout. Your implementation of this method must return a ``View`` that is the root of your fragment's layout.If your fragment is a subclass of ``ListFragment``, the default implementation returns a ``ListView`` from ``onCreateView()``, so you don't need to implement it.
 
+``fargment``创建过程：At the very beginning, a fragment is instantiated. It now exists as an object in memory.The first thing that is likely to happen is that initialization arguments will be added to your fragment object. This is definitely true in the situation where the system is re-creating your fragment from a saved state. When the system is restoring a fragment from a saved state, the default constructor is invoked, followed by the attachment of the initialization arguments bundle.
+
+```java
+public static MyFragment newInstance(int index) {
+MyFragment f = new MyFragment();
+Bundle args = new Bundle();
+args.putInt(“index”, index);
+f.setArguments(args);
+return f;
+}
+```
+
+From the client’s point of view, they get a new instance by calling the static
+``newInstance()`` method with a single argument. They get the instantiated object back, and the initialization argument has been set on this fragment in the arguments bundle. If this fragment is saved and reconstructed later, the system will go through a very similar process of calling the default constructor and then reattaching the initialization arguments. 
+
+``onInflate``:The next thing that could happen is layout view inflation. If your fragment is defined by a ``<fragment>`` tag in a layout that is being inflated (typically when an activity has called ``setContentView()`` for its main layout), your fragment’s ``onInflate()`` callback is called.This passes in the activity just mentioned, an ``AttributeSet`` with the attributes from the ``<fragment>`` tag, and a saved bundle. The saved bundle is the one with the saved state values in it, put there by ``onSaveInstanceState()``. The expectation of ``onInflate()`` is that you’ll read attribute values and save them for later use. At this stage in the fragment’s life, it’s too early to actually do anything with the user interface. The fragment is not even associated to its activity yet. 
+
+``onAttach``:The ``onAttach()`` callback is invoked after your fragment is associated with its activity.The activity reference is passed to you if you want to use it. You can at least use the activity to determine information about your enclosing activity. You can also use the activity as a context to do other operations. One thing to note is that the Fragment class has a ``getActivity()`` method that will always return the attached activity for your fragment should you need it. Keep in mind that all during this lifecycle, the initialization arguments bundle is available to you from the fragment’s ``getArguments()`` method.However, once the fragment is attached to its activity, you can’t call ``setArguments()`` again. So you can’t add to the initialization arguments except in the very beginning.
+
+``onCreate``:Next up is the ``onCreate()`` callback. Although this is similar to the activity’s ``onCreate()``,the difference is that you should not put code in here that relies on the existence of the activity’s view hierarchy. Your fragment may be associated to its activity by now, but you haven’t yet been notified that the activity’s ``onCreate()`` has finished. That’s coming
+up. This callback gets the saved state bundle passed in, if there is one. This callback is about as early as possible to create a background thread to get data that this fragment will need. Your fragment code is running on the UI thread, and you don’t want to do disk I/O or network accesses on the UI thread. In fact, it makes a lot of sense to fire off a background thread to get things ready. Your background thread is where blocking calls should be. You’ll need to hook up with the data later, perhaps using a handler or some
+other technique.``fragment``在``onCreate``回调方法中时，``activity``的``onCreate``方法可能还没有走完，因此不能依赖``activity``的view hierarchy。
+
+``onCreateView``:The next callback is ``onCreateView()``. The expectation here is that you will return a view hierarchy for this fragment.
+
+``onActivityCreated()``:You’re now getting close to the point where the user can interact with your fragment.The next callback is ``onActivityCreated()``. This is called after the activity has completed its ``onCreate()`` callback. You can now trust that the activity’s view hierarchy, including your own view hierarchy if you returned one earlier, is ready and available. This is where
+you can do final tweaks to the user interface before the user sees it. This could be especially important if this activity and its fragments are being re-created from a saved state. It’s also where you can be sure that any other fragment for this activity has been attached to your activity.
+
+``onStart``:The next callback in your fragment lifecycle is ``onStart()``. Now your fragment is visible to the user. But you haven’t started interacting with the user just yet. This callback is tied to the activity’s ``onStart()``. As such, whereas previously you may have put your logic into the activity’s ``onStart()``, now you’re more likely to put your logic into the fragment’s ``onStart()``, because that is also where the user interface components are.
+
+``onResume``:The last callback before the user can interact with your fragment is ``onResume()``. This callback is tied to the activity’s ``onResume()``. When this callback returns, the user is free to interact with this fragment. 
+
+``onPause``:The first undo callback on a fragment is ``onPause()``. This callback is tied to the activity’s ``onPause()``. 
+
+``onSaveInstanceState``:Similar to activities, fragments have an opportunity to save state for later reconstruction.This callback passes in a ``Bundle`` object to be used as the container for whatever state information you want to hang onto. This is the saved-state bundle passed to the callbacks covered earlier. To prevent memory problems, be careful about what you save into this bundle. Only save what you need. If you need to keep a reference to another fragment, save its tag instead of trying to save the other fragment.Although you may see this method usually called right after ``onPause()``, the activity to which this fragment belongs calls it when it feels that the fragment’s state should be saved. This can occur any time before ``onDestroy()``.
+
+``onStop``:The next undo callback is ``onStop()``. This one is tied to the activity’s ``onStop()`` and serves a purpose similar to an activity’s ``onStop()``. A fragment that has been stopped could go straight back to the ``onStart()``callback, which then leads to ``onResume()``.
+
+``onDestoryView``:If your fragment is on its way to being killed off or saved, the next callback in the undo direction is ``onDestroyView()``. This will be called after the view hierarchy you created on your ``onCreateView()`` callback earlier has been detached from your fragment.
+
+``onDestory``:Next up is ``onDestroy()``. This is called when the fragment is no longer in use. Note that it is still attached to the activity and is still findable, but it can’t do much.
+
+``onDetach``:The final callback in a fragment’s lifecycle is ``onDetach()``. Once this is invoked, the fragment is not tied to its activity, it does not have a view hierarchy anymore, and all its resources should have been released.
+
+``setRetainInstance``:One of the cool features of a fragment is that you can specify that you don’t want the fragment completely destroyed if the activity is being re-created and therefore your fragments will be coming back also. Therefore, fragment comes with a method called ``setRetainInstance()``, which takes a boolean parameter to tell it “Yes; I want you to hang around when my activity restarts” or “No; go away, and I’ll create a new fragment from scratch.” The best place to call ``setRetainInstance()`` is in the ``onCreate()`` callback of a fragment.If the parameter is true, that means you want to keep your fragment object in memory and not start over from scratch. However, if your activity is going away and being re-created, you’ll have to detach your fragment from this activity and attach it to the new one. The bottom line is that if the retain instance value is true, you won’t actually destroy your fragment instance, and therefore you won’t need to create a new one on the other side. 如果在``setRetainInstance``中设置为true，表明将``fragment``保留在内存中，这样在``onDestoryView``后就不会走``onDestory``而直接走``onDetach``，同样在``activity``重新创建时，``fragment``走完``onAttach``后会跳过``onCreate``而直接走``onCreateView``了。
+
+Besides the view hierarchy, a fragment has a bundle that serves as its initialization arguments. Similar to an activity, a fragment can be saved and later restored automatically by the system. **When the system restores a fragment, it calls the default constructor (with no arguments) and then restores this bundle of arguments to the newly created fragment.** Subsequent callbacks on the fragment have access to these arguments and can use them to get the fragment back to its previous state. For this reason, it is imperative that you 1.Ensure that there’s a default constructor for your fragment class.2.Add a bundle of arguments as soon as you create a new fragment so these subsequent methods can properly set up your fragment, and so the system can restore your fragment properly when necessary.
+
 ## Loader
 
 
