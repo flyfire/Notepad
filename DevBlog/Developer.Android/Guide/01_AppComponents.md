@@ -217,6 +217,62 @@ Declare the fragment inside the activity's layout file：When the system creates
 
 To add a ``fragment`` without a UI, add the ``fragment`` from the activity using ``add(Fragment, String)`` (supplying a unique string "tag" for the fragment, rather than a view ID). This adds the fragment, but, because it's not associated with a view in the activity layout, it does not receive a call to ``onCreateView()``. So you don't need to implement that method.Supplying a string tag for the fragment isn't strictly for non-UI fragments—you can also supply string tags to fragments that do have a UI—but if the fragment does not have a UI, then the string tag is the only way to identify it. If you want to get the ``fragment`` from the activity later, you need to use ``findFragmentByTag()``.
 
+To manage the fragments in your activity, you need to use ``FragmentManager``. To get it, call ``getFragmentManager()`` from your activity.
++ Get fragments that exist in the activity, with ``findFragmentById()`` (for fragments that provide a UI in the activity layout) or ``findFragmentByTag()`` (for fragments that do or don't provide a UI).
++ Pop fragments off the back stack, with ``popBackStack()`` (simulating a Back command by the user).
++ Register a listener for changes to the back stack, with ``addOnBackStackChangedListener()``.
+
+If you do not call ``addToBackStack()`` when you perform a transaction that removes a fragment, then that fragment is destroyed when the transaction is committed and the user cannot navigate back to it. Whereas, if you do call ``addToBackStack()`` when removing a fragment, then the fragment is stopped and will be resumed if the user navigates back.For each fragment transaction, you can apply a transition animation, by calling ``setTransition()`` before you commit.Calling ``commit()`` does not perform the transaction immediately. Rather, it schedules it to run on the activity's UI thread (the "main" thread) as soon as the thread is able to do so. If necessary, however, you may call ``executePendingTransactions()`` from your UI thread to immediately execute transactions submitted by ``commit()``. Doing so is usually not necessary unless the transaction is a dependency for jobs in other threads.You can commit a transaction using ``commit()`` only prior to the activity saving its state (when the user leaves the activity). If you attempt to commit after that point, an exception will be thrown. This is because the state after the commit can be lost if the activity needs to be restored. For situations in which its okay that you lose the commit, use ``commitAllowingStateLoss()``.
+
+Specifically, the fragment can access the Activity instance with ``getActivity()`` and easily perform tasks such as find a view in the activity layout:``View listView = getActivity().findViewById(R.id.list);``.Likewise, your activity can call methods in the fragment by acquiring a reference to the ``Fragment`` from ``FragmentManager``, using ``findFragmentById()`` or ``findFragmentByTag()``. For example:``ExampleFragment fragment = (ExampleFragment) getFragmentManager().findFragmentById(R.id.example_fragment);``.
+
+In some cases, you might need a fragment to share events with the activity. A good way to do that is to define a callback interface inside the fragment and require that the host activity implement it. When the activity receives a callback through the interface, it can share the information with other fragments in the layout as necessary.当fragment需要和activity share events时，可以在fragment中定义一个Interface让activity来实现这个interface。
+
+```java
+public static class FragmentA extends ListFragment {
+    ...
+    // Container Activity must implement this interface
+    public interface OnArticleSelectedListener {
+        public void onArticleSelected(Uri articleUri);
+    }
+    ...
+    OnArticleSelectedListener mListener;
+    ...
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnArticleSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
+        }
+    }
+    ...
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        // Append the clicked item's row ID with the content provider Uri
+        Uri noteUri = ContentUris.withAppendedId(ArticleColumns.CONTENT_URI, id);
+        // Send the event and Uri to the host activity
+        mListener.onArticleSelected(noteUri);
+    }
+    ...
+}
+```
+
+Your fragments can contribute menu items to the activity's Options Menu (and, consequently, the Action Bar) by implementing ``onCreateOptionsMenu()``. In order for this method to receive calls, however, you must call ``setHasOptionsMenu()`` during ``onCreate()``, to indicate that the fragment would like to add items to the Options Menu (otherwise, the fragment will not receive a call to ``onCreateOptionsMenu()``).Any items that you then add to the Options Menu from the fragment are appended to the existing menu items. The fragment also receives callbacks to ``onOptionsItemSelected()`` when a menu item is selected.You can also register a view in your fragment layout to provide a context menu by calling ``registerForContextMenu()``. When the user opens the context menu, the fragment receives a call to ``onCreateContextMenu()``. When the user selects an item, the fragment receives a call to ``onContextItemSelected()``.Although your fragment receives an on-item-selected callback for each menu item it adds, the activity is first to receive the respective callback when the user selects a menu item. If the activity's implementation of the on-item-selected callback does not handle the selected item, then the event is passed to the fragment's callback. This is true for the Options Menu and context menus.menu item被点击时，activity先对点击作出反应，如果没有方法对此作出反应，则会将事件传递给fragment来进行处理。
+
+Also like an activity, you can retain the state of a fragment using a ``Bundle``, in case the activity's process is killed and you need to restore the fragment state when the activity is recreated. You can save the state during the fragment's ``onSaveInstanceState()`` callback and restore it during either ``onCreate()``, ``onCreateView()``, or ``onActivityCreated()``. The most significant difference in lifecycle between an activity and a fragment is how one is stored in its respective back stack. An activity is placed into a back stack of activities that's managed by the system when it's stopped, by default (so that the user can navigate back to it with the Back button, as discussed in Tasks and Back Stack). However, a fragment is placed into a back stack managed by the host activity only when you explicitly request that the instance be saved by calling ``addToBackStack()`` during a transaction that removes the fragment.activity和fragment生命周期的一个很大不同点在于back stack。activity stop时默认会被放入一个由系统管理的activity back stack，然而一个fragment只有当显式调用``addToBackStack()``时才会被放入到一个由host activity管理的back stack。
+
+If you need a ``Context`` object within your Fragment, you can call ``getActivity()``. However, be careful to call ``getActivity()`` only when the fragment is attached to an activity. When the fragment is not yet attached, or was detached during the end of its lifecycle, ``getActivity()`` will return null.
+
+An application that uses loaders typically includes the following:
++ An ``Activity`` or ``Fragment``.
++ An instance of the ``LoaderManager``.
++ A ``CursorLoader`` to load data backed by a ``ContentProvider``. Alternatively, you can implement your own subclass of ``Loader`` or ``AsyncTaskLoader`` to load data from some other source.
++ An implementation for ``LoaderManager.LoaderCallbacks``. This is where you create new loaders and manage your references to existing loaders.
++ A way of displaying the loader's data, such as a ``SimpleCursorAdapter``.
++ A data source, such as a ``ContentProvider``, when using a ``CursorLoader``.
+
 
 ## Loader
 
