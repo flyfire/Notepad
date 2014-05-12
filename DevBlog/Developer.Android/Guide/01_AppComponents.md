@@ -263,8 +263,9 @@ Your fragments can contribute menu items to the activity's Options Menu (and, co
 
 Also like an activity, you can retain the state of a fragment using a ``Bundle``, in case the activity's process is killed and you need to restore the fragment state when the activity is recreated. You can save the state during the fragment's ``onSaveInstanceState()`` callback and restore it during either ``onCreate()``, ``onCreateView()``, or ``onActivityCreated()``. The most significant difference in lifecycle between an activity and a fragment is how one is stored in its respective back stack. An activity is placed into a back stack of activities that's managed by the system when it's stopped, by default (so that the user can navigate back to it with the Back button, as discussed in Tasks and Back Stack). However, a fragment is placed into a back stack managed by the host activity only when you explicitly request that the instance be saved by calling ``addToBackStack()`` during a transaction that removes the fragment.activity和fragment生命周期的一个很大不同点在于back stack。activity stop时默认会被放入一个由系统管理的activity back stack，然而一个fragment只有当显式调用``addToBackStack()``时才会被放入到一个由host activity管理的back stack。
 
-If you need a ``Context`` object within your Fragment, you can call ``getActivity()``. However, be careful to call ``getActivity()`` only when the fragment is attached to an activity. When the fragment is not yet attached, or was detached during the end of its lifecycle, ``getActivity()`` will return null.
+If you need a ``Context`` object within your Fragment, you can call ``getActivity()``. However, be careful to call ``getActivity()`` only when the fragment is attached to an activity. When the fragment is not yet attached, or was detached during the end of its lifecycle, ``getActivity()`` will return null.``Fragment``之间通信可以通过``setTargetFragment``和``getTargetFragment``方式来实现。
 
+## Loader
 An application that uses loaders typically includes the following:
 + An ``Activity`` or ``Fragment``.
 + An instance of the ``LoaderManager``.
@@ -273,12 +274,19 @@ An application that uses loaders typically includes the following:
 + A way of displaying the loader's data, such as a ``SimpleCursorAdapter``.
 + A data source, such as a ``ContentProvider``, when using a ``CursorLoader``.
 
+``getLoaderManager().initLoader(0, null, this);``:The ``initLoader()`` call ensures that a loader is initialized and active. It has two possible outcomes:If the loader specified by the ID already exists, the last created loader is reused,If the loader specified by the ID does not exist, ``initLoader()`` triggers the ``LoaderManager.LoaderCallbacks`` method ``onCreateLoader()``. This is where you implement the code to instantiate and return a new loader. 
 
-## Loader
+When you use ``initLoader()``, as shown above, it uses an existing loader with the specified ID if there is one. If there isn't, it creates one. But sometimes you want to discard your old data and start over.To discard your old data, you use ``restartLoader()``. 
 
+Loaders, in particular ``CursorLoader``, are expected to retain their data after being stopped. This allows applications to keep their data across the activity or fragment's ``onStop()`` and ``onStart()`` methods, so that when users return to an application, they don't have to wait for the data to reload.
+
+``LoaderManager.LoaderCallbacks`` includes these methods:
++ ``onCreateLoader()`` — Instantiate and return a new ``Loader`` for the given ID.
++ ``onLoadFinished()`` — Called when a previously created loader has finished its load.This method is called when a previously created loader has finished its load. This method is guaranteed to be called prior to the release of the last data that was supplied for this loader. At this point you should remove all use of the old data (since it will be released soon), but should not do your own release of the data since its loader owns it and will take care of that.The loader will release the data once it knows the application is no longer using it. For example, if the data is a cursor from a ``CursorLoader``, you should not call ``close()`` on it yourself. If the cursor is being placed in a ``CursorAdapter``, you should use the ``swapCursor()`` method so that the old ``Cursor`` is not closed.
++ ``onLoaderReset()`` — Called when a previously created loader is being reset, thus making its data unavailable.This method is called when a previously created loader is being reset, thus making its data unavailable. This callback lets you find out when the data is about to be released so you can remove your reference to it.This implementation calls ``swapCursor()`` with a value of ``null``. 
 
 ## Tasks and Back Stack
-
+A task is a collection of activities that users interact with when performing a certain job. The activities are arranged in a stack (the "back stack"), in the order in which each activity is opened.
 
 
 #Services
