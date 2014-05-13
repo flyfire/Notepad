@@ -311,6 +311,17 @@ You can set up an activity as the entry point for a task by giving it an intent 
 #Services
 Service can work both ways—it can be started (to run indefinitely) and also allow binding. It's simply a matter of whether you implement a couple callback methods: ``onStartCommand()`` to allow components to start it and ``onBind()`` to allow binding.
 
+Traditionally, there are two classes you can extend to create a started service:
++ ``Service``:This is the base class for all services. When you extend this class, it's important that you create a new thread in which to do all the service's work, because the service uses your application's main thread, by default, which could slow the performance of any activity your application is running.
++ ``IntentService``:This is a subclass of ``Service`` that uses a worker thread to handle all start requests, one at a time. This is the best option if you don't require that your service handle multiple requests simultaneously. All you need to do is implement ``onHandleIntent()``, which receives the intent for each start request so you can do the background work.
+
+The ``IntentService`` does the following:
++ Creates a default worker thread that executes all intents delivered to ``onStartCommand()`` separate from your application's main thread.
++ Creates a work queue that passes one intent at a time to your ``onHandleIntent()`` implementation, so you never have to worry about multi-threading.
++ Stops the service after all start requests have been handled, so you never have to call ``stopSelf()``.
++ Provides default implementation of ``onBind()`` that returns null.
++ Provides a default implementation of ``onStartCommand()`` that sends the intent to the work queue and then to your ``onHandleIntent()`` implementation.
+
 The Android system will force-stop a service only when memory is low and it must recover system resources for the activity that has user focus. If the service is bound to an activity that has user focus, then it's less likely to be killed, and if the service is declared to run in the foreground (discussed later), then it will almost never be killed. Otherwise, if the service was started and is long-running, then the system will lower its position in the list of background tasks over time and the service will become highly susceptible to killing—if your service is started, then you must design it to gracefully handle restarts by the system. If the system kills your service, it restarts it as soon as resources become available again (though this also depends on the value you return from ``onStartCommand()``).
 
 To ensure your app is secure, **always use an explicit intent when starting or binding your Service and do not declare intent filters for the service**. If it's critical that you allow for some amount of ambiguity as to which service starts, you can supply intent filters for your services and exclude the component name from the Intent, but you then must set the package for the intent with ``setPackage()``, which provides sufficient disambiguation for the target service.Additionally, you can ensure that your service is available to only your app by including the ``android:exported`` attribute and setting it to ``false``. This effectively stops other apps from starting your service, even when using an explicit intent.
