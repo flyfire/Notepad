@@ -24,4 +24,6 @@ Content-Type:video/x-mp4
 Expires:-1
 Server:IKU
 
+http://flyfire-disc.appspot.com/video/10001-love.flv
+
 找同学下载 http://cdmd.cnki.com.cn/Article/CDMD-10013-1013244223.htm
