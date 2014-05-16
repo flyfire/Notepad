@@ -61,3 +61,4 @@ repos_starred
 + http://collimator.googlecode.com/svn/trunk
 + http://androidbmi.googlecode.com/svn
 + http://sundyandroid.googlecode.com/svn/trunk/sundyandroid
++ http://wiktionary-android.googlecode.com/svn/trunk/
