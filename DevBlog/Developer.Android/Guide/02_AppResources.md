@@ -1,2 +1,2 @@
-02_AppResources.md
+02_AppResources
 ============================
