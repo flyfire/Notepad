@@ -41,6 +41,7 @@ repos_starred
 + https://code.google.com/p/apps-for-android
 + https://github.com/roman10/roman10-android-tutorial.git
 + https://github.com/androidquery/androidquery.git
++ https://github.com/michelou/android-examples.git
 
 
 
