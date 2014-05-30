@@ -25,3 +25,4 @@ public void onCreate() {
 ```
 + Where we couldn’t automatically speed up the system, we instead added APIs to make certain patterns easier to do efficiently. For example, there is a new method ``SharedPreferences.Editor.apply()``, which you should be using instead of ``commit()`` if you don’t need ``commit()’s`` return value. (It turns out almost nobody ever checks it.) You can even use reflection to conditionally use apply() vs. commit() depending on the user’s platform version.
 + http://code.google.com/p/zippy-android/source/browse/trunk/examples/SharedPreferencesCompat.java
++
