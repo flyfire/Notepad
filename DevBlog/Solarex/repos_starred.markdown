@@ -42,6 +42,14 @@ repos_starred
 + https://github.com/roman10/roman10-android-tutorial.git
 + https://github.com/androidquery/androidquery.git
 + https://github.com/michelou/android-examples.git
++ https://github.com/alexjlockwood/alexjlockwood.github.io.git
++ https://github.com/alexjlockwood/AppListLoader.git
++ https://plus.google.com/+AlexLockwood/
++ http://www.androiddesignpatterns.com/
++ http://androidtrainningcenter.blogspot.com/
++ http://www.grokkingandroid.com/
++ https://github.com/alexjlockwood/godesignpatterns.git
++ https://github.com/emil10001/AndroidSerialSQL.git
 
 
 
