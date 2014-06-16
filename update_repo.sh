@@ -2,7 +2,7 @@
 # filename:update_repo.sh
 for repos in `find . -maxdepth 1 -type d | /bin/grep '/'`
 do
-	cd $repos;echo $repos
+	cd $repos;echo $PWD
 	if [ -d '.svn' ];then
 		echo "svn repo"
 		svn cleanup;svn up
