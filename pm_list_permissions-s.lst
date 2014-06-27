@@ -1,64 +1,64 @@
-All Permissions:
-
-Development tools: access external storage of all users, send Linux signals to apps, read sensitive log data, force background apps to close, modify secure system settings, limit number of running processes, change system display settings, retrieve system internal state, enable app debugging
-
-Calendar: 
-
-Affects Battery: allow Wi-Fi Multicast reception, prevent phone from sleeping, control flashlight, control vibration
-
-Status Bar: expand/collapse status bar
-
-Other Application UI: draw over other apps
-
-Camera: take pictures and videos
-
-Services that cost you money: 
-
-Network communication: connect and disconnect from WiMAX, view network connections, send and receive XMPP messages to and from Google servers, Broadcast data messages to apps., Send heartbeat to Google Talk server, Broadcast data messages to apps., Broadcast XMPP messages to apps., change network connectivity, send and receive XMPP messages to and from Google servers, control Near Field Communication, connect and disconnect from Wi-Fi, Google Play license check, view Wi-Fi connections, Change WiMAX state, Google Play billing service, null, Broadcast XMPP messages to apps., null, receive data from Internet, full network access, Directly download files without displaying notification
-
-Microphone: record audio
-
-Storage: disable your screen lock
-
-Audio Settings: change your audio settings
-
-Voicemail: add voicemail
-
-Sync Settings: read sync statistics, toggle sync on and off, read sync settings
-
-Your applications information: close other apps, retrieve running apps, reorder running apps, make app always run, close other apps, run at startup, stop running apps
-
-Your social information: write call log, read your contacts, read call log, read your social stream, modify your contacts, write to your social stream
-
-Your location: approximate location (network-based), precise location (GPS and network-based)
-
-Alarm: set an alarm
-
-Phone calls: modify phone state, reroute outgoing calls, read phone status and identity, null, directly call phone numbers, make/receive Internet calls
-
-System tools: delete all app cache data, get information on internal storage, null, mock location sources for testing, change background data usage setting, retrieve details of running apps, force stop other apps, null, null, null, read/write to resources owned by diag, start any activity, Write Home settings and shortcuts, access SD Card filesystem, null, null, create internal storage, read battery statistics, rename internal storage, erase SD Card, null, manage users, read subscribed feeds, test access to protected storage, Install shortcuts, Uninstall shortcuts, send sticky broadcast, measure app storage space, uninstall shortcuts, change/intercept network settings and traffic, modify global animation speed, null, mount/unmount internal storage, write subscribed feeds, set preferred apps, set screen compatibility, null, access extra location provider commands, Read Home settings and shortcuts, null, destroy internal storage, interact across users, read Home settings and shortcuts, null, install shortcuts, full license to interact across users, write Home settings and shortcuts, modify system settings, null, null, send package removed broadcast
-
-Read User Dictionary: read terms you added to the dictionary
-
-Bluetooth: access Bluetooth settings, pair with Bluetooth devices
-
-Clock: set time zone
-
-Your messages: modify Gmail, Exchanges messages and receives sync notifications from Google servers., send WAP-PUSH-received broadcast, edit your text messages (SMS or MMS), receive emergency broadcasts, read instant messages, send SMS messages with no confirmation, receive text messages (WAP), write instant messages, access mail information, send SMS messages, read Gmail, send SMS-received broadcast, read your text messages (SMS or MMS), View email attachment, Send Gmail, receive text messages (SMS), receive text messages (MMS), read cell broadcast messages
-
-Storage: modify/delete internal media storage contents, modify or delete the contents of your SD card
-
-Write User Dictionary: add words to user-defined dictionary
-
-Your personal information: Read privacy settings, read your own contact card, add or modify calendar events and send email to guests without owners' knowledge, request access to your Twitter account, null, Modify secure settings, access Google Photos, null, choose widgets, retrieve screen content, read calendar events plus confidential information, read Twitter data, activity recognition, Access all voicemails, modify your own contact card
-
-Wallpaper: adjust your wallpaper size, set wallpaper
-
-Bookmarks and History: write web bookmarks and history, read your Web bookmarks and history
-
-Your accounts: Android services, Orkut, create accounts and set passwords, Google App Engine, Picasa Web Albums, view configured accounts, Google Spreadsheets, Personalized Speech Recognition, Google Notebook, Google Checkout accounts, Google Groups, find accounts on the device, act as the AccountManagerService, Knol, Blogger, Google Checkout QA accounts, Google Voice Search, Google Health, Google Checkout Sandbox accounts, Google Docs, Google Book Search, Google News, Android services, iGoogle accounts, Google Talk, YouTube, add or remove accounts, JotSpot, Dodgeball, read Google service configuration, access other Google services, Google Voice, AdWords, YouTube usernames, Google mail, use accounts on the device, AdSense, Google Webmaster Tools, Google Maps, access all Google services, contacts data in Google accounts, Google Wi-Fi, Google Calendar, Google mobile apps, Google Base, Google Finance
-
-Hardware controls: take pictures and videos, test hardware, manage preferences and permissions for USB devices, implement MTP protocol
-
-ungrouped:
-null, null, null, null, null, null, display unauthorized windows, null, move app resources, null, control Wifi displays, record what you type and actions you take, null, null, null, Read Google settings, null, null, force phone reboot, null, filter events, Google Catalogs, null, disable or modify status bar, Advanced download manager functions., prevent app switches, bind to a VPN service, change keyboard layout, manage app tokens, Recorded audio access, retrieve window info, null, null, bind to a package verifier, null, null, null, null, Yahoo inter-application communication, copy content, Access email provider data, Google Tasks, null, reset system to factory defaults, modify network usage accounting, read historical network usage, null, press keys and control buttons, Access download manager., null, permission to install a location provider, null, null, null, discourage automatic device updates, null, confirm a full backup or restore operation, update component usage statistics, access SurfaceFlinger, verify packages, null, null, null, null, null, use any media decoder for playback, bind to a text service, grant or revoke permissions, Modify Google settings, read frame buffer, Google Now remote access, modify battery statistics, force app to close, null, Send broadcasts to Android Market., null, Receive BT handover transfer broadcasts., null, change screen orientation, run in factory test mode, null, magnify display, access to passwords for Google accounts, interact with a device admin, null, null, Launch voice with recorded audio, delete other apps' data, null, partial shutdown, bind to an input method, bind to an accessibility service, Access DRM content., null, Reserve space in download cache, null, read homepage in browser, null, Send download notification., access serial ports, configure Wifi displays, access checkin properties, null, null, power phone on or off, delete apps, access the cache filesystem, null, Whitelist bluetooth device access., null, Google Reader, null, null, Access all content downloaded by the system, select Gmail or Google Mail branding, null, Access download manager., control location update notifications, Google Map maker, null, delete other apps' caches, Modify Google service configuration, null, Install DRM content., null, null, null, permanently disable phone, monitor and control all app launching, control system backup and restore, set time, null, status bar, null, null, directly start CDMA phone setup, directly install apps, Preload results, change pointer speed, null, null, directly call any phone numbers, enable or disable app components, modify homepage in browser, null, manage network policy, modify the Google services map, Control TalkBack, null, freeze screen, bind to a wallpaper, null, bind to a widget service, null, null, temporary enable accessibility, access content providers externally, null, null, Panoramio
+All Permissions:
+
+Development tools: access external storage of all users, send Linux signals to apps, read sensitive log data, force background apps to close, modify secure system settings, limit number of running processes, change system display settings, retrieve system internal state, enable app debugging
+
+Calendar: 
+
+Affects Battery: allow Wi-Fi Multicast reception, prevent phone from sleeping, control flashlight, control vibration
+
+Status Bar: expand/collapse status bar
+
+Other Application UI: draw over other apps
+
+Camera: take pictures and videos
+
+Services that cost you money: 
+
+Network communication: connect and disconnect from WiMAX, view network connections, send and receive XMPP messages to and from Google servers, Broadcast data messages to apps., Send heartbeat to Google Talk server, Broadcast data messages to apps., Broadcast XMPP messages to apps., change network connectivity, send and receive XMPP messages to and from Google servers, control Near Field Communication, connect and disconnect from Wi-Fi, Google Play license check, view Wi-Fi connections, Change WiMAX state, Google Play billing service, null, Broadcast XMPP messages to apps., null, receive data from Internet, full network access, Directly download files without displaying notification
+
+Microphone: record audio
+
+Storage: disable your screen lock
+
+Audio Settings: change your audio settings
+
+Voicemail: add voicemail
+
+Sync Settings: read sync statistics, toggle sync on and off, read sync settings
+
+Your applications information: close other apps, retrieve running apps, reorder running apps, make app always run, close other apps, run at startup, stop running apps
+
+Your social information: write call log, read your contacts, read call log, read your social stream, modify your contacts, write to your social stream
+
+Your location: approximate location (network-based), precise location (GPS and network-based)
+
+Alarm: set an alarm
+
+Phone calls: modify phone state, reroute outgoing calls, read phone status and identity, null, directly call phone numbers, make/receive Internet calls
+
+System tools: delete all app cache data, get information on internal storage, null, mock location sources for testing, change background data usage setting, retrieve details of running apps, force stop other apps, null, null, null, read/write to resources owned by diag, start any activity, Write Home settings and shortcuts, access SD Card filesystem, null, null, create internal storage, read battery statistics, rename internal storage, erase SD Card, null, manage users, read subscribed feeds, test access to protected storage, Install shortcuts, Uninstall shortcuts, send sticky broadcast, measure app storage space, uninstall shortcuts, change/intercept network settings and traffic, modify global animation speed, null, mount/unmount internal storage, write subscribed feeds, set preferred apps, set screen compatibility, null, access extra location provider commands, Read Home settings and shortcuts, null, destroy internal storage, interact across users, read Home settings and shortcuts, null, install shortcuts, full license to interact across users, write Home settings and shortcuts, modify system settings, null, null, send package removed broadcast
+
+Read User Dictionary: read terms you added to the dictionary
+
+Bluetooth: access Bluetooth settings, pair with Bluetooth devices
+
+Clock: set time zone
+
+Your messages: modify Gmail, Exchanges messages and receives sync notifications from Google servers., send WAP-PUSH-received broadcast, edit your text messages (SMS or MMS), receive emergency broadcasts, read instant messages, send SMS messages with no confirmation, receive text messages (WAP), write instant messages, access mail information, send SMS messages, read Gmail, send SMS-received broadcast, read your text messages (SMS or MMS), View email attachment, Send Gmail, receive text messages (SMS), receive text messages (MMS), read cell broadcast messages
+
+Storage: modify/delete internal media storage contents, modify or delete the contents of your SD card
+
+Write User Dictionary: add words to user-defined dictionary
+
+Your personal information: Read privacy settings, read your own contact card, add or modify calendar events and send email to guests without owners' knowledge, request access to your Twitter account, null, Modify secure settings, access Google Photos, null, choose widgets, retrieve screen content, read calendar events plus confidential information, read Twitter data, activity recognition, Access all voicemails, modify your own contact card
+
+Wallpaper: adjust your wallpaper size, set wallpaper
+
+Bookmarks and History: write web bookmarks and history, read your Web bookmarks and history
+
+Your accounts: Android services, Orkut, create accounts and set passwords, Google App Engine, Picasa Web Albums, view configured accounts, Google Spreadsheets, Personalized Speech Recognition, Google Notebook, Google Checkout accounts, Google Groups, find accounts on the device, act as the AccountManagerService, Knol, Blogger, Google Checkout QA accounts, Google Voice Search, Google Health, Google Checkout Sandbox accounts, Google Docs, Google Book Search, Google News, Android services, iGoogle accounts, Google Talk, YouTube, add or remove accounts, JotSpot, Dodgeball, read Google service configuration, access other Google services, Google Voice, AdWords, YouTube usernames, Google mail, use accounts on the device, AdSense, Google Webmaster Tools, Google Maps, access all Google services, contacts data in Google accounts, Google Wi-Fi, Google Calendar, Google mobile apps, Google Base, Google Finance
+
+Hardware controls: take pictures and videos, test hardware, manage preferences and permissions for USB devices, implement MTP protocol
+
+ungrouped:
+null, null, null, null, null, null, display unauthorized windows, null, move app resources, null, control Wifi displays, record what you type and actions you take, null, null, null, Read Google settings, null, null, force phone reboot, null, filter events, Google Catalogs, null, disable or modify status bar, Advanced download manager functions., prevent app switches, bind to a VPN service, change keyboard layout, manage app tokens, Recorded audio access, retrieve window info, null, null, bind to a package verifier, null, null, null, null, Yahoo inter-application communication, copy content, Access email provider data, Google Tasks, null, reset system to factory defaults, modify network usage accounting, read historical network usage, null, press keys and control buttons, Access download manager., null, permission to install a location provider, null, null, null, discourage automatic device updates, null, confirm a full backup or restore operation, update component usage statistics, access SurfaceFlinger, verify packages, null, null, null, null, null, use any media decoder for playback, bind to a text service, grant or revoke permissions, Modify Google settings, read frame buffer, Google Now remote access, modify battery statistics, force app to close, null, Send broadcasts to Android Market., null, Receive BT handover transfer broadcasts., null, change screen orientation, run in factory test mode, null, magnify display, access to passwords for Google accounts, interact with a device admin, null, null, Launch voice with recorded audio, delete other apps' data, null, partial shutdown, bind to an input method, bind to an accessibility service, Access DRM content., null, Reserve space in download cache, null, read homepage in browser, null, Send download notification., access serial ports, configure Wifi displays, access checkin properties, null, null, power phone on or off, delete apps, access the cache filesystem, null, Whitelist bluetooth device access., null, Google Reader, null, null, Access all content downloaded by the system, select Gmail or Google Mail branding, null, Access download manager., control location update notifications, Google Map maker, null, delete other apps' caches, Modify Google service configuration, null, Install DRM content., null, null, null, permanently disable phone, monitor and control all app launching, control system backup and restore, set time, null, status bar, null, null, directly start CDMA phone setup, directly install apps, Preload results, change pointer speed, null, null, directly call any phone numbers, enable or disable app components, modify homepage in browser, null, manage network policy, modify the Google services map, Control TalkBack, null, freeze screen, bind to a wallpaper, null, bind to a widget service, null, null, temporary enable accessibility, access content providers externally, null, null, Panoramio

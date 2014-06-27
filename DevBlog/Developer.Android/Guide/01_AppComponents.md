@@ -32,7 +32,7 @@ private static boolean isIntentAvailable(Intent intent){
         isAvailable = list.sieze() > 0;
         log("Checking intent " + intent + " isAvailable = " + isAvailable);
         return isAvailable;
-    }
+}
 ```
 
 Forcing an app chooser
@@ -61,6 +61,7 @@ The ``ACTION_MAIN`` action indicates this is the main entry point and does not e
 A ``PendingIntent`` object is a wrapper around an ``Intent`` object. The primary purpose of a ``PendingIntent`` is to grant permission to a foreign application to use the contained ``Intent`` as if it were executed from your app's own process.
 
 Major use cases for a pending intent include:
+
 + Declare an ``intent`` to be executed when the user performs an action with your ``Notification`` (the Android system's ``NotificationManager`` executes the ``Intent``).
 + Declare an intent to be executed when the user performs an action with your App Widget (the Home screen app executes the Intent).
 + Declare an intent to be executed at a specified time in the future (the Android system's ``AlarmManager`` executes the Intent).
@@ -72,7 +73,7 @@ Because each ``Intent`` object is designed to be handled by a specific type of a
 Unless your app is receiving pending intents from other apps, the above methods to create a ``PendingIntent`` are the only ``PendingIntent`` methods you'll probably ever need.Each method takes the current app ``Context``, the ``Intent`` you want to wrap, and one or more flags that specify how the intent should be used (such as whether the intent can be used more than once).More information about using pending intents is provided with the documentation for each of the respective use cases, such as in the [``Notifications``](https://developer.android.com/guide/topics/ui/notifiers/notifications.html) and [``App Widgets``](https://developer.android.com/guide/topics/appwidgets/index.html) API guides.https://developer.android.com/reference/android/app/PendingIntent.html
 
 @todo:20140505+[Intent](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/content/Intent.java)
-@question:how intent be resolved ActivityManagerService.java PackageManagerService.java
+@question:how intent be resolved ActivityManagerService.java PackageManagerService.java ActivityResolver.java
 
 ``Intent matching``:The ``PackageManager`` has a set of ``query...()`` methods that return all components that can accept a particular intent, and a similar series of ``resolve...()`` methods that determine the best component to respond to an intent. For example, ``queryIntentActivities()`` returns a list of all activities that can perform the intent passed as an argument, and ``queryIntentServices()`` returns a similar list of services. Neither method activates the components; they just list the ones that can respond. There's a similar method, ``queryBroadcastReceivers()``, for broadcast receivers.
 
@@ -131,11 +132,11 @@ A fragment is usually used as part of an activity's user interface and contribut
 
 ```java
 public static MyFragment newInstance(int index) {
-MyFragment f = new MyFragment();
-Bundle args = new Bundle();
-args.putInt(“index”, index);
-f.setArguments(args);
-return f;
+    MyFragment f = new MyFragment();
+    Bundle args = new Bundle();
+    args.putInt(“index”, index);
+    f.setArguments(args);
+    return f;
 }
 ```
 
@@ -218,6 +219,7 @@ Declare the fragment inside the activity's layout file：When the system creates
 To add a ``fragment`` without a UI, add the ``fragment`` from the activity using ``add(Fragment, String)`` (supplying a unique string "tag" for the fragment, rather than a view ID). This adds the fragment, but, because it's not associated with a view in the activity layout, it does not receive a call to ``onCreateView()``. So you don't need to implement that method.Supplying a string tag for the fragment isn't strictly for non-UI fragments—you can also supply string tags to fragments that do have a UI—but if the fragment does not have a UI, then the string tag is the only way to identify it. If you want to get the ``fragment`` from the activity later, you need to use ``findFragmentByTag()``.
 
 To manage the fragments in your activity, you need to use ``FragmentManager``. To get it, call ``getFragmentManager()`` from your activity.
+
 + Get fragments that exist in the activity, with ``findFragmentById()`` (for fragments that provide a UI in the activity layout) or ``findFragmentByTag()`` (for fragments that do or don't provide a UI).
 + Pop fragments off the back stack, with ``popBackStack()`` (simulating a Back command by the user).
 + Register a listener for changes to the back stack, with ``addOnBackStackChangedListener()``.
@@ -267,6 +269,7 @@ If you need a ``Context`` object within your Fragment, you can call ``getActivit
 
 ## Loader
 An application that uses loaders typically includes the following:
+
 + An ``Activity`` or ``Fragment``.
 + An instance of the ``LoaderManager``.
 + A ``CursorLoader`` to load data backed by a ``ContentProvider``. Alternatively, you can implement your own subclass of ``Loader`` or ``AsyncTaskLoader`` to load data from some other source.
@@ -281,6 +284,7 @@ When you use ``initLoader()``, as shown above, it uses an existing loader with t
 Loaders, in particular ``CursorLoader``, are expected to retain their data after being stopped. This allows applications to keep their data across the activity or fragment's ``onStop()`` and ``onStart()`` methods, so that when users return to an application, they don't have to wait for the data to reload.
 
 ``LoaderManager.LoaderCallbacks`` includes these methods:
+
 + ``onCreateLoader()`` — Instantiate and return a new ``Loader`` for the given ID.
 + ``onLoadFinished()`` — Called when a previously created loader has finished its load.This method is called when a previously created loader has finished its load. This method is guaranteed to be called prior to the release of the last data that was supplied for this loader. At this point you should remove all use of the old data (since it will be released soon), but should not do your own release of the data since its loader owns it and will take care of that.The loader will release the data once it knows the application is no longer using it. For example, if the data is a cursor from a ``CursorLoader``, you should not call ``close()`` on it yourself. If the cursor is being placed in a ``CursorAdapter``, you should use the ``swapCursor()`` method so that the old ``Cursor`` is not closed.
 + ``onLoaderReset()`` — Called when a previously created loader is being reset, thus making its data unavailable.This method is called when a previously created loader is being reset, thus making its data unavailable. This callback lets you find out when the data is about to be released so you can remove your reference to it.This implementation calls ``swapCursor()`` with a value of ``null``.
@@ -289,6 +293,7 @@ Loaders, in particular ``CursorLoader``, are expected to retain their data after
 A task is a collection of activities that users interact with when performing a certain job. The activities are arranged in a stack (the "back stack"), in the order in which each activity is opened.
 
 The ``launchMode`` attribute specifies an instruction on how the activity should be launched into a task. There are four different launch modes you can assign to the launchMode attribute:
+
 + ``standard``:Default. The system creates a new instance of the activity in the task from which it was started and routes the intent to it. The activity can be instantiated multiple times, each instance can belong to different tasks, and one task can have multiple instances.
 + ``singleTop``:If an instance of the activity already exists at the top of the current task, the system routes the intent to that instance through a call to its ``onNewIntent()`` method, rather than creating a new instance of the activity. The activity can be instantiated multiple times, each instance can belong to different tasks, and one task can have multiple instances (but only if the activity at the top of the back stack is not an existing instance of the activity).For example, suppose a task's back stack consists of root activity A with activities B, C, and D on top (the stack is A-B-C-D; D is on top). An intent arrives for an activity of type D. If D has the default "standard" launch mode, a new instance of the class is launched and the stack becomes A-B-C-D-D. However, if D's launch mode is "singleTop", the existing instance of D receives the intent through ``onNewIntent()``, because it's at the top of the stack—the stack remains A-B-C-D. However, if an intent arrives for an activity of type B, then a new instance of B is added to the stack, even if its launch mode is "singleTop".Note: When a new instance of an activity is created, the user can press the Back button to return to the previous activity. But when an existing instance of an activity handles a new intent, the user cannot press the Back button to return to the state of the activity before the new intent arrived in ``onNewIntent()``.
 + ``singleTask``:The system creates a new task and instantiates the activity at the root of the new task. However, if an instance of the activity already exists in a separate task, the system routes the intent to the existing instance through a call to its ``onNewIntent()`` method, rather than creating a new instance. Only one instance of the activity can exist at a time.Although the activity starts in a new task, the Back button still returns the user to the previous activity.
@@ -312,10 +317,12 @@ You can set up an activity as the entry point for a task by giving it an intent 
 Service can work both ways—it can be started (to run indefinitely) and also allow binding. It's simply a matter of whether you implement a couple callback methods: ``onStartCommand()`` to allow components to start it and ``onBind()`` to allow binding.
 
 Traditionally, there are two classes you can extend to create a started service:
+
 + ``Service``:This is the base class for all services. When you extend this class, it's important that you create a new thread in which to do all the service's work, because the service uses your application's main thread, by default, which could slow the performance of any activity your application is running.
 + ``IntentService``:This is a subclass of ``Service`` that uses a worker thread to handle all start requests, one at a time. This is the best option if you don't require that your service handle multiple requests simultaneously. All you need to do is implement ``onHandleIntent()``, which receives the intent for each start request so you can do the background work.
 
 The ``IntentService`` does the following:
+
 + Creates a default worker thread that executes all intents delivered to ``onStartCommand()`` separate from your application's main thread.
 + Creates a work queue that passes one intent at a time to your ``onHandleIntent()`` implementation, so you never have to worry about multi-threading.
 + Stops the service after all start requests have been handled, so you never have to call ``stopSelf()``.
@@ -366,12 +373,184 @@ Although you should usually implement either ``onBind()`` or ``onStartCommand()`
 A client can bind to the service by calling ``bindService()``. When it does, it must provide an implementation of ``ServiceConnection``, which monitors the connection with the service. The ``bindService()`` method returns immediately without a value, but when the Android system creates the connection between the client and service, it calls ``onServiceConnected()`` on the ``ServiceConnection``, to deliver the ``IBinder`` that the client can use to communicate with the service.一个component client如果想要bind到一个service上，必须提供``ServiceConnection``实现。调用``bindService()``方法时会立即返回，但是系统在创建client和service之间的connection时，会调用``ServiceConnection``上的``onServiceConnected``方法。Multiple clients can connect to the service at once. However, the system calls your service's ``onBind()`` method to retrieve the ``IBinder`` only when the first client binds. The system then delivers the same ``IBinder`` to any additional clients that bind, without calling ``onBind()`` again.多个client可以同时bind到一个service上，系统只在第一个client bind到service时调用``onBind``方法来获取``IBinder``，然后把这个``IBinder``传递给其他的component client。
 
 When creating a service that provides binding, you must provide an ``IBinder`` that provides the programming interface that clients can use to interact with the service. There are three ways you can define the interface:
+
 + ``Extending the Binder class``:If your service is private to your own application and runs in the same process as the client (which is common), you should create your interface by extending the ``Binder`` class and returning an instance of it from ``onBind()``. The client receives the ``Binder`` and can use it to directly access public methods available in either the ``Binder`` implementation or even the ``Service``.This is the preferred technique when your service is merely a background worker for your own application. The only reason you would not create your interface this way is because your service is used by other applications or across separate processes.
 + ``Using a Messenger``:If you need your interface to work across different processes, you can create an interface for the service with a ``Messenger``. In this manner, the service defines a ``Handler`` that responds to different types of ``Message`` objects. This ``Handler`` is the basis for a ``Messenger`` that can then share an ``IBinder`` with the client, allowing the client to send commands to the service using ``Message`` objects. Additionally, the client can define a ``Messenger`` of its own so the service can send messages back.This is the simplest way to perform interprocess communication (IPC), because the ``Messenger`` queues all requests into a single thread so that you don't have to design your service to be thread-safe.
 + ``AIDL``:AIDL (Android Interface Definition Language) performs all the work to decompose objects into primitives that the operating system can understand and marshall them across processes to perform IPC.Using a ``Messenger``, is actually based on AIDL as its underlying structure. As mentioned above, the ``Messenger`` creates a queue of all the client requests in a single thread, so the service receives requests one at a time. If, however, you want your service to handle multiple requests simultaneously, then you can use ``AIDL`` directly. In this case, your service must be capable of multi-threading and be built thread-safe.Most applications should not use AIDL to create a bound service, because it may require multithreading capabilities and can result in a more complicated implementation.
 
 #Content Providers
+Content providers manage access to a structured set of data. They encapsulate the data, and provide mechanisms for defining data security. Content providers are the standard interface that connects data in one process with code running in another process.
+
+When you want to access data in a content provider, you use the ``ContentResolver`` object in your application's Context to communicate with the provider as a client. The ``ContentResolver`` object communicates with the provider object, an instance of a class that implements ``ContentProvider``. The provider object receives data requests from clients, performs the requested action, and returns the results.
+
+Together, providers and provider clients offer a consistent, standard interface to data that also handles inter-process communication and secure data access.
+
+A provider isn't required to have a primary key, and it isn't required to use ``_ID`` as the column name of a primary key if one is present. However, if you want to bind data from a provider to a ``ListView``, one of the column names has to be ``_ID``. 
+
+The ``ContentResolver`` object in the client application's process and the ``ContentProvider`` object in the application that owns the provider automatically handle inter-process communication. ``ContentProvider`` also acts as an abstraction layer between its repository of data and the external appearance of data as tables.
+
+``CONTENT_URI`` contains the content URI of the user dictionary's "words" table. The ``ContentResolver`` object parses out the URI's authority, and uses it to "resolve" the provider by comparing the authority to a system table of known providers. The ``ContentResolver`` can then dispatch the query arguments to the correct provider.The ``ContentProvider`` uses the path part of the content URI to choose the table to access. A provider usually has a path for each table it exposes.
+
+The ``Uri`` and ``Uri.Builder`` classes contain convenience methods for constructing well-formed ``Uri`` objects from strings. The ``ContentUris`` contains convenience methods for appending id values to a ``URI``. You can use  ``withAppendedId()`` to append an id to the UserDictionary content URI.
+
+To back a ``ListView`` with a ``Cursor``, the cursor must contain a column named ``_ID``. Because of this, the query shown previously retrieves the ``_ID`` column for the "words" table, even though the ``ListView`` doesn't display it. This restriction also explains why most providers have a ``_ID`` column for each of their tables.
+
+A provider's application can specify permissions that other applications must have in order to access the provider's data. These permissions ensure that the user knows what data an application will try to access. Based on the provider's requirements, other applications request the permissions they need in order to access the provider. End users see the requested permissions when they install the application.If a provider's application doesn't specify any permissions, then other applications have no access to the provider's data. However, components in the provider's application always have full read and write access, regardless of the specified permissions.
+
+## Inserting data
+
+```java
+// Defines a new Uri object that receives the result of the insertion
+Uri mNewUri;
+
+...
+
+// Defines an object to contain the new values to insert
+ContentValues mNewValues = new ContentValues();
+
+/*
+ * Sets the values of each column and inserts the word. The arguments to the "put"
+ * method are "column name" and "value"
+ */
+mNewValues.put(UserDictionary.Words.APP_ID, "example.user");
+mNewValues.put(UserDictionary.Words.LOCALE, "en_US");
+mNewValues.put(UserDictionary.Words.WORD, "insert");
+mNewValues.put(UserDictionary.Words.FREQUENCY, "100");
+
+mNewUri = getContentResolver().insert(
+    UserDictionary.Word.CONTENT_URI,   // the user dictionary content URI
+    mNewValues                          // the values to insert
+);
+```
+
+The data for the new row goes into a single ``ContentValues`` object, which is similar in form to a one-row cursor. The columns in this object don't need to have the same data type, and if you don't want to specify a value at all, you can set a column to ``null`` using ``ContentValues.putNull()``.To get the value of ``_ID`` from the returned ``Uri``, call ``ContentUris.parseId()``.
+
+## Updating data
+
+```java
+// Defines an object to contain the updated values
+ContentValues mUpdateValues = new ContentValues();
+
+// Defines selection criteria for the rows you want to update
+String mSelectionClause = UserDictionary.Words.LOCALE +  "LIKE ?";
+String[] mSelectionArgs = {"en_%"};
+
+// Defines a variable to contain the number of updated rows
+int mRowsUpdated = 0;
+
+...
+
+/*
+ * Sets the updated value and updates the selected words.
+ */
+mUpdateValues.putNull(UserDictionary.Words.LOCALE);
+
+mRowsUpdated = getContentResolver().update(
+    UserDictionary.Words.CONTENT_URI,   // the user dictionary content URI
+    mUpdateValues                       // the columns to update
+    mSelectionClause                    // the column to select on
+    mSelectionArgs                      // the value to compare to
+);
+```
+
+## Deleting data
+
+```java
+// Defines selection criteria for the rows you want to delete
+String mSelectionClause = UserDictionary.Words.APP_ID + " LIKE ?";
+String[] mSelectionArgs = {"user"};
+
+// Defines a variable to contain the number of rows deleted
+int mRowsDeleted = 0;
+
+...
+
+// Deletes the words that match the selection criteria
+mRowsDeleted = getContentResolver().delete(
+    UserDictionary.Words.CONTENT_URI,   // the user dictionary content URI
+    mSelectionClause                    // the column to select on
+    mSelectionArgs                      // the value to compare to
+);
+```
+
+## Provider Data Types
+The providers offer the following data formats: integer, long integer(long), floating point, long floating point. Another data type that providers often use is Binary Large OBject (BLOB) implemented as a 64KB byte array. Providers also maintain MIME data type information for each content ``URI`` they define. You can use the MIME type information to find out if your application can handle data that the provider offers, or to choose a type of handling based on the MIME type. You usually need the MIME type when you are working with a provider that contains complex data structures or files. 
+
+Three alternative forms of provider access are important in application development:
+
++ ``Batch access``: You can create a batch of access calls with methods in the ``ContentProviderOperation`` class, and then apply them with ``ContentResolver.applyBatch()``.
++ ``Asynchronous queries``: You should do queries in a separate thread. One way to do this is to use a ``CursorLoader`` object. The examples in the ``Loaders`` guide demonstrate how to do this.
++ ``Data access via intents``: Although you can't send an intent directly to a provider, you can send an intent to the provider's application, which is usually the best-equipped to modify the provider's data.
+
+Batch access to a provider is useful for inserting a large number of rows, or for inserting rows in multiple tables in the same method call, or in general for performing a set of operations across process boundaries as a transaction (an atomic operation).To access a provider in "batch mode", you create an array of ``ContentProviderOperation`` objects and then dispatch them to a content provider with ``ContentResolver.applyBatch()``. You pass the content provider's authority to this method, rather than a particular content ``URI``. This allows each ``ContentProviderOperation`` object in the array to work against a different table. A call to ``ContentResolver.applyBatch()`` returns an array of results.
+
+Intents can provide indirect access to a content provider. You allow the user to access data in a provider even if your application doesn't have access permissions, either by getting a result intent back from an application that has permissions, or by activating an application that has permissions and letting the user do work in it.
+
+Getting access with temporary permissions,You can access data in a content provider, even if you don't have the proper access permissions, by sending an intent to an application that does have the permissions and receiving back a result intent containing "URI" permissions. These are permissions for a specific content URI that last until the activity that receives them is finished. The application that has permanent permissions grants temporary permissions by setting a flag in the result intent:``FLAG_GRANT_READ_URI_PERMISSION``,``FLAG_GRANT_WRITE_URI_PERMISSION``,These flags don't give general read or write access to the provider whose authority is contained in the content URI. The access is only for the URI itself.A provider defines URI permissions for content URIs in its manifest, using the ``android:grantUriPermission`` attribute of the ``<provider>`` element, as well as the ``<grant-uri-permission>`` child element of the ``<provider>`` element.
+
 
 #App Widgets
 
 #Processes and Threads
+
+<table summary="Priorities" border="1">
+<thead>
+    <tr>
+     <th align="left">Process status</th>
+     <th align="left">Description</th>
+     <th align="left">Priority</th>
+ </tr>
+</thead>
+<tbody>
+    <tr>
+     <td align="left">Foreground</td>
+     <td align="left">
+      An application in which the user is interacting with an
+      activity, or which has an service which is bound to such an
+      activity. Also if a service is executing one of its lifecycle
+      methods or a broadcast receiver which runs its
+      <code class="code">onReceive()</code>
+      method.
+
+  </td>
+  <td align="left">1</td>
+</tr>
+<tr>
+ <td align="left">Visible</td>
+ <td align="left">User is not interacting with the activity, but the activity
+  is still (partially) visible or the application has a service
+  which
+  is used by a inactive but visible activity.
+
+</td>
+<td align="left">2</td>
+</tr>
+<tr>
+ <td align="left">Service</td>
+ <td align="left">Application with a running service which does not qualify
+  for 1 or 2.
+
+</td>
+<td align="left">3</td>
+</tr>
+<tr>
+ <td align="left">Background</td>
+ <td align="left">Application with only stopped activities and without a
+  service or executing receiver. Android keeps them in
+  a least
+  recent
+  used (LRU) list and if requires terminates the one which
+  was least used.
+
+</td>
+<td align="left">4</td>
+</tr>
+<tr>
+ <td align="left">Empty</td>
+ <td align="left">Application without any active components.
+
+ </td>
+ <td align="left">5</td>
+</tr>
+</tbody>
+</table>
