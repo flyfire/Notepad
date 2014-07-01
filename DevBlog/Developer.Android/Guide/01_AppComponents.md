@@ -488,6 +488,34 @@ Intents can provide indirect access to a content provider. You allow the user to
 
 Getting access with temporary permissions,You can access data in a content provider, even if you don't have the proper access permissions, by sending an intent to an application that does have the permissions and receiving back a result intent containing "URI" permissions. These are permissions for a specific content URI that last until the activity that receives them is finished. The application that has permanent permissions grants temporary permissions by setting a flag in the result intent:``FLAG_GRANT_READ_URI_PERMISSION``,``FLAG_GRANT_WRITE_URI_PERMISSION``,These flags don't give general read or write access to the provider whose authority is contained in the content URI. The access is only for the URI itself.A provider defines URI permissions for content URIs in its manifest, using the ``android:grantUriPermission`` attribute of the ``<provider>`` element, as well as the ``<grant-uri-permission>`` child element of the ``<provider>`` element.
 
+MIME types have the format ``type/subtype``,For example, the well-known MIME type ``text/html`` has the text type and the html subtype.Custom MIME type strings, also called "vendor-specific" MIME types, have more complex type and subtype values. The type value is always ``vnd.android.cursor.dir`` for multiple rows, or ``vnd.android.cursor.item`` for a single row.
+
+## Creating a Content Provider
+You need to build a content provider if you want to provide one or more of the following features:
++ You want to offer complex data or files to other applications.
++ You want to allow users to copy complex data from your app into other apps.
++ You want to provide custom search suggestions using the search framework.
+
+### Design the raw storage for your data.
+
++ File data:Data that normally goes into files, such as photos, audio, or videos. Store the files in your application's private space.
+
++ Structured Data:Data that normally goes into a database, array, or similar structure. Store the data in a form that's compatible with tables of rows and columns. A row represents an entity, such as a person or an item in inventory. A column represents some data for the entity, such a person's name or an item's price. A common way to store this type of data is in an SQLite database, but you can use any type of persistent storage.
+
++ The Android system includes an ``SQLite`` database API that Android's own providers use to store table-oriented data. The ``SQLiteOpenHelper`` class helps you create databases, and the ``SQLiteDatabase`` class is the base class for accessing databases.
+
++ For storing file data, Android has a variety of file-oriented APIs.For working with network-based data, use classes in ``java.net`` and ``android.net``. You can also synchronize network-based data to a local data store such as a database, and then offer the data as tables or files. 
+
++ Table data should always have a "primary key" column that the provider maintains as a unique numeric value for each row. If you want to provide bitmap images or other very large pieces of file-oriented data, store the data in a file and then provide it indirectly rather than storing it directly in a table.Use the Binary Large OBject (BLOB) data type to store data that varies in size or has a varying structure. For example, you can use a BLOB column to store a [protocol buffer](http://code.google.com/p/protobuf) or JSON structure.
++ A content URI is a URI that identifies data in a provider. Content URIs include the symbolic name of the entire provider (its authority) and a name that points to a table or file (a path). The optional id part points to an individual row in a table. 
+
+### Define a concrete implementation of the ContentProvider class and its required methods. This class is the interface between your data and the rest of the Android system. 
+
+### Define the provider's authority string, its content URIs, and column names. If you want the provider's application to handle intents, also define intent actions, extras data, and flags. Also define the permissions that you will require for applications that want to access your data. You should consider defining all of these values as constants in a separate contract class; later, you can expose this class to other developers. 
+
+### Add other optional pieces, such as sample data or an implementation of ``AbstractThreadedSyncAdapter`` that can synchronize data between the provider and cloud-based data.
+
+@@Todo:SampleSyncAdapter
 
 #App Widgets
 
