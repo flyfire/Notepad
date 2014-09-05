@@ -29,3 +29,22 @@ filter.addDataScheme("package");
 registerReceiver(mReceiver, filter);
 ```
 
++ using resources from other application
+
+```java
+public void testUseAndroidString() {
+    Context context = getContext();
+    Resources res = null;
+    try {
+        //I want to use the clear_activities string in Package com.android.settings
+        res = context.getPackageManager().getResourcesForApplication("com.android.settings");
+        int resourceId = res.getIdentifier("com.android.settings:string/clear_activities", null, null);
+        if(0 != resourceId) {
+            CharSequence s = context.getPackageManager().getText("com.android.settings", resourceId, null);
+            Log.i(VIEW_LOG_TAG, "resource=" + s);
+        }
+    } catch (NameNotFoundException e) {
+        e.printStackTrace();
+    }
+}
+```
